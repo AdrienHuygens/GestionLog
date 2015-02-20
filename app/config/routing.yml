@@ -1,0 +1,6 @@
+
+pass_gestion_log:
+    resource: "@PASSAuthentificationLogBundle/Resources/config/routing.yml"
+    prefix: /
+    
+

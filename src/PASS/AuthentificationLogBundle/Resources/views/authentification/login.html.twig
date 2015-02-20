@@ -1,0 +1,7 @@
+{% extends '::base.html.twig' %}
+{% block contenu %}
+    {% if error %}
+        <div class="alert alert-warning" role="alert">{{ error.message }}</div>
+    {% endif %}
+    {{ include('PASSAuthentificationLogBundle:authentification:loginForm_part.html.twig', {'last_username': last_username}) }}
+{% endblock %}

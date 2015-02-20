@@ -1,0 +1,41 @@
+## YAML Template.
+
+PASS_AuthentificationLog_homepage:
+    path:  /hello
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:index }
+
+PASS_CreationGroupe:
+    path: /gestion/groupe/add
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:groupeAdd }
+
+PASS_GestionUtilisateur:
+    path: /gestion/utilisateur/{listingId}
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurListing,  listingId: 0 }
+    requirements:
+        listingId: \d+
+PASS_GestionGroupe:
+    path: /gestion/groupe/{listingId}
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:groupeListing, listingId: 0 }    
+    requirements:
+        listingId: \d+
+    
+PASS_CreationUtilisateur:
+    path: /gestion/utilisateur/add/{listingId}
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurAdd, listingId: 0 }
+    requirements:
+        listingId: \d+
+    
+    
+PASS_Gestion_ok:
+    path: /authenticatedUser/ok
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:ok }
+    
+    
+    
+login:
+    pattern: /login
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:login }
+login_check:
+    pattern: /login_check
+logout:
+    pattern: /logout

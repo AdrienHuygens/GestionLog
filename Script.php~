@@ -1,0 +1,69 @@
+<?php
+
+/* 
+ * Copyright 2015 Version 1.0.0
+ * Pour le Pass, projet gestion de log.
+ * 
+ * @author Huygens Adrien
+ * contact adrien.huygens@gmail.com
+ * Script d'execution permanante
+ */
+
+set_time_limit(200);
+set_time_limit(0);
+ignore_user_abort(1);
+
+class Singleton
+{
+
+/**
+*returns l'instance de la classe
+*
+*/
+	private $Compteur =0;
+	
+	public static function getInstance(){
+		static $instance = null;
+		if ($instance === null){
+		$instance=  new Singleton();
+		}
+		return $instance;
+	}
+	private function __construct()
+	{
+		$this->Compteur = 0;
+		$this->exect();	
+	}
+	 private function __clone()
+	    {
+	    }
+	private function __wakeup()
+    {
+    }
+
+	private function exect(){
+		while(1){
+    
+   
+		    $monFichier = fopen('compteur.txt', 'a+');
+
+		    
+		    fputs($monFichier, "\n".$this->Compteur);        
+		    fclose($monFichier);
+		    $this->Compteur ++;
+		    sleep(60);
+    
+		}
+	}
+
+
+}
+
+$object = Singleton::getInstance();
+
+
+
+
+
+?>
+

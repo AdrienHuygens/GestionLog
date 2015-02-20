@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Le PASS Gestion de log{% endblock %}</title>
+
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    
+        {% block stylesheets %}
+            <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" media="screen" />
+            {% stylesheets '../app/Resources/css/*' filter='cssrewrite'  output='css/style.css' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+        {% endblock %}
+    </head>
+    <body>
+    <body>
+
+        <div id="corp">
+
+            <div class="row">
+                <div class="col-md-12" id="logo"></div>
+            </div>
+
+            <div class="row " id="contenu">
+          
+                    
+                    
+
+                        <!-- Fixed navbar -->
+                        <nav class="navbar navbar-default ">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-9">
+                            <div class="container"> 
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                    <a class="navbar-brand" href="#">Gestion de log</a>
+                                </div>
+                                <div id="navbar" class="navbar-collapse collapse">
+                                    <ul class="nav navbar-nav">
+                                        <li class="active"><a href="#">Acceuil</a></li>
+                                        <li><a href="#about">Gestion log</a></li>
+                                        
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Administration <span class="caret"></span></a>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="{{ path('PASS_GestionUtilisateur') }}">Gestion des Utilisateur</a></li>
+                                                <li><a href="{{ path('PASS_GestionGroupe') }}">Gestion des Groupes</a></li>
+                                                <li><a href="#">Gestion des rôles</a></li>
+                                                <!--<li class="divider"></li>
+                                                <li class="dropdown-header">Nav header</li>
+                                                <li><a href="#">Separated link</a></li>
+                                                <li><a href="#">One more separated link</a></li>-->
+                                            </ul>
+                                            
+                                        </li>
+                                        <li><a href="#contact">Configuration</a></li>
+                                    </ul>
+                                    
+                                </div><!--/.nav-collapse -->
+                            </div>
+                                </div>
+                        </nav>
+
+
+
+                 <div class="col-md-3 "></div>
+                  <div class="col-md-9">
+                 <h1>{% block titrePage %}Bienvenu(e) !{% endblock %}</h1>
+                  </div>
+               
+                
+                <div class="col-md-3 ">
+                    </br>
+                    <div id="menuGauche">
+                        {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                            Bonjour {{ app.user.username|capitalize }} !
+                            <br />
+                            <a href="{{ path('logout') }}">Se déconnecter</a>
+                        {% else %}
+                                             
+                           {{ include('PASSAuthentificationLogBundle:authentification:loginForm_part.html.twig') }}
+                             
+                         
+                        {% endif %}
+                        
+                   
+                    </div>
+                     
+                    {% block menuleft %}
+                    
+                    {% endblock %}
+                   
+                </div>
+                    
+                    
+                    
+                    
+                    
+                <div class="col-md-9">
+                   
+                    <br />
+                    {% block contenu %}<p>Contenu</p>{% endblock %}
+                </div>
+            
+               
+            </div>   
+              
+            <div class="row row2">
+                <div class="col-xs-12" id="pied">
+
+                </div>
+            </div>
+
+        </div>
+        {% block javascripts %}
+            <script src="{{ asset('js/jquery.js') }}"></script>
+            <!-- Include all JavaScripts, compiled by Assetic -->
+             <script src="{{ asset('js/bootstrap.js') }}"></script>
+          
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,7 @@
+pass_gestion_log:
+    resource: "@passGestionLogBundle/Resources/config/routing.yml"
+    prefix: /
+    
+app:
+    resource: @AppBundle/Controller/
+    type:     annotation
