@@ -1,5 +1,6 @@
 <?php
 
+// https://www.youtube.com/watch?v=5idECbKd_oo#t=677 15min
 namespace PASS\AuthentificationLogBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -172,4 +173,15 @@ class AuthentificationController extends Controller {
 
    
      }
+     
+    public function utilisateurModificationAction($listingId){
+        if ($listingId != 0){
+        
+          
+           $groupe = $this->getDoctrine()->getRepository("PASSAuthentificationLogBundle:Personne")->find($listingId);
+           
+
+        }
+        
+    }
 }

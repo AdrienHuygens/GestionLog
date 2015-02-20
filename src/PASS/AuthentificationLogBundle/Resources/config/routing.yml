@@ -30,7 +30,11 @@ PASS_Gestion_ok:
     path: /authenticatedUser/ok
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:ok }
     
-    
+PASS_ModificationUtilisateur:
+    path: /gestion/utilisateur/modification/{listingId}
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurModification, listing:0 }
+    requirements:
+        listingId: \d+
     
 login:
     pattern: /login
