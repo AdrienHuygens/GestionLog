@@ -45,12 +45,11 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     private $username;
 
     /**
+     * @ORM\Column(name="mdp", type="string", length=255, nullable=True)
      * @var string
-     *  @Assert\Length(min=2, minMessage="Votre mot de passe dois avoir au moins {{ limit }} caractères.",
-     * max =50, maxMessage="La longeur du mot de passe ne peux pas dépasser {{ limit }} caractères")  
-     * @Assert\NotBlank(message="le champs ne peux pas être vide")
+     *  
      * 
-     * @ORM\Column(name="mdp", type="string", length=255, unique=True )
+     *
      */
     private $mdp;
 
@@ -71,7 +70,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     /**
      * @var boolean
      *
-     * @ORM\Column(name="ldap", type="boolean")
+     * @ORM\Column(name="ldap", type="boolean", nullable=True)
      * 
      * @Assert\Type(type="bool", message="La valeur {{ value }} n'est pas un type {{ type }} valide.")
      * 
@@ -81,7 +80,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     /**
      * @var boolean
      *
-     * @ORM\Column(name="actif", type="boolean")
+     * @ORM\Column(name="actif", type="boolean", nullable=True)
      * @Assert\Type(type="bool", message="La valeur {{ value }} n'est pas un type {{ type }} valide.")
      */
     private $actif;
@@ -99,6 +98,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     public function __construct() {
         $this->groupes = new ArrayCollection();
         $this->salt = md5(uniqid(null, true));
+        //$this->setDernierConnexion(new \DateTime("00000000000000"));
     }
 
     public function addGroupe(Groupe $groupe) {
@@ -201,9 +201,18 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      * @return \DateTime 
      */
     public function getDernierConnexion() {
+        
         return $this->dernierConnexion;
     }
-
+     public function getDernierConnexionString() {
+        if ($this->dernierConnexion ===null){
+            return "00-00-0000 00:00:00";
+        }
+        else{
+            return $this->dernierConnexion->format("d-m-Y H:i:s");
+        }
+        
+    }
     /**
      * Set ldap
      *
@@ -300,7 +309,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     }
 
     public function getPassword() {
-        var_dump($this->getMdp());
+        
         return $this->getMdp();
     }
 
@@ -308,5 +317,53 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
         
         return $this->groupes->toArray();
     }
+    public function affichage(){
+        return $this->username;
+    }
+    
+    
+     public function type(){
+        if ($this->ldap) return "LDAP";
+        else return "local";
+        
+            }
+            
+            public function getGroupeGen(){
+               $strings ="";
+              
+                foreach ($this->getGroupes() as $groupe ){
+                    
+                    $strings += "- ".$groupe."<br/>"; 
+                
+                    
+                }
+                
+                return $strings;
+                
+            }
+     public function activiter(){
+        if ($this->actif) return "Groupe activé <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true<\"></span>";
+        else return "Groupe Désactivié <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span>";
+        
+            }
+    
+    
+    public function resumer(){
+         
+         $tab = array('Id' => $this->getId(),
+                      'username' => $this->getUsername(),
+                      'groupe' => $this->getGroupeGen(),
+                      'dernier connexion' => $this->getDernierConnexionString(),
+                        'ldap' => $this->type(),
+                        'Information' => $this->activiter());
+         
+      return $tab;
+             
+             
+         
+         
+         
+     }
+
 
 }

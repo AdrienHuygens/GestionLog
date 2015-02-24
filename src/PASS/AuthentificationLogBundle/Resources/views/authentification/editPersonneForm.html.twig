@@ -1,0 +1,32 @@
+{% extends "::base.html.twig" %}
+
+{% block titrePage %}
+    {{ titrePage }} {% endblock %}
+
+
+    {% block contenu %}
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+         
+        {{ form_row(form.username) }}
+        mot de passe: <a href="{{ path('PASS_ChangeMDP',  {'personneId':id}) }}" > changer le mot de passe </a>  <br><br>
+        {{ form_row(form.groupes) }}
+         
+          {{ form_row(form.actif) }}
+
+          {{ form_row(form._token) }}
+           {{ form_row(form.Enregistrer) }}
+           
+        
+           
+           
+           <a href="{{ path('PASS_SupprimerUtilisateur', {'personneId':id}) }}"><button type="button" class="btn btn-danger">Supprimer l'utilisateur</button></a>
+        
+
+
+        
+       
+  
+    {% endblock %}{# empty Twig template #}
+
+ 

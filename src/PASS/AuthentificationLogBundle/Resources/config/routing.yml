@@ -6,8 +6,9 @@ PASS_AuthentificationLog_homepage:
 
 PASS_CreationGroupe:
     path: /gestion/groupe/add
-    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:groupeAdd }
-
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:groupeAdd, listingId: 0 }
+    requirements:
+        listingId: \d+
 PASS_GestionUtilisateur:
     path: /gestion/utilisateur/{listingId}
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurListing,  listingId: 0 }
@@ -20,22 +21,45 @@ PASS_GestionGroupe:
         listingId: \d+
     
 PASS_CreationUtilisateur:
-    path: /gestion/utilisateur/add/{listingId}
-    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurAdd, listingId: 0 }
+    path: /gestion/utilisateur/add
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurAdd,  listingId: 0}
+    
+    
+PASS_ModificationUtilisateur:
+    path: /gestion/utilisateur/modification/{listingId}
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurModification }
     requirements:
         listingId: \d+
-    
+        
+PASS_ModificationGroupe:
+    path: /gestion/groupe/modification/{listingId}
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:groupeAdd }
+    requirements:
+        listingId: \d+
+        
+        
+PASS_SupprimerUtilisateur:
+    path: /gestion/utilisateur/supprimer/{personneId}
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurSupprimer, personneId: 0 }
+    requirements:
+        personneId: \d+     
+PASS_SupprimerGroupe:
+    path: /gestion/groupe/supprimer/{groupeId}
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:groupeSupprimer,groupeId: 0 }
+    requirements:
+        groupeId: \d+    
+        
+PASS_ChangeMDP:
+    path: /gestion/utilisateur/changeMDP/{personneId}
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:changeMDP,personneId: 0 }
+    requirements:
+        groupeId: \d+ 
     
 PASS_Gestion_ok:
     path: /authenticatedUser/ok
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:ok }
     
-PASS_ModificationUtilisateur:
-    path: /gestion/utilisateur/modification/{listingId}
-    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurModification, listing:0 }
-    requirements:
-        listingId: \d+
-    
+
 login:
     pattern: /login
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:login }

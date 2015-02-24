@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use PASS\AuthentificationLogBundle\Entity\Personne;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Groupe
@@ -234,5 +235,35 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
     public function getRole() {
         return $this->role;
     }
+    
+     public function affichage(){
+        return $this->nom;
+    }
+    public function type(){
+        if ($this->ldap) return "LDAP";
+        else return "local";
+        
+            }
+     public function activiter(){
+        if ($this->actif) return "Groupe activé <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true<\"></span>";
+        else return "Groupe Désactivié <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span>";
+        
+            }
+            
+     public function resumer(){
+         
+         $tab = array('Id' => $this->getId(),
+                      'Nom' => $this->getNom(),
+                      'Description' => $this->getDescription(),
+                        'Type de groupe' => $this->type(),
+                        'Information' => $this->activiter());
+         
+      return $tab;
+             
+             
+         
+         
+         
+     }
 
 }

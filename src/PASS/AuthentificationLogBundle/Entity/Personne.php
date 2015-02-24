@@ -45,12 +45,13 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     private $username;
 
     /**
+     * @ORM\Column(name="mdp", type="string", length=255)
      * @var string
      *  @Assert\Length(min=2, minMessage="Votre mot de passe dois avoir au moins {{ limit }} caractères.",
-     * max =50, maxMessage="La longeur du mot de passe ne peux pas dépasser {{ limit }} caractères")  
-     * @Assert\NotBlank(message="le champs ne peux pas être vide")
+     * max =50, maxMessage="La longeur du mot de passe ne peux pas dépasser {{ limit }} caractères",  groups={"registration"})  
      * 
-     * @ORM\Column(name="mdp", type="string", length=255, unique=True )
+     * 
+     *
      */
     private $mdp;
 
@@ -71,7 +72,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     /**
      * @var boolean
      *
-     * @ORM\Column(name="ldap", type="boolean")
+     * @ORM\Column(name="ldap", type="boolean", nullable=True)
      * 
      * @Assert\Type(type="bool", message="La valeur {{ value }} n'est pas un type {{ type }} valide.")
      * 
@@ -81,7 +82,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     /**
      * @var boolean
      *
-     * @ORM\Column(name="actif", type="boolean")
+     * @ORM\Column(name="actif", type="boolean", nullable=True)
      * @Assert\Type(type="bool", message="La valeur {{ value }} n'est pas un type {{ type }} valide.")
      */
     private $actif;
@@ -334,7 +335,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
               
                 foreach ($this->getGroupes() as $groupe ){
                     
-                    $strings += "- ".$groupe."<br/>"; 
+                    $strings = $strings."- ".$groupe."</br>"; 
                 
                     
                 }

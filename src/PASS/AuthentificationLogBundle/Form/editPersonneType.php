@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class PersonneType extends AbstractType
+class editPersonneType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -17,19 +17,17 @@ class PersonneType extends AbstractType
         $builder
             ->add('username','text',array("label" =>"Nom d'utilisateur:"))
             //->add('mdp','password',array("label"=> "Mot de pass pour l'utilisateur:"))
-           ->add('mdp', 'repeated', array(
-            'type' => 'password',
-            'first_options' => array('label' => 'mot de passe:'),
-            'second_options' => array('label' => 'Confirmation:'),
-            'invalid_message' => 'les mots de pass ne sont pas les mêmes',
-               ))
-    
+             //-> add('mot de pass','')
             //->add('dernierConnexion')
            // ->add('ldap')
             //->add('actif',null,array("label"=>"Compte utilisateur actif?", "action"=>'checked'))
-            ->add('groupes',null,array("label"=> "Groupe (control + click souri pour multi-selection):") )
+            ->add('groupes',null
+                    ,array("label"=> "Groupe (control + click souri pour multi-selection):") )
+              //->add('ldap')
+            ->add('actif')
              ->add('Enregistrer','submit')
-            
+              
+              
         ;
         
     }
@@ -41,7 +39,7 @@ class PersonneType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'PASS\AuthentificationLogBundle\Entity\Personne',
-              'validation_groups' => array('registration', 'Default')
+             
         ));
     }
 

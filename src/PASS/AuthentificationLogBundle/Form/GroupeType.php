@@ -19,7 +19,7 @@ class GroupeType extends AbstractType
             ->add('description', null, array('label' => 'Description du groupe:'))
             //->add('ldap')
             //->add('actif')
-            ->add('save', 'submit')
+            
         ;
     }
     
