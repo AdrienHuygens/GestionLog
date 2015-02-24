@@ -40,7 +40,9 @@
         "leafo/lessphp": "dev-master",
         "braincrafted/bootstrap-bundle": "dev-master",
         "twitter/bootstrap": "~3.0",
-        "jquery/jquery": "1.9.*"
+        "jquery/jquery": "1.9.*",
+         "knplabs/knp-menu":"dev-master",
+         "knplabs/knp-menu-bundle": "dev-master"
 
 },
     

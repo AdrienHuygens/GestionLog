@@ -8,6 +8,9 @@ contact adrien.huygens@gmail.com
     Created on : 11-févr.-2015, 10:35:25
     Author     : adrien
 */
+.btn150{
+    min-width:150px;
+}
 pre{
     border:0px;
     padding: 4px;

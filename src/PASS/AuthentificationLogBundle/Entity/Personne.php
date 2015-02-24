@@ -316,8 +316,15 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     }
 
     public function getRoles() {
+        $tab = array();
+        foreach($this->groupes as  $groupess)
+        {
+            $tab[] = $groupess->getRole();
+            
+        }
         
-        return $this->groupes->toArray();
+        return $tab;
+        //return ;
     }
     public function affichage(){
         return $this->username;

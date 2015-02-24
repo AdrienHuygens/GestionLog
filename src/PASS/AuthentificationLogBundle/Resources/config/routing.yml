@@ -27,7 +27,7 @@ PASS_CreationUtilisateur:
     
 PASS_ModificationUtilisateur:
     path: /gestion/utilisateur/modification/{listingId}
-    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurModification }
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurModification, listingId: 0 }
     requirements:
         listingId: \d+
         

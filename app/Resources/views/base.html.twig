@@ -25,7 +25,7 @@
             <div class="row " id="contenu">
           
                     
-                    
+                    {{ knp_menu_render('PASSAuthentificationLogBundle:builder:mainMenu', { 'style': 'tabs' }) }}
 
                         <!-- Fixed navbar -->
                         <nav class="navbar navbar-default ">
@@ -77,11 +77,17 @@
                 
                 <div class="col-md-3 ">
                     </br>
-                    <div id="menuGauche">
+                    <div id="menuGauche" style="padding-left: 10px;" >
                         {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-                            Bonjour {{ app.user.username|capitalize }} !
+                            Bonjour {{ app.user.username |capitalize }} !
+                            <br />  
+                            <br /> 
+                             
+                           <a href="{{ path('PASS_ModificationUtilisateur', {'listingId': app.user.id }) }}"><button  type="button" class="btn btn-success btn150">Mon compte  </button></a>
+        
+                            <br />  
                             <br />
-                            <a href="{{ path('logout') }}">Se déconnecter</a>
+                            <a href="{{ path('logout') }}"> <button type="button" class="btn btn-danger btn150">Se déconnecter</button></a>
                         {% else %}
                                              
                            {{ include('PASSAuthentificationLogBundle:authentification:loginForm_part.html.twig') }}
