@@ -87,6 +87,18 @@ background-repeat: no-repeat;
     background-color: blueviolet;
     color: #ffffff;
 }
+.current{
+    
+    background-color:#79919d;
+    color: #ffffff;
+   
+}
+.current>span{
+     display: block;
+     position: relative;
+     padding: 15px;
+     color: #4c05b7;
+}
 
 #menuGauche{
 display: block;
