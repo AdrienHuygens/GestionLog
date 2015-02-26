@@ -14,12 +14,14 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 class PersonneRepository extends EntityRepository implements UserProviderInterface {
 
     public function loadUserByUsername($login) {
+      var_dump('loaduserByusername');
         $q = $this
                 ->createQueryBuilder('i')
                 ->select(array('i', 'p'))
                 ->leftJoin('i.groupes', 'p')
                 //->leftJoin('p.roles', 'r')
                 ->where('i.username = :login')
+                
                 ->setParameter('login', $login)
                 ->getQuery();
         try {
@@ -32,22 +34,24 @@ class PersonneRepository extends EntityRepository implements UserProviderInterfa
         return $user->getResult();
     }
 
-    public function loadById($id) {
+   public function loadById($id) {
         $q = $this
                 ->createQueryBuilder('i')
                 ->select(array('i', 'p'))
                 ->leftJoin('i.groupes', 'p')
                 //->leftJoin('p.roles', 'r')
                 ->where('i.id = :id')
+                
                 ->setParameter('id', $id)
                 ->getQuery();
         try {
-// La méthode Query::getSingleResult() lance une exception
-// s'il n'y a pas d'entrée correspondante aux critères
-            $user = $q->getSingleResult();
+            // La méthode Query::getSingleResult() lance une exception
+            // s'il n'y a pas d'entrée correspondante aux critères
+           $user = $q->getSingleResult();
         } catch (NoResultException $e) {
             throw new UsernameNotFoundException(sprintf('L\'utilisateur "%s" n\'a pas été trouvé ou n\'est pas actif.', $username), 0, $e);
         }
+       
         return $user;
     }
 

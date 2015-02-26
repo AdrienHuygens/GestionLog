@@ -3,6 +3,7 @@ security:
         Symfony\Component\Security\Core\User\User: plaintext
         PASS\AuthentificationLogBundle\Entity\Personne: sha512
     providers:
+        
         database:
             entity: { class: PASSAuthentificationLogBundle:Personne, property: username }
         in_memory:
@@ -14,7 +15,7 @@ security:
 
     firewalls:
         auth_area:
-            pattern: ^/(login_check|authenticatedUser/|logout)
+            pattern: ^/(login_check|auth/|logout)
             form_login:
                 login_path: login
                 check_path: /login_check
@@ -22,7 +23,7 @@ security:
             logout:
                 path: /logout
                 target: login
-        
+           
         
         
         dev:
@@ -32,3 +33,6 @@ security:
          
         default:
             anonymous: ~
+            
+            
+    

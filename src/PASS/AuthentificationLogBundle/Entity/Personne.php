@@ -294,12 +294,14 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     }
 
     public function isEnabled() {
-        return true;
+        return $this->actif;
 //return $this->actif;
     }
 
     public function isEqualTo(UserInterface $user) {
-        return $this->getUsername() === $user->getUsername();
+        //return $this->getUsername() === $user->getUsername();
+        return false;
+        
     }
 
     public function __toString() {
@@ -307,7 +309,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     }
 
     public function eraseCredentials() {
-        
+ 
     }
 
     public function getPassword() {

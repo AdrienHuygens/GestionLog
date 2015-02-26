@@ -5,58 +5,63 @@ PASS_AuthentificationLog_homepage:
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:index }
 
 PASS_CreationGroupe:
-    path: /gestion/groupe/add
+    path: /auth/gestion/groupe/add
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:groupeAdd, listingId: 0 }
     requirements:
         listingId: \d+
 PASS_GestionUtilisateur:
-    path: /gestion/utilisateur/{listingId}
+    path: /auth/gestion/utilisateur/{listingId}
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurListing,  listingId: 0 }
     requirements:
         listingId: \d+
 PASS_GestionGroupe:
-    path: /gestion/groupe/{listingId}
+    path: /auth/gestion/groupe/{listingId}
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:groupeListing, listingId: 0 }    
     requirements:
         listingId: \d+
     
 PASS_CreationUtilisateur:
-    path: /gestion/utilisateur/add
+    path: /auth/gestion/utilisateur/add
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurAdd,  listingId: 0}
     
     
 PASS_ModificationUtilisateur:
-    path: /gestion/utilisateur/modification/{listingId}
+    path: /auth/gestion/utilisateur/modification/{listingId}
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurModification, listingId: 0 }
+    requirements:
+        listingId: \d+
+PASS_MonCompte:
+    path: /auth/monCompte/{listingId}
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurModification, listingId: 0 }
     requirements:
         listingId: \d+
         
 PASS_ModificationGroupe:
-    path: /gestion/groupe/modification/{listingId}
+    path: /auth/gestion/groupe/modification/{listingId}
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:groupeAdd }
     requirements:
         listingId: \d+
         
         
 PASS_SupprimerUtilisateur:
-    path: /gestion/utilisateur/supprimer/{personneId}
+    path: /auth/gestion/utilisateur/supprimer/{personneId}
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurSupprimer, personneId: 0 }
     requirements:
         personneId: \d+     
 PASS_SupprimerGroupe:
-    path: /gestion/groupe/supprimer/{groupeId}
+    path: /auth/gestion/groupe/supprimer/{groupeId}
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:groupeSupprimer,groupeId: 0 }
     requirements:
         groupeId: \d+    
         
 PASS_ChangeMDP:
-    path: /gestion/utilisateur/changeMDP/{personneId}
+    path: /auth/gestion/utilisateur/changeMDP/{personneId}
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:changeMDP,personneId: 0 }
     requirements:
         groupeId: \d+ 
     
 PASS_Gestion_ok:
-    path: /authenticatedUser/ok
+    path: /auth/ok
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:ok }
     
 

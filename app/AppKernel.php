@@ -19,6 +19,8 @@ class AppKernel extends Kernel
             new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
             new PASS\AuthentificationLogBundle\PASSAuthentificationLogBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new PASS\GestionLogBundle\PASSGestionLogBundle(),
+            new PASS\GeneralLogBundle\PASSGeneralLogBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

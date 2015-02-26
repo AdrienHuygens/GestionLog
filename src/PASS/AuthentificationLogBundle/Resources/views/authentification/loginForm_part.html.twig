@@ -1,7 +1,8 @@
 <div class="input-group input-group-sm">
     <form action="{{ path('login_check') }}" method="post" class="form-horizontal ">
-       
+      
         <div class="form-group center">
+            
         <label for="username" class="control-label center" >Utilisateur:</label>
         <input type="text" id="username" class="center" name="_username" {% if last_username is defined %}value="{{ last_username }}"{% endif %} />
        

@@ -11,6 +11,12 @@ contact adrien.huygens@gmail.com
 .btn150{
     min-width:150px;
 }
+
+.col-md-3{
+    padding-left: 2px;
+    padding-top: 10px;
+}
+
 pre{
     border:0px;
     padding: 4px;
@@ -21,6 +27,7 @@ pre{
     margin-top: 15px;
     
 }
+
 .row2{
     margin-left: 0px;
      margin-right: 0px;

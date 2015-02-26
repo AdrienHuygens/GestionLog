@@ -3,16 +3,10 @@
 # src/Acme/MainBundle/Resources/config/services.yml
 services:
     # the menu builder service. Can be used for several menus
-    PASS_main.menu_builder:
-        class: PASS\AuthentificationLogBundle\Menu\Builder
-        arguments: ["@knp_menu.factory"]
-
-    # your menu
-    PASS_main.menu.breadcrumb:
-        class: Knp\Menu\MenuItem
-        factory_service: PASS_main.menu_builder # the menu builder service above
-        factory_method: createBreadcrumbMenu # the method name to generate the menu
-        arguments: ["@request"]
-        scope: request
-        tags:
-            - { name: knp_menu.menu, alias: breadcrumb } # The alias is used in the template
+   
+    ldap.security.authentication.provider:
+        class:  PASS\AuthentificationLogBundle\Security\Authentification\Provider\ldapProvider
+        arguments: ['', %kernel.cache_dir%/security/nonces]
+    ldap.security.authentication.listener:
+        class:  PASS\AuthentificationLogBundle\Security\Authentification\Firewall\ldapListener
+        arguments: [@security.context, @security.authentication.manager]

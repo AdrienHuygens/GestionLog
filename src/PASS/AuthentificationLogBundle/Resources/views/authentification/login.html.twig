@@ -1,7 +1,8 @@
 {% extends '::base.html.twig' %}
 {% block contenu %}
+    {% trans_default_domain 'PASSAuthentificationLogBundle' %}
     {% if error %}
-        <div class="alert alert-warning" role="alert">{{ error.message }}</div>
+        <div class="alert alert-warning" role="alert">{{error.message |trans ([],'PASSAuthentificationLogBundle')  }}</div>
     {% endif %}
     {{ include('PASSAuthentificationLogBundle:authentification:loginForm_part.html.twig', {'last_username': last_username}) }}
 {% endblock %}
