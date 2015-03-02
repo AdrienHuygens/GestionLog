@@ -11,6 +11,9 @@ contact adrien.huygens@gmail.com
 .btn150{
     min-width:150px;
 }
+.navigation{
+    margin: auto;
+}
 
 .col-md-3{
     padding-left: 2px;

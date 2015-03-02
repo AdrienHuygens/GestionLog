@@ -1,0 +1,69 @@
+{% extends "::base2.html.twig" %}
+
+{% block titrePage %}
+            {{ titrePage }} {% endblock %}
+
+
+
+{% block contenu %}
+     
+     
+        <div class="col-lg-12">
+            <div class="panel panel-info">
+                
+                <div class="panel-heading">
+                 
+                      
+                </div>
+                <div class="panel-body">
+                   
+                      
+                       <table class="table col-lg-12 ">
+                                <tr>
+                                    <th> Date </th>
+                                    <th> Prioriter </th>
+                                    <th> Type </th>
+                                    <th> Hôte </th>
+                                    <th> Message </th>
+                                    <th> Tag </th>
+                                    </tr>
+                                {% for val in listing %}
+                                    
+                            <tr>    
+                                
+                                {% if loop.index is divisibleby(2) %}
+                                     <td style=" min-width: 12%;"> {{ val.devicereportedtime| raw  }}</td>
+                                      <td> {{ val.priority.nom| raw  }}</td>
+                                     <td> {{ val.facility| raw  }}</td>
+                                    <td> {{ val.fromhost| raw  }}</td>
+                                     <td> {{ val.message| raw  }}</td>
+                                       <td> {{ val.syslogtag| raw  }}</td>
+                                {% else %}
+                                   
+                                
+                                <td class="active"> {{ val.devicereportedtime| raw  }}</td>
+                                      <td class="active"> {{ val.priority.nom| raw  }}</td>
+                                     <td class="active"> {{ val.facility| raw  }}</td>
+                                    <td class="active"> {{ val.fromhost| raw  }}</td>
+                                     <td class="active"> {{ val.message| raw  }}</td>
+                                       <td class="active"> {{ val.syslogtag| raw  }}</td>
+                                    
+                                    {% endif %}
+                                       
+                            </tr>
+                                   {% endfor %}    
+                        </table>
+                        
+                            
+                       
+                   
+                    
+                </div>
+                      
+            </div>
+                          <div class="navigation text-center">
+                 {{ knp_pagination_render(listing) }}
+</div>
+        </div>
+   
+{% endblock %}

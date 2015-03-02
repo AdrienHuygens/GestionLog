@@ -56,46 +56,15 @@
 
 
 
-                 <div class="col-md-3 "></div>
-                  <div class="col-md-9">
+                 
+                  <div class="col-md-12">
                  <h1>{% block titrePage %}Bienvenu(e) !{% endblock %}</h1>
                   </div>
                
                 
-                <div class="col-md-3 ">
-                    </br>
-                    <div id="menuGauche" style="padding-left: 10px;" >
-                        {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-                            Bonjour {{ app.user.username |capitalize }} !
-                            <br />  
-                            <br /> 
-                             
-                           <a href="{{ path('PASS_MonCompte', {'listingId': app.user.id }) }}"><button  type="button" class="btn btn-success btn150">Mon compte  </button></a>
-        
-                            <br />  
-                            <br />
-                            <a href="{{ path('logout') }}"> <button type="button" class="btn btn-danger btn150">Se déconnecter</button></a>
-                        {% else %}
-                                             
-                           {{ include('PASSAuthentificationLogBundle:authentification:loginForm_part.html.twig') }}
-                             
-                         
-                        {% endif %}
-                        
-                   
-                    </div>
-                     
-                    {% block menuleft %}
+               
                     
-                    {% endblock %}
-                   
-                </div>
-                    
-                    
-                    
-                    
-                    
-                <div class="col-md-9">
+                <div class="col-md-12">
                    
                     <br />
                     {% block contenu %}<p>Contenu</p>{% endblock %}

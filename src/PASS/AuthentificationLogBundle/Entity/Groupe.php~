@@ -254,7 +254,7 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
          
          $tab = array('Id' => $this->getId(),
                       'Nom' => $this->getNom(),
-                      'Description' => $this->getDescription(),
+                      'Description' => '<pre>'.$this->getDescription().'</pre>',
                         'Type de groupe' => $this->type(),
                         'Information' => $this->activiter());
          

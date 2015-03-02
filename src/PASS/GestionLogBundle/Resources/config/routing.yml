@@ -1,2 +1,3 @@
-## YAML Template.
----
+PASS_AffichageLog:
+    path:  /listing
+    defaults: { _controller: PASSGestionLogBundle:gestionLog:affichageLog }
