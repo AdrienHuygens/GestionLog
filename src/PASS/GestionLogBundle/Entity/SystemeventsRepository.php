@@ -14,9 +14,9 @@ class SystemeventsRepository extends EntityRepository  {
      public function getAllLog() {
         return $this->createQueryBuilder('l')
                         ->select(array('l','p'))
-                        ->leftJoin('l.priority', 'p')
+                        ->leftJoin('l.syslogId', 'p')
                         
                         ->getQuery()->execute();
     }
-
+    
 }

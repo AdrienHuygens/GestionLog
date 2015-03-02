@@ -20,13 +20,7 @@ class priority
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-     /**
-     * @var integer
-     *
-     * ORM\Column(name="Priority", type="smallint")
-     *@ORM\ManyToOne(targetEntity="Systemevents", inversedBy="priority")
-     */
-    private $prioritys;
+    
 
     /**
      * @var string
@@ -48,6 +42,12 @@ class priority
      * @ORM\Column(name="couleur", type="string", length=7)
      */
     private $couleur;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="syslogId", type="smallint", nullable = true)
+     */
+    Private $syslogId;
 
 
     /**
@@ -109,7 +109,7 @@ class priority
     /**
      * Set couleur
      *
-     * @param array $couleur
+     * @param string $couleur
      * @return priority
      */
     public function setCouleur($couleur)
@@ -122,7 +122,7 @@ class priority
     /**
      * Get couleur
      *
-     * @return array 
+     * @return string 
      */
     public function getCouleur()
     {
@@ -130,71 +130,25 @@ class priority
     }
 
     /**
-     * Set id_priority
+     * Set syslogId
      *
-     * @param integer $idPriority
+     * @param integer $syslogId
      * @return priority
      */
-    public function setIdPriority($idPriority)
+    public function setSyslogId($syslogId)
     {
-        $this->id_priority = $idPriority;
+        $this->syslogId = $syslogId;
 
         return $this;
     }
 
     /**
-     * Get id_priority
+     * Get syslogId
      *
      * @return integer 
      */
-    public function getIdPriority()
+    public function getSyslogId()
     {
-        return $this->id_priority;
-    }
-
-    /**
-     * Set priority
-     *
-     * @param \PASS\GestionLogBundle\Entity\Systemevents $priority
-     * @return priority
-     */
-    public function setPriority(\PASS\GestionLogBundle\Entity\Systemevents $priority = null)
-    {
-        $this->priority = $priority;
-
-        return $this;
-    }
-
-    /**
-     * Get priority
-     *
-     * @return \PASS\GestionLogBundle\Entity\Systemevents 
-     */
-    public function getPriority()
-    {
-        return $this->priority;
-    }
-
-    /**
-     * Set prioritys
-     *
-     * @param \PASS\GestionLogBundle\Entity\Systemevents $prioritys
-     * @return priority
-     */
-    public function setPrioritys(\PASS\GestionLogBundle\Entity\Systemevents $prioritys = null)
-    {
-        $this->prioritys = $prioritys;
-
-        return $this;
-    }
-
-    /**
-     * Get prioritys
-     *
-     * @return \PASS\GestionLogBundle\Entity\Systemevents 
-     */
-    public function getPrioritys()
-    {
-        return $this->prioritys;
+        return $this->syslogId;
     }
 }

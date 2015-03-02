@@ -55,7 +55,9 @@ class Systemevents
      * @var integer
      *
      * @ORM\Column(name="priority", type="smallint", nullable=true)
-     * ORM\OneToMany(targetEntity="priority", mappedBy="prioritys")
+     * @ORM\ManyToOne(targetEntity="priority")
+     * @ORM\JoinTable(name="syslogId_priority")
+
      * 
      */
     private $priority;
