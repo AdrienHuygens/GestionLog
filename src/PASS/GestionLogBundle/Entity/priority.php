@@ -17,7 +17,7 @@ class priority
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
     
@@ -43,13 +43,13 @@ class priority
      */
     private $couleur;
 
-    /**
-     * @var integer
-     * @ORM\Column(name="syslogId", type="smallint", nullable = true)
-     */
-    Private $syslogId;
+    
+     public function setId($id)
+    {
+        $this->id = $id;
 
-
+        return $this;
+    }
     /**
      * Get id
      *

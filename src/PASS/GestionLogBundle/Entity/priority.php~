@@ -43,13 +43,13 @@ class priority
      */
     private $couleur;
 
-    /**
-     * @var integer
-     * @ORM\Column(name="syslogId", type="smallint")
-     */
-    Private $syslogId;
+    
+     public function setId($id)
+    {
+        $this->id = $id;
 
-
+        return $this;
+    }
     /**
      * Get id
      *
@@ -127,5 +127,28 @@ class priority
     public function getCouleur()
     {
         return $this->couleur;
+    }
+
+    /**
+     * Set syslogId
+     *
+     * @param integer $syslogId
+     * @return priority
+     */
+    public function setSyslogId($syslogId)
+    {
+        $this->syslogId = $syslogId;
+
+        return $this;
+    }
+
+    /**
+     * Get syslogId
+     *
+     * @return integer 
+     */
+    public function getSyslogId()
+    {
+        return $this->syslogId;
     }
 }

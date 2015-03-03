@@ -7,18 +7,18 @@
 
 {% block contenu %}
      
-     
-        <div class="col-lg-12">
+     <div class="col-lg-12">
             <div class="panel panel-info">
                 
                 <div class="panel-heading">
                  
                       
                 </div>
+                {% if listing != null %}
                 <div class="panel-body">
                    
                       
-                       <table class="table col-lg-12 ">
+                       <table class="table col-lg-6 ">
                                 <tr>
                                     <th> Date </th>
                                     <th> Prioriter </th>
@@ -28,32 +28,26 @@
                                     <th> Tag </th>
                                     </tr>
                                 {% for val in listing %}
-                                    
-                            <tr>    
+                                   
+                            <tr style="background-color:{{val.couleur}}">    
                                 
-                                {% if loop.index is divisibleby(2) %}
-                                     <td style=" min-width: 12%;"> {{ val.devicereportedtime| raw  }}</td>
-                                      <td> {{ val.priority.nom| raw  }}</td>
-                                     <td> {{ val.facility| raw  }}</td>
+                               
+                                     <td style=" min-width: 13%;"> {{ val.devicereportedtime| date('d-m-Y H:i:s')  }}</td>
+                                      <td> {{ val.nom| raw  }}</td>
+                                     <td> {{ val.nomf| raw  }}</td>
                                     <td> {{ val.fromhost| raw  }}</td>
                                      <td> {{ val.message| raw  }}</td>
                                        <td> {{ val.syslogtag| raw  }}</td>
-                                {% else %}
-                                   
                                 
-                                <td class="active"> {{ val.devicereportedtime| raw  }}</td>
-                                      <td class="active"> {{ val.priority.nom| raw  }}</td>
-                                     <td class="active"> {{ val.facility| raw  }}</td>
-                                    <td class="active"> {{ val.fromhost| raw  }}</td>
-                                     <td class="active"> {{ val.message| raw  }}</td>
-                                       <td class="active"> {{ val.syslogtag| raw  }}</td>
-                                    
-                                    {% endif %}
                                        
                             </tr>
                                    {% endfor %}    
                         </table>
-                        
+                        {% else %}
+                            
+                            <h3> Pas de log en base de donnée</h3>
+                            
+                         {% endif %}  
                             
                        
                    
@@ -62,8 +56,11 @@
                       
             </div>
                           <div class="navigation text-center">
+                               {% if listing != null %}
                  {{ knp_pagination_render(listing) }}
+                 {% endif %}  
 </div>
         </div>
    
+        
 {% endblock %}

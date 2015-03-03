@@ -24,19 +24,39 @@ class gestionLogController extends Controller
     public function affichageLogAction(Request $request)
     {
         
+        
+           $filtre = null;
+           
+           if ($form->isSubmitted() && $form->isValid()) {
+               
+               
+           }
+        
+        
+          $pagination = null;
          $repo = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\Systemevents");
             $tab = $repo->getAllLog();
+           
+            if(count($tab) !== 0){
+               
+                $paginator  = $this->get('knp_paginator');
+                $pagination = $paginator->paginate(
+                    $tab,
+                   $request->query->get('page', 1)/*page number*/,
+                    30/*limit per page*/
+                );
+            }
+           
+               
+           
             
-        $paginator  = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-            $tab,
-            $request->query->get('page', 1)/*page number*/,
-            30/*limit per page*/
-        );
- 
+            
+            
             return $this->render("PASSGestionLogBundle:affichage:affichage.html.twig",
                     array("titrePage" => "Logs serveur",                       
-                        "listing" => $pagination
+                        "listing" =>  $pagination,
+                       
+                    
             ));
         
     }

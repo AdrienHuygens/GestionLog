@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new PASS\GestionLogBundle\PASSGestionLogBundle(),
             new PASS\GeneralLogBundle\PASSGeneralLogBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

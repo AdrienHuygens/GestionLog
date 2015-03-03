@@ -3,6 +3,7 @@
 namespace PASS\GestionLogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PASS\GestionLogBundle\Entity\priority;
 
 /**
  * Systemevents
@@ -48,17 +49,17 @@ class Systemevents
      * @var integer
      *
      * @ORM\Column(name="facility", type="smallint", nullable=true)
+     * @ORM\ManyToOne(targetEntity="facility")
+     * @ORM\JoinColumn(name="facility", referencedColumnName="id")
      */
     private $facility;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="priority", type="smallint", nullable=true)
+     * ORM\Column(name="priority", type="integer", nullable=true)
      * @ORM\ManyToOne(targetEntity="priority")
-     * @ORM\JoinTable(name="syslogId_priority")
-
-     * 
+     * @ORM\JoinColumn(name="priority", referencedColumnName="id")
      */
     private $priority;
 
@@ -266,8 +267,8 @@ class Systemevents
      */
     public function getDevicereportedtime()
     {
-        return $this->devicereportedtime->format("d-m-Y H:i:s");
-        //return "0";
+        //return $this->devicereportedtime->format("d-m-Y H:i:s");
+        return "0";
     }
 
     /**
