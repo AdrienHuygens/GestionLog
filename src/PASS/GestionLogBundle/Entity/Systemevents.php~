@@ -48,7 +48,7 @@ class Systemevents
     /**
      * @var integer
      *
-     * @ORM\Column(name="facility", type="smallint", nullable=true)
+     * ORM\Column(name="facility", type="smallint", nullable=true)
      * @ORM\ManyToOne(targetEntity="facility")
      * @ORM\JoinColumn(name="facility", referencedColumnName="id")
      */
@@ -738,7 +738,11 @@ class Systemevents
     {
         $this->priority = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
+    public function __toString()
+    {
+         var_dump("coucou");
+        return '0';
+    }
     /**
      * Add priority
      *

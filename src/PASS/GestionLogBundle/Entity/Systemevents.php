@@ -738,7 +738,11 @@ class Systemevents
     {
         $this->priority = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
+    public function __toString()
+    {
+         var_dump("coucou");
+        return '0';
+    }
     /**
      * Add priority
      *

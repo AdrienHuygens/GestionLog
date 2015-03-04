@@ -13,7 +13,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
-use PASS\GestionLogBundle\Entity\Systemevents;
+use PASS\GestionLogBundle\Entity\Filtre;
+use PASS\GestionLogBundle\Entity\Date;
+use PASS\GestionLogBundle\Form\DateType;
+
+
 
 class gestionLogController extends Controller
 {
@@ -21,21 +25,40 @@ class gestionLogController extends Controller
      * @Route("/affichagelog")
      * @Template()
      */
+    
     public function affichageLogAction(Request $request)
     {
         
         
-           $filtre = null;
-           
-           if ($form->isSubmitted() && $form->isValid()) {
-               
-               
-           }
+        
+         $repo = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\Systemevents");
+         $host = array();
+         $temp = $repo->getHost();
+         
+         foreach($temp as $hote){
+             $host[$hote['fromhost']]= $hote['fromhost'];
+         }
+             
+        
+           $filtre = new Filtre();
+           //$filtre->addHost('test-debnet');
+           //$filtre->addHost('test-ubublog');
+          
+           $form =$this->createFormBuilder($filtre)
+               ->add('hosts','choice',array('choices'=>$host,'multiple' => true,'required' => false ))
+               ->add('dates',new DateType())
+               ->add('Enregistrer','submit')
+               ->getForm() ;
+          $form->handleRequest($request);
+              
+          
+         
+          
         
         
           $pagination = null;
-         $repo = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\Systemevents");
-            $tab = $repo->getAllLog();
+        
+            $tab = $repo->getAllLog($filtre);
            
             if(count($tab) !== 0){
                
@@ -55,6 +78,7 @@ class gestionLogController extends Controller
             return $this->render("PASSGestionLogBundle:affichage:affichage.html.twig",
                     array("titrePage" => "Logs serveur",                       
                         "listing" =>  $pagination,
+                        "form" => $form->createView()
                        
                     
             ));

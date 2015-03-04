@@ -13,12 +13,13 @@ namespace PASS\GestionLogBundle\Entity;
                         
  */
 use Doctrine\ORM\EntityRepository;
-use PASS\GestionLogBundle\Entity\Systemevents;
+use PASS\GestionLogBundle\Entity\Filtre;
 
 class SystemeventsRepository extends EntityRepository  {
 
-     public function getAllLog() {
-        return $this->createQueryBuilder('systemevent')
+     public function getAllLog(Filtre $filtre) {
+        
+         $query = $this->createQueryBuilder('systemevent')
                         ->select('systemevent.id,systemevent.devicereportedtime , '
                                 . 'systemevent.fromhost, systemevent.message, systemevent.syslogtag,'
                                 . 'priority.nom,priority.couleur, facility.nom as nomf')
@@ -27,7 +28,19 @@ class SystemeventsRepository extends EntityRepository  {
                         ->join('systemevent.facility', 'facility')
                         ->addOrderBy('systemevent.devicereportedtime', 'DESC')
                        
+                        ;
+         
+         $test = $filtre->filtrer($query);
+         
+         return $test->getQuery()->execute();
+    }
+    public function getHost(){
+        
+          return $this->createQueryBuilder('systemevent')
+                        ->select('systemevent.fromhost')
+                        ->addGroupBy('systemevent.fromhost')
                         ->getQuery()->execute();
+                        ;
     }
    
 }
