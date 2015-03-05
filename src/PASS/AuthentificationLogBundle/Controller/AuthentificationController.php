@@ -21,12 +21,7 @@ class AuthentificationController extends Controller {
     /**
      * @Route("/hello/{name}")
      * @Template()
-     */
-    public function indexAction() {
-        return $this->render('PASSAuthentificationLogBundle:authentification:index.html.twig', array(
-                    'titrePage' => "test"
-        ));
-    }
+    
 
     /*
      *  Controleur pour le formulaire de mon rajout de groupe.

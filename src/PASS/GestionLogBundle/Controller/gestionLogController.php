@@ -17,6 +17,8 @@ use PASS\GestionLogBundle\Entity\Filtre;
 use PASS\GestionLogBundle\Entity\Date;
 use PASS\GestionLogBundle\Form\DateType;
 
+use Symfony\Component\HttpFoundation\Session\Session;
+
 
 
 class gestionLogController extends Controller
@@ -29,7 +31,7 @@ class gestionLogController extends Controller
     public function affichageLogAction(Request $request)
     {
         
-        
+       
         
          $repo = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\Systemevents");
          $host = array();
@@ -39,22 +41,33 @@ class gestionLogController extends Controller
              $host[$hote['fromhost']]= $hote['fromhost'];
          }
              
-        
+         /*if ($this->get('session')->get('filtre') !== null){
+         // $filtre = $session->get('filtre');   
+             
+         $filtre = $this->get('session')->get('filtre') ;
+         
+         
+         }
+         
+         else{*/
            $filtre = new Filtre();
+        // }
            //$filtre->addHost('test-debnet');
            //$filtre->addHost('test-ubublog');
           
            $form =$this->createFormBuilder($filtre)
+                
                ->add('hosts','choice',array('choices'=>$host,'multiple' => true,'required' => false ))
                ->add('dates',new DateType())
                ->add('Enregistrer','submit')
+               ->add('up','button')
                ->getForm() ;
           $form->handleRequest($request);
               
           
          
           
-        
+          //$this->get('session')->set('filtre',  $filtre);
         
           $pagination = null;
         

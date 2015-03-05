@@ -1,0 +1,52 @@
+<?php
+
+namespace PASS\GestionLogBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * GroupeOrdinateur
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class GroupeOrdinateur
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=50)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=1000)
+     */
+    private $description;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="actif", type="boolean")
+     */
+    private $actif;
+
+    /**
+     *
+     * @ORM\Column(name="ordinateurs", type="array")                                             
+     * 
+     */
+    private $ordinateurs;
+    
+}

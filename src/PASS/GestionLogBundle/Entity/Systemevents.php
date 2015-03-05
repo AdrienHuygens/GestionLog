@@ -67,6 +67,7 @@ class Systemevents
      * @var string
      *
      * @ORM\Column(name="fromhost", type="string", length=60, nullable=true)
+     * 
      */
     private $fromhost;
 
@@ -74,6 +75,7 @@ class Systemevents
      * @var string
      *
      * @ORM\Column(name="message", type="text", nullable=true)
+     *
      */
     private $message;
 

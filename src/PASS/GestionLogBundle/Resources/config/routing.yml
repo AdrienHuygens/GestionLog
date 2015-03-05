@@ -1,3 +1,13 @@
 PASS_AffichageLog:
     path:  /listing
     defaults: { _controller: PASSGestionLogBundle:gestionLog:affichageLog }
+
+PASS_GroupeOrdinateurAdd:
+    path:  /groupeadd
+    defaults: { _controller: PASSGestionLogBundle:GroupeOrdinateur:groupeOrdinateurAdd }
+    
+PASS_ModificationUtilisateur:
+    path: /groupeOrdinateur/modification/{listingId}
+    defaults: { _controller:  PASSGestionLogBundle:GroupeOrdinateur:GroupeOrdinateurModification, listingId: 0 }
+    requirements:
+        listingId: \d+

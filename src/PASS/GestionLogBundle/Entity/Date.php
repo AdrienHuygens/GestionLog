@@ -69,7 +69,7 @@ class Date {
             return "systemevent.devicereportedtime" .$this->signe."'".$this->date1->format("Y-m-d H:i:s")."'";
         }
         elseif ($this->signe ==="between"){
-           return "systemevent.devicereportedtime BETWEEN '".$this->date1->format("Y-m-d H:i:s")."' AND '". $this->date1->modify('+59 second')->format("Y-m-d H:i:s")."'"; 
+           return "systemevent.devicereportedtime BETWEEN '".$this->date1->format("Y-m-d H:i:s")."' AND '". $this->date2->format("Y-m-d H:i:s")."'"; 
         }
         
             

@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+{% block titrePage %}
+
+
+        {{ titrePage }}
+   
+ 
+{% endblock %}
+{% block contenu %}
+   
+    {% if good %}
+        <div class="alert alert-success" role="alert">{{ good}}</div>
+    {% endif %}
+Vous pouvez voir ici les informations qui vous interessent
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "::base.html.twig" %}
+
+{% block titrePage %}
+            {{ titrePage }} {% endblock %}
+            
+            
+ {% block contenu %}
+      
+     {{ form(form) }}
+     
+     {%if chemin != null %}
+    <a href="{{ chemin }}"><button type="button" class="btn btn-danger">Supprimer le groupe</button></a>
+    
+    
+    {% endif %}
+
+     
+{% endblock %}

@@ -6,16 +6,30 @@
 
 
 {% block contenu %}
-    <div class="rowBottom col-lg-12">
+    <div class="rowBottom rowLeft">
+  <button id='btn'type="button" class="btn btn-default" onClick='filtre()'  >
+    Mettre un filtre
+  </button>
+    </div>
+    <div id='filtre'class="rowBottom col-lg-12" style='display:"";'>
       {{ form_start(form) }}
       
                  <div class="col-lg-3" >
-                  Ordinateur:{{ form_row(form.hosts) }}
+                  Ordinateur:{{ form_widget(form.hosts) }}
                  </div>
-                 <div class="col-lg-4"> {{ form_row(form.dates) }}</div>
+                 <div class="col-lg-4"> type de filtre:{{ form_widget(form.dates.signe , { 'attr': {'onChange':'masquer()'}  })  }}
+                 
+                     <div id="d1"class="d"> Date:{{ form_widget(form.dates.date1) }}</div>
+                     <div id="d2" class="d"> Date 2: {{ form_widget(form.dates.date2) }}</div>
+                 
+                 </div>
+                    
+                 
                  <br/>
-                 <div class="col-lg-6" >{{ form_row(form.Enregistrer) }}</br></div>
-                {{ form_end(form) }}
+                 <div class="col-lg-6 test" >{{ form_row(form.Enregistrer)  }} {{ form_row(form.up, { 'attr': {'onClick':'filtre2(1)'}  })  }} 
+    
+    </div></br></div>
+                
     </div>         
      <div class="col-lg-12">
             <div class="panel panel-info">

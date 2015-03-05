@@ -76,7 +76,7 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
     private $actif;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Personne", mappedBy="groupes")
+     * 
      * 
      * @var Personne
      */

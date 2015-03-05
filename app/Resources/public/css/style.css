@@ -8,6 +8,11 @@ contact adrien.huygens@gmail.com
     Created on : 11-févr.-2015, 10:35:25
     Author     : adrien
 */
+.form-group{
+    display:inline-block;
+    display:inline;
+    
+}
 .btn150{
     min-width:150px;
 }
@@ -37,10 +42,12 @@ pre{
      margin-bottom: 1px;
 }
 .rowBottom{
-    margin-left: 0px;
-     margin-right: 0px;
+    
      margin-bottom: 5px;
      padding-bottom: 5px;
+}
+.rowLeft{
+    margin-left: 15px;
 }
 .aligner{
    
