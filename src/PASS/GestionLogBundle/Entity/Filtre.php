@@ -10,15 +10,27 @@ namespace PASS\GestionLogBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-class Filtre {
+class Filtre implements \Serializable{
     
-  private $hosts = array();
+  private $hosts ;
   
   private $dates;
+  public function __construct() {
+      $this->hosts = new ArrayCollection();
+  }
     
     public function getHosts(){
+       $tab = array();
+        foreach($this->hosts as  $host)
+        {
+            $tab[] = $host;
+            
+        }
+        
+        return $tab;
+        
+        
        
-        return $this->hosts;
     }
     public function getDates(){
         return $this->dates;
@@ -37,8 +49,21 @@ class Filtre {
         
     }
      public function removeHost($host) {
-
+         $tab =new ArrayCollection();
+         
+         foreach($this->hosts as  $host)
+        {
+            $tab[] = $host;
+            
+        }
+        $this->hosts = $tab;
         $this->hosts->removeElement($host);
+        
+          //$hosttmp->removeElement($host);
+         //unset($this->hosts[$host]);
+        
+       // $this->hosts->removeElement($host);
+       // $this->hosts[] = $host;
     }
     
      public function addDate( $date){
@@ -66,6 +91,23 @@ class Filtre {
         $query->andWhere($this->dates->getSql());
         }
         return $query;
+    }
+    
+     public function serialize() {
+        return serialize(array(
+        $this->hosts,$this->dates,
+        ));
+    }
+
+    /**
+     * @see \Serializable::unserialize()
+     */
+    public function unserialize($serialized) {
+       
+        
+        list (
+             $this->hosts,$this->dates,
+                ) = unserialize($serialized);
     }
     
     

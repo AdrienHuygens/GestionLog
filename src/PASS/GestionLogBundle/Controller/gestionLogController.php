@@ -40,18 +40,18 @@ class gestionLogController extends Controller
          foreach($temp as $hote){
              $host[$hote['fromhost']]= $hote['fromhost'];
          }
-             
-         /*if ($this->get('session')->get('filtre') !== null){
-         // $filtre = $session->get('filtre');   
+         
+        if ($this->get('session')->get('filtre') !== null){
+          //$filtre = $session->get('filtre');   
              
          $filtre = $this->get('session')->get('filtre') ;
-         
-         
+         //$filtre = new Filtre();
+         //var_dump($this->get('session')->get('filtre'));
          }
          
-         else{*/
+         else{
            $filtre = new Filtre();
-        // }
+         }
            //$filtre->addHost('test-debnet');
            //$filtre->addHost('test-ubublog');
           
@@ -61,13 +61,14 @@ class gestionLogController extends Controller
                ->add('dates',new DateType())
                ->add('Enregistrer','submit')
                ->add('up','button')
+               ->add('Reset','button')
                ->getForm() ;
           $form->handleRequest($request);
               
           
          
           
-          //$this->get('session')->set('filtre',  $filtre);
+            $this->get('session')->set('filtre',  $filtre);
         
           $pagination = null;
         
@@ -79,12 +80,14 @@ class gestionLogController extends Controller
                 $pagination = $paginator->paginate(
                     $tab,
                    $request->query->get('page', 1)/*page number*/,
+                        
                     30/*limit per page*/
                 );
+                
             }
            
-               
-           
+             
+              
             
             
             
@@ -96,6 +99,12 @@ class gestionLogController extends Controller
                     
             ));
         
+    }
+     public function EraseAction()
+    {
+        $this->get('session')->set('filtre',  null);
+      return $this->redirect($this->generateUrl('PASS_AffichageLog'));
+            
     }
 }
 

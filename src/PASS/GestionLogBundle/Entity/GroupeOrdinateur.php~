@@ -49,4 +49,134 @@ class GroupeOrdinateur
      */
     private $ordinateurs;
     
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     * @return GroupeOrdinateur
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string 
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return GroupeOrdinateur
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set actif
+     *
+     * @param boolean $actif
+     * @return GroupeOrdinateur
+     */
+    public function setActif($actif)
+    {
+        $this->actif = $actif;
+
+        return $this;
+    }
+
+    /**
+     * Get actif
+     *
+     * @return boolean 
+     */
+    public function getActif()
+    {
+        return $this->actif;
+    }
+
+    /**
+     * Set ordinateurs
+     *
+     * @param array $ordinateurs
+     * @return GroupeOrdinateur
+     */
+    public function setOrdinateurs($ordinateurs)
+    {
+        $this->ordinateurs = $ordinateurs;
+
+        return $this;
+    }
+
+    /**
+     * Get ordinateurs
+     *
+     * @return array 
+     */
+    public function getOrdinateurs()
+    {
+        return $this->ordinateurs;
+    }
+    
+     public function __construct()
+    {
+        $this->ordinateurs = array();
+    }
+
+    /**
+     * Add ordinateur
+     *
+     * @param \PASS\GestionLogBundle\Entity\Systemevents $ordinateur
+     * @return GroupeOrdinateur
+     */
+    public function addOrdinateur($ordinateur)
+    {
+        $this->ordinateurs[] = $ordinateur;
+
+        return $this;
+    }
+
+    /**
+     * Remove ordinateur
+     *
+     * @param \PASS\GestionLogBundle\Entity\Systemevents $ordinateur
+     */
+    public function removeOrdinateur($ordinateur)
+    {
+        $this->ordinateurs->removeElement($ordinateur);
+    }
 }

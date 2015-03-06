@@ -13,7 +13,7 @@ namespace PASS\GestionLogBundle\Entity;
 
 
 
-class Date {
+class Date implements \Serializable{
 
     
        
@@ -75,6 +75,22 @@ class Date {
             
             
         
+    }
+    
+    
+     public function serialize() {
+        return serialize(array(
+            $this->signe,$this->date1,$this->date2,
+        ));
+    }
+
+    /**
+     * @see \Serializable::unserialize()
+     */
+    public function unserialize($serialized) {
+        list (
+             $this->signe,$this->date1,$this->date2,
+                ) = unserialize($serialized);
     }
    
 }

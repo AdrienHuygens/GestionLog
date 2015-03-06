@@ -75,7 +75,7 @@ class GroupeOrdinateurController extends Controller
         return $this->render('PASSGeneralLogBundle:form:form.html.twig', Array(
                     "form" => $form->createView(),
                     'titrePage' => 'Modifier un utilisateur local',
-                    'id' => $listingId->getId(),
+                    
                     'chemin' => $chemin));
     }
 
