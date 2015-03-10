@@ -14,8 +14,8 @@
         {% endblock %}
     </head>
     <body>
-    <body>
 
+        {{app.request.session.set("filtre",null) }}
         <div id="corp">
 
             <div class="row">
@@ -116,11 +116,10 @@
             <!-- Include all JavaScripts, compiled by Assetic -->
              <script src="{{ asset('js/bootstrap.js') }}"></script>
              
-             {% javascripts '../app/Resources/public/js/*' %}
+              {% javascripts '../app/Resources/public/js/*' %}
                 <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
 
-             <script src="{{ asset('js/changement.js') }}"></script>
         {% endblock %}
     </body>
 </html>

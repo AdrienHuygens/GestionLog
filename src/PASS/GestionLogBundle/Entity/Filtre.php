@@ -1,101 +1,148 @@
 <?php
 
-/* 
+/*
  * Copyright 2015 Version 1.0.0
  * Pour le Pass, projet gestion de log.
  * @author Huygens Adrien
  * contact adrien.huygens@gmail.com
  */
+
 namespace PASS\GestionLogBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use PASS\GestionLogBundle\Entity\GroupeOrdinateur;
 
-class Filtre implements \Serializable{
-    
-  private $hosts ;
-  
-  private $dates;
-  public function __construct() {
-      $this->hosts = new ArrayCollection();
-  }
-    
-    public function getHosts(){
-       $tab = array();
-        foreach($this->hosts as  $host)
-        {
+class Filtre implements \Serializable {
+
+    private $hosts;
+    private $dates;
+    private $groupes;
+
+    public function __construct() {
+        $this->groupes = new ArrayCollection();
+        $this->hosts = new ArrayCollection();
+    }
+
+    public function getHosts() {
+        $tab = array();
+        foreach ($this->hosts as $host) {
             $tab[] = $host;
-            
         }
-        
+
         return $tab;
-        
-        
-       
     }
-    public function getDates(){
+
+    public function getGroupes() {
+        $tab = array();
+       if ($this->groupes != null) {
+        foreach ($this->groupes as $groupe) {
+            $tab[] = $groupe;
+        }
+       }
+        return $tab;
+    }
+
+    public function getDates() {
         return $this->dates;
-     
     }
-    public function setDates($date){
+
+    public function setDates($date) {
         $this->dates = $date;
-     
     }
-  
-    
-    
-    public function addHost($host){
-        
+
+    public function addHost($host) {
+
         $this->hosts[] = $host;
-        
     }
-     public function removeHost($host) {
-         $tab =new ArrayCollection();
-         
-         foreach($this->hosts as  $host)
-        {
+
+    public function addGroupe($groupe) {
+        
+        $this->groupes[] = $groupe;
+    }
+
+    public function setGroupes($groupe) {
+
+        $this->groupes[] = $groupe;
+    }
+
+    public function removeGroupe($groupe) {
+        $tab = new ArrayCollection();
+
+        foreach ($this->groupes as $groupee) {
+            if ($groupee != $groupe)
+                $tab[] = $groupee;
+        }
+        $this->groupes = $tab;
+        //$this->groupes->removeElement($groupe);
+    }
+
+    public function removeHost($host) {
+        $tab = new ArrayCollection();
+
+        foreach ($this->hosts as $hoste) {
             $tab[] = $host;
-            
         }
         $this->hosts = $tab;
         $this->hosts->removeElement($host);
-        
-          //$hosttmp->removeElement($host);
-         //unset($this->hosts[$host]);
-        
-       // $this->hosts->removeElement($host);
-       // $this->hosts[] = $host;
+
+        //$hosttmp->removeElement($host);
+        //unset($this->hosts[$host]);
+        // $this->hosts->removeElement($host);
+        // $this->hosts[] = $host;
     }
-    
-     public function addDate( $date){
-        
+
+    public function addDate($date) {
+
         $this->dates[] = $date;
-        
     }
-     public function removeDate($date) {
+
+    public function removeDate($date) {
 
         $this->dates->removeElement($date);
     }
-    
-    public function filtrer($query){
-        
-       
-        foreach ($this->hosts as $hosts){
 
-                
-          $query->orWhere("systemevent.fromhost ='".$hosts."'");
-                 //->setParameter('hosts', $hosts);
-             
+    public function filtrer($query, $repo) {
+
+       
+        foreach ( $this->hostSql($query, $repo) as $hosts) {
+
+
+            $query->orWhere("systemevent.fromhost ='" . $hosts . "'");
+            
+            //->setParameter('hosts', $hosts);
         }
-        if(isset($this->dates) && $this->dates->getSigne() !== null){
-           
-        $query->andWhere($this->dates->getSql());
+        
+        if (isset($this->dates) && $this->dates->getSigne() !== null) {
+
+            $query->andWhere($this->dates->getSql());
         }
         return $query;
     }
-    
-     public function serialize() {
+
+    public function hostSql($query, $repo) {
+        $tableau = array();
+        
+        $tableau = $this->getHosts();
+        
+        if ($this->groupes != null) {
+            foreach ($this->groupes as  $groupess) {
+                $groupesR =$repo->find($groupess);
+                foreach ($groupesR->getOrdinateurs() as $tmp){
+                    $i = 0;
+                    foreach($tableau as $tab)
+                    {
+                        if ($tab == $tmp) $i = 1;
+                    }
+                    if ($i ===0)$tableau[] = $tmp;
+                }
+            }
+        }
+       return $tableau;
+    }
+
+    public function serialize() {
         return serialize(array(
-        $this->hosts,$this->dates,
+            $this->hosts, $this->dates,
         ));
     }
 
@@ -103,12 +150,11 @@ class Filtre implements \Serializable{
      * @see \Serializable::unserialize()
      */
     public function unserialize($serialized) {
-       
-        
+
+
         list (
-             $this->hosts,$this->dates,
+                $this->hosts, $this->dates,
                 ) = unserialize($serialized);
     }
-    
-    
+
 }

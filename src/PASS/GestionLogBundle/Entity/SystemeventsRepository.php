@@ -14,10 +14,11 @@ namespace PASS\GestionLogBundle\Entity;
  */
 use Doctrine\ORM\EntityRepository;
 use PASS\GestionLogBundle\Entity\Filtre;
+use PASS\GestionLogBundle\Entity\StatServeur;
 
 class SystemeventsRepository extends EntityRepository  {
 
-     public function getAllLog(Filtre $filtre) {
+     public function getAllLog(Filtre $filtre, $repo) {
         
          $query = $this->createQueryBuilder('systemevent')
                         ->select('systemevent.id,systemevent.devicereportedtime , '
@@ -30,7 +31,7 @@ class SystemeventsRepository extends EntityRepository  {
                        
                         ;
          
-         $test = $filtre->filtrer($query);
+         $test = $filtre->filtrer($query,$repo);
          
          return $test->getQuery()->execute();
     }
@@ -39,6 +40,24 @@ class SystemeventsRepository extends EntityRepository  {
           return $this->createQueryBuilder('systemevent')
                         ->select('systemevent.fromhost')
                         ->addGroupBy('systemevent.fromhost')
+                        ->getQuery()->execute();
+                        ;
+    }
+    
+    public function getlogHost($host){
+        
+          return $this->createQueryBuilder('systemevent')
+                        ->select('systemevent')
+                        ->where("systemevent.fromhost = :nom")
+                        ->setParameter(':nom', $host)
+                        ->getQuery()->execute();
+                        ;
+    }
+    public function getStat(){
+          return $this->createQueryBuilder('systemevent')
+                        ->select('priority.id, count(systemevent)')
+                        ->join('systemevent.priority', 'priority')
+                        ->addGroupBy('priority.id')
                         ->getQuery()->execute();
                         ;
     }

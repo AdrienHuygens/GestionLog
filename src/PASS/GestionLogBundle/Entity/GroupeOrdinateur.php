@@ -4,11 +4,14 @@ namespace PASS\GestionLogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
+
 /**
  * GroupeOrdinateur
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="PASS\GestionLogBundle\Entity\GroupeOrdinateurRepository")
  */
 class GroupeOrdinateur
 {
@@ -137,7 +140,7 @@ class GroupeOrdinateur
      */
     public function setOrdinateurs($ordinateurs)
     {
-        $this->ordinateurs = $ordinateurs;
+        $this->ordinateurs[] = $ordinateurs;
 
         return $this;
     }
@@ -155,6 +158,9 @@ class GroupeOrdinateur
      public function __construct()
     {
         $this->ordinateurs = array();
+    }
+    public function __toString() {
+        return $this->nom;
     }
 
     /**
@@ -179,4 +185,9 @@ class GroupeOrdinateur
     {
         $this->ordinateurs->removeElement($ordinateur);
     }
+    
+    
+   public function getSql(){
+       
+   }
 }

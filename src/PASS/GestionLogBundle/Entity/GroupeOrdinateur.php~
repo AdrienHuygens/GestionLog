@@ -4,6 +4,8 @@ namespace PASS\GestionLogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * GroupeOrdinateur
  *
@@ -154,7 +156,7 @@ class GroupeOrdinateur
     
      public function __construct()
     {
-        $this->ordinateurs = array();
+        $this->ordinateurs = new ArrayCollection();
     }
 
     /**
@@ -179,4 +181,9 @@ class GroupeOrdinateur
     {
         $this->ordinateurs->removeElement($ordinateur);
     }
+    
+    
+   public function getSql(){
+       
+   }
 }

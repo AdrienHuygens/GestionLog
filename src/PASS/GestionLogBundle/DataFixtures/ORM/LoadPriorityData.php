@@ -23,7 +23,7 @@ class LoadPriorityData implements FixtureInterface {
             array(2, 'Critique', "Condition critique",'#FF0000'),
             array(3, 'Erreur', "Condition d'erreur",'#FF8000'),
             array(4, 'Attention', "Condition de detresse",'#FFBF00'),
-            array(5, 'notice', "Message normal mais signaler",'#2E9AFE'),
+            array(5, 'notice', "Message normal mais signaler",'#40FF00'),
             array(6, 'Info', "Message d'information",'#40FF00'),
             array(7, 'Debuf', "Message de debeugage",'#FBEFF5'),
             

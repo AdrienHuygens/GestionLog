@@ -1,13 +1,17 @@
 PASS_AffichageLog:
     path:  /listing
     defaults: { _controller: PASSGestionLogBundle:gestionLog:affichageLog }
+PASS_AffichageStat:
+    path:  /stat
+    defaults: { _controller: PASSGestionLogBundle:statistique:affichageStat }
 
 PASS_Erase:
-    path:  /erase
+    path:  /erase/{l}
     defaults: { _controller: PASSGestionLogBundle:gestionLog:Erase }
-
+    
+       
 PASS_GroupeOrdinateurAdd:
-    path:  /groupeadd
+    path:  /groupeOrdinateur/add
     defaults: { _controller: PASSGestionLogBundle:GroupeOrdinateur:groupeOrdinateurAdd }
     
 PASS_GroupeOrdinateurModification:

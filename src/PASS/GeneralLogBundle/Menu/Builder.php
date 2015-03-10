@@ -31,8 +31,8 @@ class Builder extends ContainerAware
     {
         $menu = $this->factory->createItem('root');
         $menu->setChildrenAttribute('class', ' nav navbar-nav');
-        $menu->addChild('Acceui', array('route' => 'PASS_CreationUtilisateur'));
-        $menu->addChild('Gestion log', array('route' => 'PASS_CreationGroupe'));
+        $menu->addChild('Acceuil', array('route' => 'PASS_CreationUtilisateur'));
+        $menu->addChild('Gestion log', array('route' => 'PASS_AffichageLog'));
         /* 
         $menu->addChild('User',array('uri'=>'#','label'=>'Mon compte ▼'))->setAttribute('class', 'dropdown');
         $menu['User']->setLinkAttribute('class', 'dropdown-toggle');
