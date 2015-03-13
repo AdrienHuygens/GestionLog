@@ -23,7 +23,7 @@ class SystemeventsRepository extends EntityRepository  {
          $query = $this->createQueryBuilder('systemevent')
                         ->select('systemevent.id,systemevent.devicereportedtime , '
                                 . 'systemevent.fromhost, systemevent.message, systemevent.syslogtag,'
-                                . 'priority.nom,priority.couleur, facility.nom as nomf')
+                                . 'priority.nom,priority.couleur,priority.couleurText, facility.nom as nomf')
                         
                         ->join('systemevent.priority', 'priority')
                         ->join('systemevent.facility', 'facility')
@@ -53,13 +53,23 @@ class SystemeventsRepository extends EntityRepository  {
                         ->getQuery()->execute();
                         ;
     }
-    public function getStat(){
-          return $this->createQueryBuilder('systemevent')
-                        ->select('priority.id, count(systemevent)')
+    public function getStat($filtre,$name=null){
+        
+          $em = $this->createQueryBuilder('systemevent')
+                        ->select('priority.id, priority.nom ,count(systemevent)')
                         ->join('systemevent.priority', 'priority')
                         ->addGroupBy('priority.id')
-                        ->getQuery()->execute();
+                        
                         ;
+          if ($name !== null) {
+              
+              foreach ($name as $nom){
+              $em->orWhere ("systemevent.fromhost = '". $nom. "'");
+                }
+              }
+               $filtre->gestionDate($em);
+                        
+                        return $em ->getQuery()->execute();
     }
    
 }

@@ -16,6 +16,7 @@
     <body>
 
         {{app.request.session.set("filtre",null) }}
+         {{app.request.session.set("r",null) }}
         <div id="corp">
 
             <div class="row">
@@ -116,9 +117,10 @@
             <!-- Include all JavaScripts, compiled by Assetic -->
              <script src="{{ asset('js/bootstrap.js') }}"></script>
              
-              {% javascripts '../app/Resources/public/js/*' %}
+              {% javascripts '../app/Resources/public/js/*'output='js/*.js' %}
                 <script src="{{ asset_url }}"></script>
-            {% endjavascripts %}
+           
+                {% endjavascripts %}
 
         {% endblock %}
     </body>

@@ -12,6 +12,7 @@
             <link rel="stylesheet" href="{{ asset_url }}" />
             {% endstylesheets %}
         {% endblock %}
+         <script src="{{ asset('/js/jquery.js') }}"></script>
     </head>
     <body onload="masquer(); filtre2(0)">
     
@@ -82,14 +83,16 @@
 
         </div>
         {% block javascripts %}
-            <script src="{{ asset('js/jquery.js') }}"></script>
-            <!-- Include all JavaScripts, compiled by Assetic -->
-             <script src="{{ asset('js/bootstrap.js') }}"></script>
-               {% javascripts '../app/Resources/public/js/*' %}
-                <script src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-
            
+            <!-- Include all JavaScripts, compiled by Assetic -->
+             <script src="{{ asset('/js/bootstrap.js') }}"></script>
+               
+             {% javascripts '../app/Resources/public/js/*' %}
+                <script src="{{ asset_url }}"></script>
+              
+                {% endjavascripts %}
+                
+                
           
         {% endblock %}
     </body>

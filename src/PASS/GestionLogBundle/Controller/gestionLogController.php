@@ -52,7 +52,7 @@ class gestionLogController extends Controller
          }
          
          
-        if ($this->get('session')->get('filtre') !== null){
+        if ($this->get('session')->get('filtre') !== null && $this->get('session')->get('r') != 'Stat'){
           //$filtre = $session->get('filtre');   
              
          $filtre = $this->get('session')->get('filtre') ;
@@ -77,11 +77,12 @@ class gestionLogController extends Controller
                ->getForm() ;
           $form->handleRequest($request);
             
-        if ($form->isSubmitted() && $form->isValid()) {
+        
                   
           
             $this->get('session')->set('filtre',  $filtre);
-        }
+            $this->get('session')->set('r',  'log');
+        
           $pagination = null;
         
             $tab = $repo->getAllLog($filtre, $repo2);

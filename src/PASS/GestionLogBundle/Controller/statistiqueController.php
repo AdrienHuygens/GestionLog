@@ -26,6 +26,8 @@ class statistiqueController extends Controller
          $repo2 = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\GroupeOrdinateur");
          $groupe= array();
          $temp2 = $repo2->getgroupe();
+         $repo3 = $this->getDoctrine()->getRepository('PASS\GestionLogBundle\Entity\priority');
+         $listNom = $repo3->findAll();
          
          /*$temp3 = new \PASS\GestionLogBundle\Entity\statistiquelog(new Filtre(), $this->getDoctrine());
          $temp3->stat();*/
@@ -38,7 +40,7 @@ class statistiqueController extends Controller
          }
          
          
-        if ($this->get('session')->get('filtre') !== null){
+        if ($this->get('session')->get('filtre') !== null && $this->get('session')->get('r') != 'log' ){
           //$filtre = $session->get('filtre');   
              
          $filtre = $this->get('session')->get('filtre') ;
@@ -63,15 +65,15 @@ class statistiqueController extends Controller
                ->getForm() ;
           $form->handleRequest($request);
             
-        if ($form->isSubmitted() && $form->isValid()) {
-                  
+       
           
             $this->get('session')->set('filtre',  $filtre);
-        }
+            $this->get('session')->set('r', 'Stat');
+        
          
-                $stat = new \PASS\GestionLogBundle\Entity\statistiquelog($filtre,$this->getDoctrine());
+                $stat = new \PASS\GestionLogBundle\Entity\Statistiquelog($filtre,$this->getDoctrine());
                 $resStat = $stat->stat();
-            
+               
            
              
               
@@ -82,7 +84,10 @@ class statistiqueController extends Controller
                     array("titrePage" => "Logs serveur",                       
                          "form" => $form->createView(),
                         'lien' => 'PASS_AffichageStat',
-                        'stats' => $resStat
+                        'stats' => $resStat,
+                        'statArray'=> array(array(array('test',50),array('test2',80)),array(array('test',50),array('test2',80)))
+                        
+                        
                        
                     
             ));

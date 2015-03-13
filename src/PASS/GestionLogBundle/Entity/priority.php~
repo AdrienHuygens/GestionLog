@@ -42,6 +42,12 @@ class priority
      * @ORM\Column(name="couleur", type="string", length=7)
      */
     private $couleur;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="couleurText", type="string", length=7)
+     */
+    private $couleurText;
 
     
      public function setId($id)
@@ -150,5 +156,28 @@ class priority
     public function getSyslogId()
     {
         return $this->syslogId;
+    }
+
+    /**
+     * Set couleurText
+     *
+     * @param string $couleurText
+     * @return priority
+     */
+    public function setCouleurText($couleurText)
+    {
+        $this->couleurText = $couleurText;
+
+        return $this;
+    }
+
+    /**
+     * Get couleurText
+     *
+     * @return string 
+     */
+    public function getCouleurText()
+    {
+        return $this->couleurText;
     }
 }

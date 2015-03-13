@@ -8,6 +8,18 @@ contact adrien.huygens@gmail.com
     Created on : 11-févr.-2015, 10:35:25
     Author     : adrien
 */
+
+
+.rela{
+   //min-height:  400px;
+    float: left;
+    //width: 30%;
+    min-height: 400px;
+    margin: 0px;
+   
+   //background-color: #4c05b7;
+  
+}
 .form-group{
     display:inline-block;
     display:inline;

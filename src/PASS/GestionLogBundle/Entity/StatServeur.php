@@ -29,8 +29,12 @@ class StatServeur  {
     private $nb6 =0;
     
     private $nb7 =0;
+    
+    private $Tableaux;
+    
     function __construct($nomServeur) {
         $this->nomServeur = $nomServeur;
+        $this->Tableaux = array();
     }
 
     
@@ -121,7 +125,7 @@ class StatServeur  {
            // var_dump($tmp);
            $this->setNbLog(intval($ligne['1']));
            $this->$tmp = $ligne['1'];
-          
+           $this->Tableaux[] =  array($ligne['nom'],$ligne['1']);
             //var_dump($ligne['1']);
             
         }
@@ -130,5 +134,9 @@ class StatServeur  {
         
         
     }
+    function getTableaux(){
+        return $this->Tableaux;
+    }
+    
     
 }

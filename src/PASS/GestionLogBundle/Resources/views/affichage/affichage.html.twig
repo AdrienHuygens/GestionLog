@@ -33,8 +33,7 @@
     
     </div></br></div>
                 
-    </div>         
-     <div class="col-lg-12">
+           <div class="col-lg-12">
             <div class="panel panel-info">
                 
                 <div class="panel-heading">
@@ -55,7 +54,7 @@
                                     </tr>
                                 {% for val in listing %}
                                    
-                            <tr style="background-color:{{val.couleur}}">    
+                            <tr style="background-color:{{val.couleur}}; color:{{val.couleurText}}">    
                                 
                                
                                      <td style=" min-width: 13%;"> {{ val.devicereportedtime| date('d-m-Y H:i:s')  }}</td>
@@ -85,8 +84,9 @@
                                {% if listing != null %}
                  {{ knp_pagination_render(listing) }}
                  {% endif %}  
-</div>
+                </div>
         </div>
+    
    
         
 {% endblock %}

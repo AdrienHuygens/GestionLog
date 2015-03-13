@@ -7,7 +7,7 @@ PASS_AffichageStat:
 
 PASS_Erase:
     path:  /erase/{l}
-    defaults: { _controller: PASSGestionLogBundle:gestionLog:Erase }
+    defaults: { _controller: PASSGestionLogBundle:gestionLog:Erase, listingId: 0 }
     
        
 PASS_GroupeOrdinateurAdd:

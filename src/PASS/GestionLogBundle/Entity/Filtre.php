@@ -104,22 +104,25 @@ class Filtre implements \Serializable {
     public function filtrer($query, $repo) {
 
        
-        foreach ( $this->hostSql($query, $repo) as $hosts) {
+        foreach ( $this->hostSql($repo) as $hosts) {
 
 
             $query->orWhere("systemevent.fromhost ='" . $hosts . "'");
             
             //->setParameter('hosts', $hosts);
         }
+        $this->gestionDate($query);
         
+        return $query;
+    }
+    public function gestionDate($query){
         if (isset($this->dates) && $this->dates->getSigne() !== null) {
 
             $query->andWhere($this->dates->getSql());
         }
-        return $query;
     }
 
-    public function hostSql($query, $repo) {
+    public function hostSql($repo) {
         $tableau = array();
         
         $tableau = $this->getHosts();
