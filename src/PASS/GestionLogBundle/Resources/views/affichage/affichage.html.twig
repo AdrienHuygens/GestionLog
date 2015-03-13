@@ -1,0 +1,92 @@
+{% extends "::base2.html.twig" %}
+
+{% block titrePage %}
+            {{ titrePage }} {% endblock %}
+
+
+
+{% block contenu %}
+    <div class="rowBottom rowLeft">
+  <button id='btn'type="button" class="btn btn-default" onClick='filtre()'  >
+    Mettre un filtre
+  </button>
+    </div>
+    <div id='filtre'class="rowBottom col-lg-12" style='display:"";'>
+      {{ form_start(form) }}
+      
+                 <div class="col-lg-3" >
+                  Ordinateur:{{ form_widget(form.hosts) }}
+                 </div>
+                 <div class="col-lg-4"> type de filtre:{{ form_widget(form.dates.signe , { 'attr': {'onChange':'masquer()'}  })  }}
+                 
+                     <div id="d1"class="d"> Date:{{ form_widget(form.dates.date1) }}</div>
+                     <div id="d2" class="d"> Date 2: {{ form_widget(form.dates.date2) }}</div>
+                 
+                 </div>
+                        <div class="col-lg-3" >
+                  Groupe d'ordinateur:{{ form_widget(form.groupes) }}
+                 </div>
+                 
+                 <br/>
+                 {{ form_widget(form._token) }}
+                 <div class="col-lg-6 test" >{{ form_row(form.Enregistrer)  }}<a href="{{ path('PASS_Erase',{'l':lien}) }}"> {{ form_row(form.Reset)  }} </a>{{ form_row(form.up, { 'attr': {'onClick':'filtre2(1)'}  })  }} 
+    
+    </div></br></div>
+                
+           <div class="col-lg-12">
+            <div class="panel panel-info">
+                
+                <div class="panel-heading">
+                
+                </div>
+                {% if listing != null %}
+                <div class="panel-body">
+                   
+                      
+                       <table class="table col-lg-6 ">
+                                <tr>
+                                    <th> Date </th>
+                                    <th> Prioriter </th>
+                                    <th> Type </th>
+                                    <th> Hôte </th>
+                                    <th> Message </th>
+                                    <th> Tag </th>
+                                    </tr>
+                                {% for val in listing %}
+                                   
+                            <tr style="background-color:{{val.couleur}}; color:{{val.couleurText}}">    
+                                
+                               
+                                     <td style=" min-width: 13%;"> {{ val.devicereportedtime| date('d-m-Y H:i:s')  }}</td>
+                                      <td> {{ val.nom| raw  }}</td>
+                                     <td> {{ val.nomf| raw  }}</td>
+                                    <td> {{ val.fromhost| raw  }}</td>
+                                     <td> {{ val.message| raw  }}</td>
+                                       <td> {{ val.syslogtag| raw  }}</td>
+                                
+                                       
+                            </tr>
+                                   {% endfor %}    
+                        </table>
+                        {% else %}
+                            
+                            <h3> Pas de log en base de donnée</h3>
+                            
+                         {% endif %}  
+                            
+                       
+                   
+                    
+                </div>
+                      
+            </div>
+                          <div class="navigation text-center">
+                               {% if listing != null %}
+                 {{ knp_pagination_render(listing) }}
+                 {% endif %}  
+                </div>
+        </div>
+    
+   
+        
+{% endblock %}

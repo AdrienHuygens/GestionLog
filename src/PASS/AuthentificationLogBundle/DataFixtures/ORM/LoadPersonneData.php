@@ -1,0 +1,66 @@
+<?php
+
+/*
+ * Copyright 2015 Version 1.0.0
+ * Pour le Pass, projet gestion de log.
+ * @author Huygens Adrien
+ * contact adrien.huygens@gmail.com
+ */
+
+namespace PASS\AuthentificationLogBundle\DataFixtures\ORM;
+
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use PASS\GestionLogBundle\Entity\facility;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+
+class LoadPersonneData implements \Doctrine\Common\DataFixtures\FixtureInterface, ContainerAwareInterface {
+
+     private $container;
+/**
+* {@inheritDoc}
+*/
+public function setContainer(ContainerInterface $container = null) {
+$this->container = $container;
+}
+    
+    
+    public function load(ObjectManager $manager) {
+
+        $tab = array(
+            array(0, 'adrien', 'abcde',true,false,'Admin'),
+            
+        );
+        
+        
+            $groupe = new \PASS\AuthentificationLogBundle\Entity\Groupe();
+            $groupe->setNom('admin');
+            $groupe->setLdap('false');
+            $groupe->setRole('ROLE_ADMIN');
+            $groupe->setActif(true);
+            $manager->persist($groupe);
+        foreach ($tab as $newTab) {
+            $type = new \PASS\AuthentificationLogBundle\Entity\Personne();
+            $type->setActif($newTab[3]);
+            $type->setLdap($newTab[4]);
+            
+             $encoder = $this->container
+                ->get('security.encoder_factory')
+                ->getEncoder($type);
+
+            $type->setMdp($encoder->encodePassword($newTab[2],$type->getSalt()));
+            //$type->setMdp($newTab[2]);
+            $type->setUsername($newTab[1]);
+            
+            $type->addGroupe($groupe);
+            $manager->persist($type);
+        }
+        $manager->flush();
+    }
+
+    public function getOrder() {
+        return 1;
+    }
+
+}

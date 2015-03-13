@@ -1,0 +1,149 @@
+{% extends "::base2.html.twig" %}
+
+{% block titrePage %}
+    {{ titrePage }} {% endblock %}
+
+
+
+    {% block contenu %}
+        <div class="rowBottom rowLeft">
+            <button id='btn'type="button" class="btn btn-default" onClick='filtre()'  >
+                Mettre un filtre
+            </button>
+        </div>
+        <div id='filtre'class="rowBottom col-lg-12 col-md-12" style='display:"";'>
+            {{ form_start(form) }}
+
+            <div class="col-lg-3 col-md-3" >
+                Ordinateur:{{ form_widget(form.hosts) }}
+            </div>
+            <div class="col-lg-4 col-md-4"> type de filtre:{{ form_widget(form.dates.signe , { 'attr': {'onChange':'masquer()'}  })  }}
+
+                <div id="d1"class="d"> Date:{{ form_widget(form.dates.date1) }}</div>
+                <div id="d2" class="d"> Date 2: {{ form_widget(form.dates.date2) }}</div>
+
+            </div>
+            <div class="col-lg-3 col-md-3" >
+                Groupe d'ordinateur:{{ form_widget(form.groupes) }}
+            </div>
+
+            <br/>
+            {{ form_widget(form._token) }}
+            <div class="col-lg-6 test col-md-6" >{{ form_row(form.Enregistrer)  }}<a href="{{ path('PASS_Erase',{'l':lien}) }}"> {{ form_row(form.Reset)  }} </a>{{ form_row(form.up, { 'attr': {'onClick':'filtre2(1)'}  })  }} 
+
+            </div></br></div>
+
+        <script src="/js2/js/highcharts.js"></script>
+        <script src="/js2/js/modules/exporting.js"></script>
+        <script>
+             Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
+                      return {
+                      radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+                              stops: [
+                                      [0, color],
+                                      [1, Highcharts.Color(color).brighten( - 0.3).get('rgb')] // darken
+                              ]
+                      };
+                      });
+            </script>
+
+        <div class='element'>
+            {% for listing in stats %}  
+                <script>
+                      $(function () {
+
+                      // Radialize the colors
+                     
+                              // Build the chart
+                              $('#{{loop.index}}').highcharts({
+                      chart: {
+                      plotBackgroundColor: null,
+                              plotBorderWidth: null,
+                              plotShadow: false
+                      },
+                              navigation: {
+                              buttonOptions: {
+                              enabled: false
+                              }
+                              },
+                              title: null,
+                              tooltip: {
+                              pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                              },
+                              plotOptions: {
+                              pie: {
+                              allowPointSelect: true,
+                                      cursor: 'pointer',
+                                      ddataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                              }
+                              },
+                              series: [{
+                              type: 'pie',
+                                      name: 'Browser share',
+                                      data:{{ listing.Tableaux|json_encode|raw }}
+
+
+                              }]
+                      });
+                              });
+
+                </script>
+
+                <div class="col-lg-6 col-md-6 rela">
+
+
+
+
+                    <div class="panel panel-info">
+                        <div class="panel-heading"> 
+                            <h3> {{   listing.nomServeur }} </h3>  
+                        </div>  
+
+
+                        Quelque chiffre:  
+
+                        <div class="panel-body">
+                            <div class="col-lg-4 ">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th> Type d'erreur</th>
+                                        <th> Nombre d'erreur </th>
+                                    </tr>
+                                    {% for value in listing.Tableaux  %} 
+
+                                        <tr>
+
+                                            <td>{{   value[0] }}</td>
+                                            <td>{{   value [1] }}</td>
+
+                                        {% endfor %}
+                                    </tr>
+                                </table> 
+
+                            </div>
+                            <div class="col-lg-8">
+
+                                <div id="{{loop.index}}" style="width:100%; height:400px;"></div>  
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+            {% endfor %}
+
+
+
+
+
+
+
+        </div>
+    {% endblock %}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Le PASS Gestion de log{% endblock %}</title>
+
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    
+        {% block stylesheets %}
+            <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" media="screen" />
+            {% stylesheets '../app/Resources/public/css/*' filter='cssrewrite'  output='css/style.css' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+        {% endblock %}
+         <script src="{{ asset('/js/jquery.js') }}"></script>
+    </head>
+    <body onload="masquer(); filtre2(0)">
+    
+
+        <div id="corp">
+
+            <div class="row">
+                <div class="col-md-12" id="logo"></div>
+            </div>
+
+            <div class="row " id="contenu">
+          
+                
+
+                   
+                   
+                  
+                    <nav class="navbar navbar-default ">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-9">
+                            <div class="container"> 
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                    <a class="navbar-brand" href="#">Gestion de log </a>
+                                </div>
+                                <div id="navbar" class="navbar-collapse collapse">
+                                   <ul class="nav navbar-nav">
+                                       <li> {{ knp_menu_render('breadcrumb',{'currentAsLink':false}) }}</li>
+                                 
+                                   </ul>
+                                </div><!--/.nav-collapse -->
+                            </div>
+                                </div>
+                        </nav>
+                   
+                   
+                       
+
+
+
+                 
+                  <div class="col-md-12">
+                 <h1>{% block titrePage %}Bienvenu(e) !{% endblock %}</h1>
+                  </div>
+               
+                
+               
+                    
+                <div class="col-md-12">
+                   
+                    <br />
+                    {% block contenu %}<p>Contenu</p>{% endblock %}
+                </div>
+            
+               
+            </div>   
+              
+            <div class="row row2">
+                <div class="col-xs-12" id="pied">
+
+                </div>
+            </div>
+
+        </div>
+        {% block javascripts %}
+           
+            <!-- Include all JavaScripts, compiled by Assetic -->
+             <script src="{{ asset('/js/bootstrap.js') }}"></script>
+               
+             {% javascripts '../app/Resources/public/js/*' %}
+                <script src="{{ asset_url }}"></script>
+              
+                {% endjavascripts %}
+                
+                
+          
+        {% endblock %}
+    </body>
+</html>

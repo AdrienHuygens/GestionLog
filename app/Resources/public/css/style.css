@@ -1,0 +1,182 @@
+/*
+Copyright 2015 Version 1.0.0
+Pour le Pass, projet gestion de log.
+@author Huygens Adrien
+contact adrien.huygens@gmail.com
+*/
+/* 
+    Created on : 11-févr.-2015, 10:35:25
+    Author     : adrien
+*/
+
+
+.rela{
+   //min-height:  400px;
+    float: left;
+    //width: 30%;
+    min-height: 400px;
+    margin: 0px;
+   
+   //background-color: #4c05b7;
+  
+}
+.form-group{
+    display:inline-block;
+    display:inline;
+    
+}
+.btn150{
+    min-width:150px;
+}
+.navigation{
+    margin: auto;
+}
+
+.col-md-3{
+    padding-left: 2px;
+    padding-top: 10px;
+}
+
+pre{
+    border:0px;
+    padding: 4px;
+}
+.row{
+    margin-left: 30px;
+    margin-right: 15px;
+    margin-top: 15px;
+    
+}
+
+.row2{
+    margin-left: 0px;
+     margin-right: 0px;
+     margin-bottom: 1px;
+}
+.rowBottom{
+    
+     margin-bottom: 5px;
+     padding-bottom: 5px;
+}
+.rowLeft{
+    margin-left: 15px;
+}
+.aligner{
+   
+   
+    display: inline;
+    float: right; 
+}
+#corp{
+     margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 15px;
+    
+    border: 3px blueviolet inset;
+    border-radius: 20px;
+
+}
+
+#logo{
+    background-image: url(/images/pass_logo5.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: white;
+    //background-color: #ff00ff;
+    height: 100px;
+    
+}
+.center{
+    
+    //padding-left: 23%;
+    margin-left: 10%
+   
+}
+.center2{
+    
+    padding-left: 25px;
+    //margin-left: 10%
+   
+}
+
+
+.center2 a{
+   
+    color: #4c05b7;
+    text-decoration: none;
+
+}
+#pied{
+
+background:url(/images/pied.svg);
+
+height: 50px;
+//background-size: contain;
+background-size: cover;
+background-repeat: no-repeat;
+
+
+}
+
+.nav-pills li.active a:focus {
+    background-color: blueviolet;
+    color: #ffffff;
+}
+.current{
+    
+    background-color:#79919d;
+    color: #ffffff;
+   
+}
+.current>span{
+     display: block;
+     position: relative;
+     padding: 15px;
+     color: #4c05b7;
+}
+
+#menuGauche{
+display: block;
+background-image:url(/images/corp.svg);
+
+background-size: 99% 100%;
+//background-size: contain;
+
+background-repeat: no-repeat;
+//padding-left: 10px;
+padding-top: 10px;
+padding-bottom: 10px;
+margin-bottom: 10px;
+
+}
+
+
+#contenu{
+
+}
+#contenu p{
+font: 15px Trebuchet, Arial, Helvetica, sans-serif;
+color:#707173;
+line-height: 19px;
+text-align:justify;
+}
+#contenu h1{
+padding-top: 15px;
+font: bold 20px Trebuchet, Arial, Helvetica, sans-serif;
+color: #d4006b;
+border-bottom: 1px dotted #b7b7b7;
+margin:0;
+text-transform: none;
+}
+#contenu h2{
+font: bold 15px Trebuchet, Arial, Helvetica, sans-serif;
+color:#d4006b;
+border-bottom: 1px dotted #b7b7b7;
+margin:0;
+}
+#contenu h3{
+font: bold 15px Trebuchet, Arial, Helvetica, sans-serif;
+color:#4c05b7;
+border-bottom: 1px dotted #bf00ff;
+margin:0;
+}

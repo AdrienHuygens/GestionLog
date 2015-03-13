@@ -31,8 +31,8 @@ class Builder extends ContainerAware
     {
         $menu = $this->factory->createItem('root');
         $menu->setChildrenAttribute('class', ' nav navbar-nav');
-        $menu->addChild('Acceui', array('route' => 'PASS_CreationUtilisateur'));
-        $menu->addChild('Gestion log', array('route' => 'PASS_CreationGroupe'));
+        $menu->addChild('Acceuil', array('uri' => '#'));
+        $menu->addChild('Gestion log', array('route' => 'PASS_AffichageLog'));
         /* 
         $menu->addChild('User',array('uri'=>'#','label'=>'Mon compte ▼'))->setAttribute('class', 'dropdown');
         $menu['User']->setLinkAttribute('class', 'dropdown-toggle');
@@ -44,19 +44,20 @@ class Builder extends ContainerAware
                 $menu['User']->setChildrenAttribute('class', 'dropdown-menu')->addChild('Profile', array('uri' => '#'))->setAttribute('divider_append', true);
                 $menu['User']->addChild('Déconnexion', array('uri' => '#'));
                 */
-         
+        
         $menu->addChild('Admin',array('uri'=>'#','label'=>'Administration ▼'))->setAttribute('class', 'dropdown');
         $menu['Admin']->setLinkAttribute('class', 'dropdown-toggle');
          $menu['Admin']->setLinkAttribute('role', 'button');
           $menu['Admin']->setLinkAttribute('data-toggle', 'dropdown');
            $menu['Admin']->setChildrenAttribute('role', 'menu');
            
-          $menu['Admin']->setChildrenAttribute('class', 'dropdown-menu')->addChild('Gestion Utilisateur', array('uri' => '#'))->setAttribute('divider_append', true);
-          $menu['Admin']->addChild('Gestion Groupe', array('uri' => '#'));
+          $menu['Admin']->setChildrenAttribute('class', 'dropdown-menu')->addChild('Gestion Utilisateur', array('route' => 'PASS_GestionUtilisateur'))->setAttribute('divider_append', true);
+          $menu['Admin']->addChild('Gestion Groupe', array('route' => 'PASS_GestionGroupe'));
+          $menu['Admin']->addChild('Gestion Groupe D\'ordinateur', array('route' => 'PASS_GroupeOrdinateurAdd'));
           $menu['Admin']->addChild('Gestion Role', array('uri' => '#'));
-             
+          $menu['Admin']->addChild('Statistique', array('route' => 'PASS_AffichageStat'));   
           
-       $menu->addChild('Configuration', array('route' => 'PASS_CreationGroupe'));
+       $menu->addChild('Configuration', array('uri' => '#'));
        
        
         $menu->addChild('User',array('uri'=>'#','label'=>'Mon compte ▼'))->setAttribute('class', 'dropdown ');
@@ -66,9 +67,13 @@ class Builder extends ContainerAware
            $menu['User']->setChildrenAttribute('role', 'menu');
       
            
-                $menu['User']->setChildrenAttribute('class', 'dropdown-menu')->addChild('Profile', array('uri' => '#'))->setAttribute('divider_append', true);
-                $menu['User']->addChild('Déconnexion', array('uri' => '#'));
-        // access services from the container!
+                $menu['User']->setChildrenAttribute('class', 'dropdown-menu')->addChild('Profile', array('route' => 'PASS_MonCompte'))->setAttribute('divider_append', true);
+                $menu['User']->addChild('Déconnexion', array('route' => 'logout'));
+        
+   
+       
+       // access services from the container!
+       
         //$em = $this->container->get('doctrine')->getManager();
         // findMostRecent and Blog are just imaginary examples
        // $blog = $em->getRepository('AppBundle:Blog')->findMostRecent();

@@ -8,14 +8,15 @@
     
         {% block stylesheets %}
             <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" media="screen" />
-            {% stylesheets '../app/Resources/css/*' filter='cssrewrite'  output='css/style.css' %}
+            {% stylesheets '../app/Resources/public/css/*' filter='cssrewrite'  output='css/style.css' %}
             <link rel="stylesheet" href="{{ asset_url }}" />
             {% endstylesheets %}
         {% endblock %}
     </head>
     <body>
-    <body>
 
+        {{app.request.session.set("filtre",null) }}
+         {{app.request.session.set("r",null) }}
         <div id="corp">
 
             <div class="row">
@@ -115,7 +116,12 @@
             <script src="{{ asset('js/jquery.js') }}"></script>
             <!-- Include all JavaScripts, compiled by Assetic -->
              <script src="{{ asset('js/bootstrap.js') }}"></script>
-          
+             
+              {% javascripts '../app/Resources/public/js/*'output='js/*.js' %}
+                <script src="{{ asset_url }}"></script>
+           
+                {% endjavascripts %}
+
         {% endblock %}
     </body>
 </html>
