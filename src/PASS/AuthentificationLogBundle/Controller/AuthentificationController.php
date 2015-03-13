@@ -131,8 +131,8 @@ class AuthentificationController extends Controller {
     /**
      * function pour la vérification de connexion.
      */
-    public function loginAction() {
-        $request = $this->getRequest();
+    public function loginAction(Request $request) {
+        var_dump($request);
         $session = $request->getSession();
 // get the login error if there is one
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {

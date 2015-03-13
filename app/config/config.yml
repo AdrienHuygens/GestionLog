@@ -47,7 +47,7 @@ assetic:
         cssrewrite: ~
         less:
            node: /usr/bin/nodejs
-           node_paths: [/usr/local/lib/node_modules]
+           node_paths: [/usr/lib/node_modules]
            #file: %kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php
            apply_to: "\.less$"
         #closure:
