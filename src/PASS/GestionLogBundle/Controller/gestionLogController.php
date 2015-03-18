@@ -40,6 +40,9 @@ class gestionLogController extends Controller
          $repo2 = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\GroupeOrdinateur");
          $groupe= array();
          $temp2 = $repo2->getgroupe();
+         $repo3 = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\priority");
+         $priority= array();
+         $temp3 = $repo3->getPriority();
          
          /*$temp3 = new \PASS\GestionLogBundle\Entity\statistiquelog(new Filtre(), $this->getDoctrine());
          $temp3->stat();*/
@@ -50,6 +53,10 @@ class gestionLogController extends Controller
          foreach($temp2 as $grp){
              $groupe[$grp['id']]= $grp['nom'];
          }
+         foreach($temp3 as $prio){
+             $priority[$prio['id']]= $prio['nom'];
+         }
+         
          
          
         if ($this->get('session')->get('filtre') !== null && $this->get('session')->get('r') != 'Stat'){
@@ -71,6 +78,7 @@ class gestionLogController extends Controller
                ->add('hosts','choice',array('choices'=>$host,'multiple' => true,'required' => false ))
                ->add('dates',new DateType())
                ->add('groupes','choice',array('choices'=>$groupe,'multiple' => true,'required' => false ))
+               ->add('priority','choice',array('choices'=>$priority,'multiple' => true,'required' => false ))
                ->add('Enregistrer','submit')
                ->add('up','button')
                ->add('Reset','button')

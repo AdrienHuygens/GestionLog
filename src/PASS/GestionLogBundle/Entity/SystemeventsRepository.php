@@ -56,7 +56,7 @@ class SystemeventsRepository extends EntityRepository  {
     public function getStat($filtre,$name=null){
         
           $em = $this->createQueryBuilder('systemevent')
-                        ->select('priority.id, priority.nom ,count(systemevent)')
+                        ->select('priority.id, priority.nom, priority.couleur ,count(systemevent)')
                         ->join('systemevent.priority', 'priority')
                         ->addGroupBy('priority.id')
                         

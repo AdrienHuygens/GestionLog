@@ -158,6 +158,7 @@ class GroupeOrdinateur
      public function __construct()
     {
         $this->ordinateurs = array();
+        $this->actif = true;
     }
     public function __toString() {
         return $this->nom;

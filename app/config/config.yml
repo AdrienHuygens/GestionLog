@@ -25,6 +25,8 @@ framework:
     fragments:       ~
     http_method_override: true
     translator: { fallback: fr }
+    
+    
 knp_menu:
     twig:
         template: knp_menu.html.twig
@@ -106,3 +108,22 @@ knp_paginator:
     template:
         pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig     # sliding pagination controls template
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
+
+    
+pass_authentification_log:
+    settings:
+        server: 192.168.100.37
+        port: 389 or 636
+        account_suffix : employeeNumber 
+        base_dn : OU=users,dc=admin,dc=pass,dc=be
+        # The attribut you want your user Class to have
+    settings_user:
+        FullName: cn
+        # The redirection after login based on the ROLE
+    user_redirects: 
+        ROLE_USER: user_home
+        ROLE_ADMIN: admin_home
+        # Name of the user class
+    user_class: PASS\AuthentificationlogBundle\Entity\Personne
+        #if the user is not registered in that database or is not registered as valid in the database he will have the default role
+    default_role: ROLE_USER

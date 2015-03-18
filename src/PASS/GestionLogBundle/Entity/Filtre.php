@@ -17,10 +17,17 @@ class Filtre implements \Serializable {
     private $hosts;
     private $dates;
     private $groupes;
+    private $priority;
+    
+    
+    
+    
+   
 
-    public function __construct() {
+        public function __construct() {
         $this->groupes = new ArrayCollection();
         $this->hosts = new ArrayCollection();
+        $this->priority = new ArrayCollection();
     }
 
     public function getHosts() {
@@ -39,6 +46,15 @@ class Filtre implements \Serializable {
             $tab[] = $groupe;
         }
        }
+        return $tab;
+    }
+    function getPriority() {
+        $tab = array();
+         if ($this->groupes != null) {
+        foreach ($this->priority as $prio) {
+            $tab[] = $prio;
+        }
+         }
         return $tab;
     }
 
@@ -69,7 +85,7 @@ class Filtre implements \Serializable {
         $tab = new ArrayCollection();
 
         foreach ($this->groupes as $groupee) {
-            if ($groupee != $groupe)
+            if ($groupee !== $groupe)
                 $tab[] = $groupee;
         }
         $this->groupes = $tab;
@@ -90,6 +106,23 @@ class Filtre implements \Serializable {
         // $this->hosts->removeElement($host);
         // $this->hosts[] = $host;
     }
+    public function removePriority($priority) {
+        $tab = new ArrayCollection();
+
+        foreach ($this->priority as $prio) {
+            if ($prio !== $priority)
+                $tab[] = $prio;
+        }
+        $this->groupes = $tab;
+        //$this->groupes->removeElement($groupe);
+    }
+    
+     
+
+    function setPriority($priority) {
+        $this->priority[] = $priority;
+    }
+    
 
     public function addDate($date) {
 

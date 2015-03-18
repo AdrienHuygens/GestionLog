@@ -16,7 +16,7 @@ class DateType extends AbstractType
     {
         $builder
             
-            ->add('signe','choice',array("choices"=>array('='=>'=','<'=>'<','between' =>'entre'),'required' => false))
+            ->add('signe','choice',array("choices"=>array('='=>'=','<'=>'<','between' =>'entre'),'required' => false, 'empty_value' => 'Désactivé'))
             ->add('date1','datetime', array('required' => true, 'years'=>range(2015,2030)))
              ->add('date2','datetime', array('required' => true,'years'=>range(2015,2030) ))
             

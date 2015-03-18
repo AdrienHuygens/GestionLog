@@ -1,12 +1,16 @@
+services:
+    time_authenticator:
+        class:     PASS\AuthentificationLogBundle\Security\TimeAuthenticator
+        arguments: ["@security.password_encoder"]
+
 security:
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
         PASS\AuthentificationLogBundle\Entity\Personne: sha512
     providers:
-        pass_provider:
-            id: pass_auth_user_provider
+        
         database:
-            entity: { class: PASSAuthentificationLogBundle:Personne, property: username }
+            entity: { class: PASSAuthentificationLogBundle:Personne, property: username}
         in_memory:
             memory: ~
             
@@ -16,24 +20,19 @@ security:
 
     firewalls:
         
-        login:
-            pattern:  ^/demo/secured/login$
-            security: false
-        secured_area:
-            pattern:    ^/demo/secured/
-            webservice-login:
-                check_path: /demo/secured/login_check
-                login_path: /demo/secured/login
-                provider: pass_provider
-            logout:
-                path:   /demo/secured/logout
-                target: /demo/
+        
+        
                 
         auth_area:
+            
             pattern: ^/(login_check|auth/|logout)
-            form_login:
-                login_path: login
-                check_path: /login_check
+            simple_form:
+            #form_login:    
+                authenticator: time_authenticator
+                provider: database
+                
+                #csrf_provider: form.csrf_provider
+                
                 
             logout:
                 path: /logout
@@ -48,6 +47,5 @@ security:
          
         default:
             anonymous: ~
-            
-            
+         
     

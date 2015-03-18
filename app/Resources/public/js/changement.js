@@ -9,26 +9,26 @@
 function masquer(){
    
     if (document.getElementById("form_dates_signe").value == "<"){
-    document.getElementById("d1").style.visibility = "visible";
-    document.getElementById("d2").style.visibility = "hidden";
+    document.getElementById("d1").style.display = "";
+    document.getElementById("d2").style.display = "none";
     
     
     }
     else if (document.getElementById("form_dates_signe").value == "="){
-    document.getElementById("d1").style.visibility = "visible";
-    document.getElementById("d2").style.visibility = "hidden";
+    document.getElementById("d1").style.display = "";
+    document.getElementById("d2").style.display = "none";
     
     
     }
     else if (document.getElementById("form_dates_signe").value =="between"){
-    document.getElementById("d1").style.visibility = "visible";
-    document.getElementById("d2").style.visibility = "visible";
+    document.getElementById("d1").style.display = "";
+    document.getElementById("d2").style.display = "";
     
     
     }
     else {
-    document.getElementById("d1").style.visibility = "hidden";
-    document.getElementById("d2").style.visibility = "hidden";
+    document.getElementById("d1").style.display = "none";
+    document.getElementById("d2").style.display = "none";
     }
     
 }

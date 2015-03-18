@@ -8,8 +8,12 @@ contact adrien.huygens@gmail.com
     Created on : 11-févr.-2015, 10:35:25
     Author     : adrien
 */
-
-
+.topPadding{
+    padding-top: 10px;
+}
+.topPaddingV{
+    padding-top: 20px;
+}
 .rela{
    //min-height:  400px;
     float: left;

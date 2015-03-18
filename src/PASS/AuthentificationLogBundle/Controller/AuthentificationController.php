@@ -145,10 +145,11 @@ class AuthentificationController extends Controller {
 
     public function okAction() {
         $em = $this->getDoctrine()->getManager();
-
+        
+        /*
         $this->getUser()->setDernierConnexion(new \DateTime());
         $em->persist($this->getUser());
-        $em->flush();
+        $em->flush();*/
         return $this->render("PASSAuthentificationLogBundle:authentification:ok.html.twig", Array(
                     'titrePage' => 'Connexion effectué',
                     'good' => null));
@@ -272,5 +273,5 @@ class AuthentificationController extends Controller {
                'id' => $personneId->getId()
         ));
     }
-
+   
 }

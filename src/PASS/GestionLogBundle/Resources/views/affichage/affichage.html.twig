@@ -11,27 +11,34 @@
     Mettre un filtre
   </button>
     </div>
-    <div id='filtre'class="rowBottom col-lg-12" style='display:"";'>
-      {{ form_start(form) }}
-      
-                 <div class="col-lg-3" >
-                  Ordinateur:{{ form_widget(form.hosts) }}
-                 </div>
-                 <div class="col-lg-4"> type de filtre:{{ form_widget(form.dates.signe , { 'attr': {'onChange':'masquer()'}  })  }}
-                 
-                     <div id="d1"class="d"> Date:{{ form_widget(form.dates.date1) }}</div>
-                     <div id="d2" class="d"> Date 2: {{ form_widget(form.dates.date2) }}</div>
-                 
-                 </div>
-                        <div class="col-lg-3" >
-                  Groupe d'ordinateur:{{ form_widget(form.groupes) }}
-                 </div>
-                 
-                 <br/>
-                 {{ form_widget(form._token) }}
-                 <div class="col-lg-6 test" >{{ form_row(form.Enregistrer)  }}<a href="{{ path('PASS_Erase',{'l':lien}) }}"> {{ form_row(form.Reset)  }} </a>{{ form_row(form.up, { 'attr': {'onClick':'filtre2(1)'}  })  }} 
-    
-    </div></br></div>
+    <div id='filtre'class="rowBottom col-lg-12 col-md-12" style='display:"";'>
+            {{ form_start(form) }}
+
+            <div class="col-lg-3 col-md-3" >
+                Ordinateur:{{ form_widget(form.hosts) }}
+            </div>
+           
+            <div class="col-lg-3 col-md-3" >
+                Groupe d'ordinateur:{{ form_widget(form.groupes) }}
+            </div>
+            
+            <div class="col-lg-3 col-md-3" >
+                Groupe d'ordinateur:{{ form_widget(form.priority) }}
+            </div>
+
+                <div class="col-lg-4 col-md-6 "> Date:{{ form_widget(form.dates.signe , { 'attr': {'onChange':'masquer()'} })  }}
+
+                <div id="d1"class="d"> Date:{{ form_widget(form.dates.date1) }}</div>
+                <div id="d2" class="d"> Date 2: {{ form_widget(form.dates.date2) }}</div>
+
+            </div>
+            <br/>
+            <br/>
+            
+            {{ form_widget(form._token) }}
+            <div class="col-lg-6 test col-md-6 topPaddingV" >{{ form_row(form.Enregistrer)  }}<a href="{{ path('PASS_Erase',{'l':lien}) }}"> {{ form_row(form.Reset)  }} </a>{{ form_row(form.up, { 'attr': {'onClick':'filtre2(1)'}  })  }} 
+
+            </div></br></div>
                 
            <div class="col-lg-12">
             <div class="panel panel-info">
