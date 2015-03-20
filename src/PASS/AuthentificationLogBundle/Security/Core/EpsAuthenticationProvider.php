@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Authentication\Provider\UserAuthenticationProvider;
 use PASS\AuthentificationLogBundleBundle\Service\Service;
  
-class EpsAuthenticationProvider extends UserAuthenticationProvider
+class EpsAuthenticationProvider extends UserAuthenticationProvider 
 {
     private $encoderFactory;
     private $userProvider;
@@ -33,7 +33,7 @@ class EpsAuthenticationProvider extends UserAuthenticationProvider
      * @param EncoderFactoryInterface $encoderFactory
      * @param bool $hideUserNotFoundExceptions
      */
-    public function __construct( $service, UserProviderInterface $userProvider, UserCheckerInterface $userChecker, $providerKey, EncoderFactoryInterface $encoderFactory, $hideUserNotFoundExceptions = true)
+    public function __construct($service, UserProviderInterface $userProvider, UserCheckerInterface $userChecker, $providerKey, EncoderFactoryInterface $encoderFactory, $hideUserNotFoundExceptions = true)
     {
         parent::__construct($userChecker, $providerKey, $hideUserNotFoundExceptions);
         $this->encoderFactory   = $encoderFactory;

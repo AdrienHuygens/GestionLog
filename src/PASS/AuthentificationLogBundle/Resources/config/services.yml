@@ -21,4 +21,4 @@ services:
         class: %security.authentication.provider.pass_service.class%
         abstract: true
         public: false
-        arguments: [@pass_auth_webservice, @security.user_checker,@security.encoder_factory,security.authentication.hide_user_not_found]
+        arguments: [@pass_auth_webservice, @security.user_checker, @security.user_checker,@security.encoder_factory,security.authentication.hide_user_not_found]
