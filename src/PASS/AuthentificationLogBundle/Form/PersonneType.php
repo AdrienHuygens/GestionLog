@@ -27,6 +27,7 @@ class PersonneType extends AbstractType
             //->add('dernierConnexion')
            // ->add('ldap')
             //->add('actif',null,array("label"=>"Compte utilisateur actif?", "action"=>'checked'))
+                ->add('mail')
             ->add('groupes',null,array("label"=> "Groupe (control + click souri pour multi-selection):") )
              ->add('Enregistrer','submit')
             

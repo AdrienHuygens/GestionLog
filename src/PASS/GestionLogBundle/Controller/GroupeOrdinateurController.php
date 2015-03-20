@@ -80,6 +80,23 @@ class GroupeOrdinateurController extends Controller
     }
 
         
-    
+     public function groupeOrdinateurListingAction($listingId) {
+        if ($listingId != 0) {
+            
+            $groupe = $this->getDoctrine()->getRepository("PASSGestionLogBundle:GroupeOrdinateur")->find($listingId);
+
+            return $this->render('PASSGeneralLogBundle:form:recapitulatif.html.twig', Array(
+                        'titrePage' => 'Gestion d\'un Groupe d\'ordinateur', 'groupe' => $groupe->resumer(), 'nom' => $groupe->getNom(),
+                        'activiter' => " Information sur l'utilisateur", 'lien' => 'PASS_GroupeOrdinateurModification', 'id' => $listingId
+            ));
+        } else {
+            $repoJeune = $this->getDoctrine()->getRepository("PASSGestionLogBundle:GroupeOrdinateur");
+            $tab = $repoJeune->getNameGroupe();
+
+            return $this->render("PASSGeneralLogBundle:form:listing.html.twig", array("titrePage" => "Listing des groupes D'ordinateur", "activite" => 'groupe',
+                        "tab" => $tab, 'chemin' => "PASS_GroupeOrdinateurListing"
+            ));
+        }
+    }
     
 }

@@ -68,6 +68,7 @@
                     <div id="menuGauche" style="padding-left: 10px;" >
                         {% if is_granted("IS_AUTHENTICATED_FULLY") %}
                             Bonjour {{ app.user.username |capitalize }} !
+                            
                             <br />  
                             <br /> 
                              
@@ -78,7 +79,7 @@
                             <a href="{{ path('logout') }}"> <button type="button" class="btn btn-danger btn150">Se déconnecter</button></a>
                         {% else %}
                                              
-                           {{ include('PASSAuthentificationLogBundle:authentification:loginForm_part.html.twig') }}
+                           {#{ include('PASSAuthentificationLogBundle:authentification:loginForm_part.html.twig') }#}
                              
                          
                         {% endif %}
@@ -114,6 +115,7 @@
         </div>
         {% block javascripts %}
             <script src="{{ asset('js/jquery.js') }}"></script>
+            
             <!-- Include all JavaScripts, compiled by Assetic -->
              <script src="{{ asset('js/bootstrap.js') }}"></script>
              

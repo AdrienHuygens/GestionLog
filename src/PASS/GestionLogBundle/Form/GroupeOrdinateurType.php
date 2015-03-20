@@ -25,7 +25,7 @@ class GroupeOrdinateurType extends AbstractType
         $builder
             ->add('nom')
             ->add('description')
-            ->add('actif')
+            //->add('actif')
             ->add('ordinateurs','choice',array('choices'=>  $this->host,'multiple' => true,'required' => false ))
             ->add('Enregistrer','submit')
             ;

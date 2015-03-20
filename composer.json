@@ -19,6 +19,15 @@
 }
 }
 ],
+ "repositories": [
+        {
+            "type": "composer",
+            "url": "http://composer.tiki.org"
+        }
+    ]
+
+
+,
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.6.*",
@@ -44,8 +53,9 @@
         "knplabs/knp-menu":"dev-master",
         "knplabs/knp-menu-bundle": "dev-master",
         "knplabs/knp-paginator-bundle":"dev-master",
-         "doctrine/doctrine-fixtures-bundle": "dev-master"
-
+         "doctrine/doctrine-fixtures-bundle": "dev-master",
+         "jquery/plugins/tablesorter":"~2.9.1"
+         
 },
     
     "require-dev": {

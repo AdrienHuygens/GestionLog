@@ -4,8 +4,6 @@ namespace PASS\GestionLogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-
-
 /**
  * GroupeOrdinateur
  *
@@ -13,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="PASS\GestionLogBundle\Entity\GroupeOrdinateurRepository")
  */
-class GroupeOrdinateur
-{
+class GroupeOrdinateur {
+
     /**
      * @var integer
      *
@@ -41,7 +39,7 @@ class GroupeOrdinateur
     /**
      * @var boolean
      *
-     * @ORM\Column(name="actif", type="boolean")
+     * @ORM\Column(name="actif", type="boolean", nullable=true)
      */
     private $actif;
 
@@ -51,15 +49,13 @@ class GroupeOrdinateur
      * 
      */
     private $ordinateurs;
-    
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -69,8 +65,7 @@ class GroupeOrdinateur
      * @param string $nom
      * @return GroupeOrdinateur
      */
-    public function setNom($nom)
-    {
+    public function setNom($nom) {
         $this->nom = $nom;
 
         return $this;
@@ -81,8 +76,7 @@ class GroupeOrdinateur
      *
      * @return string 
      */
-    public function getNom()
-    {
+    public function getNom() {
         return $this->nom;
     }
 
@@ -92,8 +86,7 @@ class GroupeOrdinateur
      * @param string $description
      * @return GroupeOrdinateur
      */
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->description = $description;
 
         return $this;
@@ -104,8 +97,7 @@ class GroupeOrdinateur
      *
      * @return string 
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
@@ -115,8 +107,7 @@ class GroupeOrdinateur
      * @param boolean $actif
      * @return GroupeOrdinateur
      */
-    public function setActif($actif)
-    {
+    public function setActif($actif) {
         $this->actif = $actif;
 
         return $this;
@@ -127,8 +118,7 @@ class GroupeOrdinateur
      *
      * @return boolean 
      */
-    public function getActif()
-    {
+    public function getActif() {
         return $this->actif;
     }
 
@@ -138,8 +128,7 @@ class GroupeOrdinateur
      * @param array $ordinateurs
      * @return GroupeOrdinateur
      */
-    public function setOrdinateurs($ordinateurs)
-    {
+    public function setOrdinateurs($ordinateurs) {
         $this->ordinateurs[] = $ordinateurs;
 
         return $this;
@@ -150,15 +139,15 @@ class GroupeOrdinateur
      *
      * @return array 
      */
-    public function getOrdinateurs()
-    {
+    public function getOrdinateurs() {
         return $this->ordinateurs;
     }
-    
-     public function __construct()
-    {
+
+    public function __construct() {
         $this->ordinateurs = array();
+        $this->actif = true;
     }
+
     public function __toString() {
         return $this->nom;
     }
@@ -169,8 +158,7 @@ class GroupeOrdinateur
      * @param \PASS\GestionLogBundle\Entity\Systemevents $ordinateur
      * @return GroupeOrdinateur
      */
-    public function addOrdinateur($ordinateur)
-    {
+    public function addOrdinateur($ordinateur) {
         $this->ordinateurs[] = $ordinateur;
 
         return $this;
@@ -181,13 +169,43 @@ class GroupeOrdinateur
      *
      * @param \PASS\GestionLogBundle\Entity\Systemevents $ordinateur
      */
-    public function removeOrdinateur($ordinateur)
-    {
+    public function removeOrdinateur($ordinateur) {
         $this->ordinateurs->removeElement($ordinateur);
     }
-    
-    
-   public function getSql(){
-       
-   }
+
+    public function getSql() {
+        
+    }
+
+    private function activiter() {
+        if ($this->actif)
+            return "Groupe activé <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true<\"></span>";
+        else
+            return "Groupe Désactivié <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span>";
+    }
+
+    public function getGroupeGen() {
+        $strings = "";
+
+        foreach ($this->ordinateurs as $ordi) {
+
+            $strings = $strings . "- " . $ordi . "</br>";
+        }
+
+        return $strings;
+    }
+
+    public function affichage() {
+        return $this->nom;
+    }
+
+    public function resumer() {
+        return array('Id' => $this->id,
+            'Nom' => $this->nom,
+            'Description' => $this->description,
+            'ordinateur' => $this->getGroupeGen(),
+            'Information' => $this->activiter(),
+        );
+    }
+
 }

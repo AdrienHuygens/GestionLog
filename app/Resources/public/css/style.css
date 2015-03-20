@@ -8,8 +8,12 @@ contact adrien.huygens@gmail.com
     Created on : 11-févr.-2015, 10:35:25
     Author     : adrien
 */
-
-
+.topPadding{
+    padding-top: 10px;
+}
+.topPaddingV{
+    padding-top: 20px;
+}
 .rela{
    //min-height:  400px;
     float: left;
@@ -179,4 +183,18 @@ font: bold 15px Trebuchet, Arial, Helvetica, sans-serif;
 color:#4c05b7;
 border-bottom: 1px dotted #bf00ff;
 margin:0;
+}
+.tablesorter-bootstrap .tablesorter-header i {
+     background-image: url("data:image/gif;base64,R0lGODlhFQAJAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAkAAAIXjI+AywnaYnhUMoqt3gZXPmVg94yJVQAAOw==");
+  
+    
+    
+}
+.tablesorter-bootstrap  .tablesorter-headerAsc i {
+	background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjI8Bya2wnINUMopZAQA7);
+	
+}
+.tablesorter-bootstrap  .tablesorter-headerDesc i {
+	background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjB+gC+jP2ptn0WskLQA7);
+	
 }

@@ -17,10 +17,26 @@ class Filtre implements \Serializable {
     private $hosts;
     private $dates;
     private $groupes;
+    private $priority;
+    private $nbPage = 40;
+    
+    
+    
+   
 
-    public function __construct() {
+        public function __construct($nbPage=40) {
         $this->groupes = new ArrayCollection();
         $this->hosts = new ArrayCollection();
+        $this->priority = new ArrayCollection();
+        $this->dates = new Date();
+        $this->nbPage = $nbPage;
+        
+    }
+    public function getNbPage(){
+        return $this->nbPage;
+        }
+    public function setNbPage($nbPage){
+        $this->nbPage = $nbPage;
     }
 
     public function getHosts() {
@@ -39,6 +55,15 @@ class Filtre implements \Serializable {
             $tab[] = $groupe;
         }
        }
+        return $tab;
+    }
+    function getPriority() {
+        $tab = array();
+         if ($this->groupes != null) {
+        foreach ($this->priority as $prio) {
+            $tab[] = $prio;
+        }
+         }
         return $tab;
     }
 
@@ -64,12 +89,16 @@ class Filtre implements \Serializable {
 
         $this->groupes[] = $groupe;
     }
+     public function setPriority($priority) {
+
+        $this->priority = $priority;
+    }
 
     public function removeGroupe($groupe) {
         $tab = new ArrayCollection();
 
         foreach ($this->groupes as $groupee) {
-            if ($groupee != $groupe)
+            if ($groupee !== $groupe)
                 $tab[] = $groupee;
         }
         $this->groupes = $tab;
@@ -90,6 +119,20 @@ class Filtre implements \Serializable {
         // $this->hosts->removeElement($host);
         // $this->hosts[] = $host;
     }
+    public function removePriority($priority) {
+        $tab = new ArrayCollection();
+
+        foreach ($this->priority as $prio) {
+            if ($prio !== $priority)
+                $tab[] = $prio;
+        }
+        $this->groupes = $tab;
+        //$this->groupes->removeElement($groupe);
+    }
+    
+     
+
+    
 
     public function addDate($date) {
 
@@ -102,7 +145,7 @@ class Filtre implements \Serializable {
     }
 
     public function filtrer($query, $repo) {
-
+    //if (isset($this->dates)
        
         foreach ( $this->hostSql($repo) as $hosts) {
 
@@ -111,15 +154,29 @@ class Filtre implements \Serializable {
             
             //->setParameter('hosts', $hosts);
         }
+         $this->gestionPriority($query);
         $this->gestionDate($query);
+       
         
         return $query;
     }
     public function gestionDate($query){
-        if (isset($this->dates) && $this->dates->getSigne() !== null) {
+       
+        if (isset($this->dates) ) {
 
             $query->andWhere($this->dates->getSql());
         }
+    }
+    private function gestionPriority($query){
+         $nb = 0;
+         
+        foreach ( $this->priority as $prio) {
+            
+            if($nb==0) $query->andWhere("priority.id =".$prio);
+            else $query->orWhere("priority.id =".$prio);
+            $nb++;
+        }
+        
     }
 
     public function hostSql($repo) {
@@ -143,9 +200,12 @@ class Filtre implements \Serializable {
        return $tableau;
     }
 
+    
+    
+    
     public function serialize() {
         return serialize(array(
-            $this->hosts, $this->dates,
+            $this->hosts, $this->dates, $this->priority
         ));
     }
 
@@ -156,7 +216,7 @@ class Filtre implements \Serializable {
 
 
         list (
-                $this->hosts, $this->dates,
+                $this->hosts, $this->dates,$this->priority
                 ) = unserialize($serialized);
     }
 

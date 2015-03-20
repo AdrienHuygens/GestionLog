@@ -10,6 +10,7 @@
          
         {{ form_row(form.username) }}
         mot de passe: <a href="{{ path('PASS_ChangeMDP',  {'personneId':id}) }}" > changer le mot de passe </a>  <br><br>
+         {{ form_row(form.mail) }}
         {{ form_row(form.groupes) }}
          
           {{ form_row(form.actif) }}

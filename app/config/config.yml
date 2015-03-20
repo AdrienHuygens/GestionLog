@@ -25,6 +25,8 @@ framework:
     fragments:       ~
     http_method_override: true
     translator: { fallback: fr }
+    
+    
 knp_menu:
     twig:
         template: knp_menu.html.twig
@@ -39,6 +41,19 @@ twig:
 
 # Assetic Configuration
 assetic:
+    assets:
+       
+        csstablesorter2:
+            input: ../vendor/jquery/plugins/tablesorter/css/theme.bootstrap.css
+            output: css/csstablesorter2.css    
+        jquery:
+            input:
+               ../vendor/jquery/plugins/tablesorter/js/jquery.tablesorter.js
+            output: js/jquery.tablesorter.js
+        tableSorter:
+            input: ../vendor/jquery/plugins/tablesorter/js/jquery.tablesorter.widgets.js
+            output: js/jquery.tablesorter.widgets.js
+            
     debug:          "%kernel.debug%"
     use_controller: false
     bundles:        [PASSGestionLogBundle]
@@ -90,6 +105,7 @@ braincrafted_bootstrap:
         bootstrap_output: %kernel.root_dir%/Resources/less/bootstrap.less
     assets_dir: %kernel.root_dir%/../vendor/twitter/bootstrap
     jquery_path: %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.js
+    
     auto_configure:
         assetic: true
         twig: true
@@ -106,3 +122,22 @@ knp_paginator:
     template:
         pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig     # sliding pagination controls template
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
+
+    
+pass_authentification_log:
+    settings:
+        server: 192.168.100.37
+        port: 389 or 636
+        account_suffix : employeeNumber 
+        base_dn : OU=users,dc=admin,dc=pass,dc=be
+        # The attribut you want your user Class to have
+    settings_user:
+        FullName: cn
+        # The redirection after login based on the ROLE
+    user_redirects: 
+        ROLE_USER: user_home
+        ROLE_ADMIN: admin_home
+        # Name of the user class
+    user_class: PASS\AuthentificationlogBundle\Entity\Personne
+        #if the user is not registered in that database or is not registered as valid in the database he will have the default role
+    default_role: ROLE_USER

@@ -61,6 +61,15 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      * @ORM\Column(name="salt", type="string", length=255)
      */
     private $salt;
+    
+    /**
+     * @var string
+     *@Assert\Email(
+     *     message = "Le mail '{{ value }}' n'est pas un mail validel.",
+     *     checkMX = true)
+     * @ORM\Column(name="mail", type="string", length=255, nullable=true)
+     */
+    private $mail;
 
     /**
      * @var \DateTime
@@ -95,7 +104,15 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      * 
      */
     private $groupes;
+    /**
+     *@ORM\Column(name="roles",  type="string", length=255, nullable=True)
+     *
+     *  
+     */
     private $roles;
+    
+     public static $em;
+        public $fingerprinting;
 
     public function __construct() {
         $this->groupes = new ArrayCollection();
@@ -120,6 +137,9 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      */
     public function getId() {
         return $this->id;
+    }
+    public function setId($id) {
+        $this->id = $id;
     }
 
     /**
@@ -316,8 +336,11 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
         
         return $this->getMdp();
     }
+    function setRoles($roles) {
+        $this->roles[] = $roles;
+    }
 
-    public function getRoles() {
+        public function getRoles() {
         $tab = array();
         foreach($this->groupes as  $groupess)
         {
@@ -376,5 +399,38 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
          
      }
 
+     
+     
+      public function makeFingerprinting()
+{
+$this->fingerprinting = sha1($_SERVER['HTTP_USER_AGENT']."".$_SERVER['SERVER_ADDR']."".$_SERVER['SERVER_PROTOCOL']."zmaslemiogorkiem".$_SERVER['HTTP_ACCEPT_ENCODING'].'abbbisjqjsjd893732');
+}
+ public function checkFingerprinting($fingerprinting)
+{
+$this->makeFingerprinting();
+return (bool)($this->fingerprinting == $fingerprinting);
+}
 
+    /**
+     * Set mail
+     *
+     * @param string $mail
+     * @return Personne
+     */
+    public function setMail($mail)
+    {
+        $this->mail = $mail;
+
+        return $this;
+    }
+
+    /**
+     * Get mail
+     *
+     * @return string 
+     */
+    public function getMail()
+    {
+        return $this->mail;
+    }
 }

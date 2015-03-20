@@ -40,7 +40,7 @@ class statistiqueController extends Controller
          }
          
          
-        if ($this->get('session')->get('filtre') !== null && $this->get('session')->get('r') != 'log' ){
+        if ($this->get('session')->get('filtre') !== null  ){
           //$filtre = $session->get('filtre');   
              
          $filtre = $this->get('session')->get('filtre') ;
@@ -57,8 +57,9 @@ class statistiqueController extends Controller
            $form =$this->createFormBuilder($filtre)
                 
                ->add('hosts','choice',array('choices'=>$host,'multiple' => true,'required' => false ))
-               ->add('dates',new DateType())
+              
                ->add('groupes','choice',array('choices'=>$groupe,'multiple' => true,'required' => false ))
+               ->add('dates',new DateType())
                ->add('Enregistrer','submit')
                ->add('up','button')
                ->add('Reset','button')
@@ -85,7 +86,7 @@ class statistiqueController extends Controller
                          "form" => $form->createView(),
                         'lien' => 'PASS_AffichageStat',
                         'stats' => $resStat,
-                        'statArray'=> array(array(array('test',50),array('test2',80)),array(array('test',50),array('test2',80)))
+                      
                         
                         
                        

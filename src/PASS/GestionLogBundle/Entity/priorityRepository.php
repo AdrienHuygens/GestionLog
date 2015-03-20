@@ -13,27 +13,18 @@ namespace PASS\GestionLogBundle\Entity;
                         
  */
 use Doctrine\ORM\EntityRepository;
-use PASS\GestionLogBundle\Entity\Filtre;
 
-class GroupeOrdinateurRepository extends EntityRepository  {
 
-     
-    public function getGroupe(){
+
+class priorityRepository extends EntityRepository  {
+
+      public function getPriority(){
         
-          return $this->createQueryBuilder('groupe')
-                        ->select('groupe.id,groupe.nom')
-                       
+          return $this->createQueryBuilder('prio')
+                        ->select('prio.id,prio.nom')
                         ->getQuery()->execute();
                         ;
     }
-    public function getNameGroupe(){
-        
-          return $this->createQueryBuilder('groupe')
-                        ->select('groupe')
-                       
-                        ->getQuery()->execute();
-                        ;
-    }
-   
+    
    
 }

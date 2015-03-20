@@ -31,6 +31,7 @@ class StatServeur  {
     private $nb7 =0;
     
     private $Tableaux;
+    private $TableauCouleur;
     
     function __construct($nomServeur) {
         $this->nomServeur = $nomServeur;
@@ -126,6 +127,7 @@ class StatServeur  {
            $this->setNbLog(intval($ligne['1']));
            $this->$tmp = $ligne['1'];
            $this->Tableaux[] =  array($ligne['nom'],$ligne['1']);
+           $this->TableauCouleur[] = $ligne['couleur'];
             //var_dump($ligne['1']);
             
         }
@@ -136,6 +138,9 @@ class StatServeur  {
     }
     function getTableaux(){
         return $this->Tableaux;
+    }
+    function getTableauCouleur(){
+        return $this->TableauCouleur;
     }
     
     

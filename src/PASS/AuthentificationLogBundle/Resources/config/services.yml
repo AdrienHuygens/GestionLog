@@ -1,15 +1,6 @@
-## YAML Template.
-
-
 parameters:
-    security.user.provider.pass.service.class: PASS\AuthentificationLogBundle\Security\Core\WebserviceUserProvider
-    pass.service.class: PASS\AuthentificationLogBundle\Service\Service
-    security.authentication.provider.pass_service.class: PASS\AuthentificationLogBundle\Security\Core\EpsAuthenticationProvider
-# src/Acme/MainBundle/Resources/config/services.yml
-services:
-    # the menu builder service. Can be used for several menus
-   
 
+<<<<<<< HEAD
         
     pass_auth_webservice:
         class: %pass.service.class%
@@ -22,3 +13,9 @@ services:
         abstract: true
         public: false
         arguments: [@pass_auth_webservice, @security.user_checker, @security.user_checker,@security.encoder_factory,security.authentication.hide_user_not_found]
+=======
+    
+    
+services:
+  
+>>>>>>> 4a506d0499e379ad6ab7eed40a7b602873f446bb

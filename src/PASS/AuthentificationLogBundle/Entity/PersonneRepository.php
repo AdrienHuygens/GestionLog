@@ -113,4 +113,8 @@ class PersonneRepository extends EntityRepository implements UserProviderInterfa
                         ->getQuery()->execute();
     }
 
+         public function updateLastLogin($id)
+        {
+             
+         }
 }

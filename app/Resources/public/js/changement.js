@@ -9,26 +9,26 @@
 function masquer(){
    
     if (document.getElementById("form_dates_signe").value == "<"){
-    document.getElementById("d1").style.visibility = "visible";
-    document.getElementById("d2").style.visibility = "hidden";
+    document.getElementById("d1").style.display = "";
+    document.getElementById("d2").style.display = "none";
     
     
     }
     else if (document.getElementById("form_dates_signe").value == "="){
-    document.getElementById("d1").style.visibility = "visible";
-    document.getElementById("d2").style.visibility = "hidden";
+    document.getElementById("d1").style.display = "";
+    document.getElementById("d2").style.display = "none";
     
     
     }
     else if (document.getElementById("form_dates_signe").value =="between"){
-    document.getElementById("d1").style.visibility = "visible";
-    document.getElementById("d2").style.visibility = "visible";
+    document.getElementById("d1").style.display = "";
+    document.getElementById("d2").style.display = "";
     
     
     }
     else {
-    document.getElementById("d1").style.visibility = "hidden";
-    document.getElementById("d2").style.visibility = "hidden";
+    document.getElementById("d1").style.display = "none";
+    document.getElementById("d2").style.display = "none";
     }
     
 }
@@ -42,8 +42,16 @@ function filtre(){
 function filtre2(o){
     filtre();
        
-    if((document.getElementById("form_dates_signe").value == "" && document.getElementById("form_hosts").value == "" && document.getElementById("form_groupes").value == "" )|| o ==1){
-    document.getElementById("filtre").style.display = "none";
-    document.getElementById("btn").style.display = "";
+    if(( document.getElementById("form_dates_signe").value == "" && document.getElementById("form_hosts").value == "" && document.getElementById("form_groupes").value == "" )|| o ==1){
+   
+        if(document.getElementById("form_priority") != null &&  document.getElementById("form_priority").value == "" ){
+            document.getElementById("filtre").style.display = "none";
+            document.getElementById("btn").style.display = "";
+        }
+        else if(document.getElementById("form_priority") === null ){
+            document.getElementById("filtre").style.display = "none";
+            document.getElementById("btn").style.display = "";
+            
+        }
     }
 }

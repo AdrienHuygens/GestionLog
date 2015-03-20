@@ -19,3 +19,10 @@ PASS_GroupeOrdinateurModification:
     defaults: { _controller:  PASSGestionLogBundle:GroupeOrdinateur:GroupeOrdinateurModification, listingId: 0 }
     requirements:
         listingId: \d+
+        
+        
+PASS_GroupeOrdinateurListing:
+    path: /groupeOrdinateur/{listingId}
+    defaults: { _controller:  PASSGestionLogBundle:GroupeOrdinateur:groupeOrdinateurListing, listingId: 0 }
+    requirements:
+        listingId: \d+

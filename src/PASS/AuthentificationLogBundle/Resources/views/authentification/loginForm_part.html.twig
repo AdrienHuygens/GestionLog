@@ -13,6 +13,7 @@
         <input type="password" class="center"  id="password" name="_password" />
         <br />
            </div>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
         <input type="hidden" name="_target_path" value="{{ url('PASS_Gestion_ok') }}" />
         <div class="col-md-3"></div>
         <button class="col-md-6" type="submit">Se connecter</button>
