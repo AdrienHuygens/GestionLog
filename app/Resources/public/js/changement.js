@@ -42,8 +42,16 @@ function filtre(){
 function filtre2(o){
     filtre();
        
-    if((document.getElementById("form_dates_signe").value == "" && document.getElementById("form_hosts").value == "" && document.getElementById("form_groupes").value == "" )|| o ==1){
-    document.getElementById("filtre").style.display = "none";
-    document.getElementById("btn").style.display = "";
+    if(( document.getElementById("form_dates_signe").value == "" && document.getElementById("form_hosts").value == "" && document.getElementById("form_groupes").value == "" )|| o ==1){
+   
+        if(document.getElementById("form_priority") != null &&  document.getElementById("form_priority").value == "" ){
+            document.getElementById("filtre").style.display = "none";
+            document.getElementById("btn").style.display = "";
+        }
+        else if(document.getElementById("form_priority") === null ){
+            document.getElementById("filtre").style.display = "none";
+            document.getElementById("btn").style.display = "";
+            
+        }
     }
 }

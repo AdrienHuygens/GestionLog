@@ -25,6 +25,9 @@
             <div class="col-lg-3 col-md-3" >
                 Groupe d'ordinateur:{{ form_widget(form.priority) }}
             </div>
+            <div class="col-lg-3 col-md-2 topPadding" >
+                Nombre par page:{{ form_widget(form.nbPage) }}
+            </div>
 
                 <div class="col-lg-4 col-md-6 "> Date:{{ form_widget(form.dates.signe , { 'attr': {'onChange':'masquer()'} })  }}
 
@@ -50,7 +53,8 @@
                 <div class="panel-body">
                    
                       
-                       <table class="table col-lg-6 ">
+                       <table id ="table" class="table col-lg-6 ">
+                           <thead> 
                                 <tr>
                                     <th> Date </th>
                                     <th> Prioriter </th>
@@ -59,6 +63,8 @@
                                     <th> Message </th>
                                     <th> Tag </th>
                                     </tr>
+                                    </thead> 
+                                    <tbody>
                                 {% for val in listing %}
                                    
                             <tr style="background-color:{{val.couleur}}; color:{{val.couleurText}}">    
@@ -73,7 +79,8 @@
                                 
                                        
                             </tr>
-                                   {% endfor %}    
+                                   {% endfor %}   
+                                   </tbody> 
                         </table>
                         {% else %}
                             
@@ -93,7 +100,25 @@
                  {% endif %}  
                 </div>
         </div>
-    
+<script>
+ $(function() {   
+
+
+$("#table").tablesorter({
+    // this will apply the bootstrap theme if "uitheme" widget is included
+    // the widgetOptions.uitheme is no longer required to be set
+    theme : "bootstrap",
+        // fix the column widths
+    widthFixed: false,
    
-        
+       // header layout template (HTML ok); {content} = innerHTML,
+    // {icon} = <i/> (class from cssIcon)
+    headerTemplate: '{content}{icon}',
+    // return the modified template string
+    onRenderTemplate: null,
+   
+    sortInitialOrder: "asc",
+  });
+});
+ </script>       
 {% endblock %}

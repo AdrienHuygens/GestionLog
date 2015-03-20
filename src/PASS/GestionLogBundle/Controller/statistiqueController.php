@@ -40,7 +40,7 @@ class statistiqueController extends Controller
          }
          
          
-        if ($this->get('session')->get('filtre') !== null && $this->get('session')->get('r') != 'log' ){
+        if ($this->get('session')->get('filtre') !== null  ){
           //$filtre = $session->get('filtre');   
              
          $filtre = $this->get('session')->get('filtre') ;

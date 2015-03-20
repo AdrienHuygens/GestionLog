@@ -24,9 +24,10 @@ class Date implements \Serializable{
     private $date2;
     
     function __construct() {
-       
-       // $this->date1 = date("Y-m-d H:i");
-        //$this->date2 = $date2;
+        //$this->signe  = null;
+       $this->date1 = new \DateTime('NOW');
+       $this->date2 = new \DateTime('NOW');
+       date_sub($this->date1, date_interval_create_from_date_string('1 days'));
     }
 
     public function getSigne() {
@@ -59,6 +60,7 @@ class Date implements \Serializable{
     }
     public function getSql(){
         
+        
         if ($this->signe ==="=" || $this->signe ==="<"){
             if ($this->signe ==="="){
                 
@@ -70,6 +72,13 @@ class Date implements \Serializable{
         }
         elseif ($this->signe ==="between"){
            return "systemevent.devicereportedtime BETWEEN '".$this->date1->format("Y-m-d H:i:s")."' AND '". $this->date2->format("Y-m-d H:i:s")."'"; 
+        }
+        else{
+            $this->date1 = new \DateTime('NOW');
+             $this->date2 = new \DateTime('NOW');
+            date_sub($this->date1, date_interval_create_from_date_string('1 days'));
+            date_add($this->date2, date_interval_create_from_date_string('1 days'));
+             return "systemevent.devicereportedtime BETWEEN '".$this->date1->format("Y-m-d H:i:s")."' AND '". $this->date2->format("Y-m-d H:i:s")."'"; 
         }
         
             

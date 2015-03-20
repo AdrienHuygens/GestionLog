@@ -8,11 +8,16 @@
     
         {% block stylesheets %}
             <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" media="screen" />
+            
+                <link href="{{ asset('css/csstablesorter2.css') }}" rel="stylesheet" media="screen" /> 
+         
             {% stylesheets '../app/Resources/public/css/*' filter='cssrewrite'  output='css/style.css' %}
             <link rel="stylesheet" href="{{ asset_url }}" />
             {% endstylesheets %}
         {% endblock %}
          <script src="{{ asset('/js/jquery.js') }}"></script>
+         <script src="{{ asset('js/jquery.tablesorter.js') }}"></script>
+         <script src="{{ asset('js/jquery.tablesorter.widgets.js') }}"></script>
     </head>
     <body onload="masquer(); filtre2(0)">
     

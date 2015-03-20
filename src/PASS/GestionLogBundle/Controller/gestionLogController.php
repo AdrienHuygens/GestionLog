@@ -59,16 +59,25 @@ class gestionLogController extends Controller
          
          
          
-        if ($this->get('session')->get('filtre') !== null && $this->get('session')->get('r') != 'Stat'){
+         
+        if ($this->get('session')->get('filtre') !== null){
           //$filtre = $session->get('filtre');   
              
          $filtre = $this->get('session')->get('filtre') ;
+         
+            /*if ($this->get('session')->get('pages') && $filtre->getNbPage !== $this->get('session')->get('pages')){
+             $filtre->setNbPage($this->get('session')->get('pages'));
+                 }*/
          //$filtre = new Filtre();
          //var_dump($this->get('session')->get('filtre'));
          }
          
          else{
-           $filtre = new Filtre();
+             $page=40;
+             if ($this->get('session')->get('pages')){
+             $page = $this->get('session')->get('pages');
+                 }
+           $filtre = new Filtre($page);
          }
            //$filtre->addHost('test-debnet');
            //$filtre->addHost('test-ubublog');
@@ -79,6 +88,7 @@ class gestionLogController extends Controller
                ->add('dates',new DateType())
                ->add('groupes','choice',array('choices'=>$groupe,'multiple' => true,'required' => false ))
                ->add('priority','choice',array('choices'=>$priority,'multiple' => true,'required' => false ))
+               ->add('nbPage','choice',array('choices'=>array(20=>20,40=>40,100=>100,500=>500,1000=>1000),'multiple'=>false))
                ->add('Enregistrer','submit')
                ->add('up','button')
                ->add('Reset','button')
@@ -87,13 +97,14 @@ class gestionLogController extends Controller
             
         
                   
-          
+            $this->get('session')->set('pages',  $filtre->getNbPage());
             $this->get('session')->set('filtre',  $filtre);
             $this->get('session')->set('r',  'log');
         
           $pagination = null;
         
             $tab = $repo->getAllLog($filtre, $repo2);
+           
            
             if(count($tab) !== 0){
                
@@ -102,7 +113,7 @@ class gestionLogController extends Controller
                     $tab,
                    $request->query->get('page', 1)/*page number*/,
                         
-                    30/*limit per page*/
+                    $filtre->getNbPage()/*limit per page*/
                 );
                 
             }

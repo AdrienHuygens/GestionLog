@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityRepository;
 use PASS\GestionLogBundle\Entity\Filtre;
 use PASS\GestionLogBundle\Entity\StatServeur;
 
+
 class SystemeventsRepository extends EntityRepository  {
 
      public function getAllLog(Filtre $filtre, $repo) {
@@ -28,6 +29,7 @@ class SystemeventsRepository extends EntityRepository  {
                         ->join('systemevent.priority', 'priority')
                         ->join('systemevent.facility', 'facility')
                         ->addOrderBy('systemevent.devicereportedtime', 'DESC')
+                        
                        
                         ;
          

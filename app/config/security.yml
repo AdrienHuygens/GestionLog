@@ -26,9 +26,9 @@ security:
         auth_area:
             
             pattern: ^/(login_check|auth/|logout)
-            simple_form:
-            #form_login:    
-                authenticator: time_authenticator
+           #simple_form:
+            form_login:    
+               # authenticator: time_authenticator
                 provider: database
                 
                 #csrf_provider: form.csrf_provider

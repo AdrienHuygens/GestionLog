@@ -61,6 +61,15 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      * @ORM\Column(name="salt", type="string", length=255)
      */
     private $salt;
+    
+    /**
+     * @var string
+     *@Assert\Email(
+     *     message = "Le mail '{{ value }}' n'est pas un mail validel.",
+     *     checkMX = true)
+     * @ORM\Column(name="mail", type="string", length=255, nullable=true)
+     */
+    private $mail;
 
     /**
      * @var \DateTime
@@ -401,4 +410,27 @@ $this->fingerprinting = sha1($_SERVER['HTTP_USER_AGENT']."".$_SERVER['SERVER_ADD
 $this->makeFingerprinting();
 return (bool)($this->fingerprinting == $fingerprinting);
 }
+
+    /**
+     * Set mail
+     *
+     * @param string $mail
+     * @return Personne
+     */
+    public function setMail($mail)
+    {
+        $this->mail = $mail;
+
+        return $this;
+    }
+
+    /**
+     * Get mail
+     *
+     * @return string 
+     */
+    public function getMail()
+    {
+        return $this->mail;
+    }
 }

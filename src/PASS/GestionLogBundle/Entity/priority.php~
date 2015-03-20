@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
  * priority
  *
  * @ORM\Table()
- * @ORM\Entity
+ * 
+ * @ORM\Entity(repositoryClass="PASS\GestionLogBundle\Entity\priorityRepository")
  */
 class priority
 {

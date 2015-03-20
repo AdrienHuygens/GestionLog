@@ -68,7 +68,7 @@
                     <div id="menuGauche" style="padding-left: 10px;" >
                         {% if is_granted("IS_AUTHENTICATED_FULLY") %}
                             Bonjour {{ app.user.username |capitalize }} !
-                            {{ dump(app.user)}} 
+                            
                             <br />  
                             <br /> 
                              
@@ -115,6 +115,7 @@
         </div>
         {% block javascripts %}
             <script src="{{ asset('js/jquery.js') }}"></script>
+            
             <!-- Include all JavaScripts, compiled by Assetic -->
              <script src="{{ asset('js/bootstrap.js') }}"></script>
              

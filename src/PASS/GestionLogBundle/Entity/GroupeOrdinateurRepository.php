@@ -26,5 +26,14 @@ class GroupeOrdinateurRepository extends EntityRepository  {
                         ->getQuery()->execute();
                         ;
     }
+    public function getNameGroupe(){
+        
+          return $this->createQueryBuilder('groupe')
+                        ->select('groupe')
+                       
+                        ->getQuery()->execute();
+                        ;
+    }
+   
    
 }
