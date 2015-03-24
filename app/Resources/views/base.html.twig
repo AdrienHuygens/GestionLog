@@ -71,9 +71,10 @@
                             
                             <br />  
                             <br /> 
-                             
-                           <a href="{{ path('PASS_MonCompte', {'listingId': app.user.id }) }}"><button  type="button" class="btn btn-success btn150">Mon compte  </button></a>
-        
+                           
+                            {%  if not is_granted("ROLE_MEMORY") %}
+                           <a href="{{ path('PASS_MonCompte', {'listingId': 1 }) }}"><button  type="button" class="btn btn-success btn150">Mon compte  </button></a>
+                            {% endif %}
                             <br />  
                             <br />
                             <a href="{{ path('logout') }}"> <button type="button" class="btn btn-danger btn150">Se déconnecter</button></a>

@@ -43,7 +43,8 @@ contact adrien.huygens@gmail.com
             echo "Le nombre d'entrées retournées est " . ldap_count_entries($ds, $sr) . ".<p>";
             $info = ldap_get_entries($ds, $sr);
             echo "Données pour " . $info["count"] . " entrées:<p>";
-
+           
+            
             for ($i = 0; $i < $info["count"]; $i++) {
                 echo "dn est : " . $info[$i]["dn"] . "<br>";
                 echo "premiere entree cn : " . $info[$i]["cn"][0] . "<br>";

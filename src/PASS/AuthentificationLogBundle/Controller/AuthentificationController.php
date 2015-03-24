@@ -217,7 +217,9 @@ class AuthentificationController extends Controller {
         return $this->render('PASSAuthentificationLogBundle:authentification:editPersonneForm.html.twig', Array(
                     "form" => $form->createView(),
                     'titrePage' => 'Modifier un utilisateur local',
-                    'id' => $listingId->getId()));
+                    'id' => $listingId->getId(),
+                    'suprimable' => $personne->getSuprimable()
+            ));
     }
 
     public function utilisateurSupprimerAction(Personne $personneId) {

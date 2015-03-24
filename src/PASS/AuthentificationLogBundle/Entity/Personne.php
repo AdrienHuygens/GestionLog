@@ -41,6 +41,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      * max =50, maxMessage="La longeur du nom ne peux pas dépasser {{ limit }} caractères")  
      * @Assert\NotBlank(message="le champs ne peux pas être vide")
      * @Assert\Regex(pattern="/\W/", match = false ,message="La chaine ne peux pas avoir que des Chiffres et des lettres")
+     * @Assert\NotEqualTo( value = "AdminM", message="utilisateur existe déjà" )
      */
     private $username;
 
@@ -65,8 +66,8 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     /**
      * @var string
      *@Assert\Email(
-     *     message = "Le mail '{{ value }}' n'est pas un mail validel.",
-     *     checkMX = true)
+     *     message = "Le mail '{{ value }}' n'est pas un mail valide.",
+     *     checkMX = false, checkHost = true)
      * @ORM\Column(name="mail", type="string", length=255, nullable=true)
      */
     private $mail;
@@ -95,7 +96,16 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      * @Assert\Type(type="bool", message="La valeur {{ value }} n'est pas un type {{ type }} valide.")
      */
     private $actif;
+    
+     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="suprimable", type="boolean", nullable=True)
+     * @Assert\Type(type="bool", message="La valeur {{ value }} n'est pas un type {{ type }} valide.")
+     */
+    private $suprimable;
 
+    
     /**
      *
      * @ORM\ManyToMany(targetEntity="Groupe", inversedBy="personnes")
@@ -114,9 +124,10 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      public static $em;
         public $fingerprinting;
 
-    public function __construct() {
+    public function __construct($suprimable = true) {
         $this->groupes = new ArrayCollection();
         $this->salt = md5(uniqid(null, true));
+        $this->suprimable = $suprimable;
         //$this->setDernierConnexion(new \DateTime("00000000000000"));
     }
 
@@ -204,8 +215,11 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     public function getSalt() {
         return $this->salt;
     }
+    function getSuprimable() {
+        return $this->suprimable;
+    }
 
-    /**
+        /**
      * Set dernierConnexion
      *
      * @param \DateTime $dernierConnexion
@@ -386,6 +400,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
          
          $tab = array('Id' => $this->getId(),
                       'username' => $this->getUsername(),
+                      'mail' => $this->mail,
                       'groupe' => $this->getGroupeGen(),
                       'dernier connexion' => $this->getDernierConnexionString(),
                         'ldap' => $this->type(),

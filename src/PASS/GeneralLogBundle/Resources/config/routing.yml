@@ -1,0 +1,3 @@
+PASS_Configuration:
+    path: /configuration
+    defaults: { _controller: PASSGeneralLogBundle:Configuration:index }

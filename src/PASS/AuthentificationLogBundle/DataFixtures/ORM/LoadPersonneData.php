@@ -29,7 +29,8 @@ $this->container = $container;
     public function load(ObjectManager $manager) {
 
         $tab = array(
-            array(0, 'adrien', 'abcde',true,false,'Admin'),
+            /* id,username, mdp, actif, ldap , groupe, supprimable  */
+            array(0, 'adrien', 'abcde',true,false,'Admin',false),
             
         );
         
@@ -40,8 +41,10 @@ $this->container = $container;
             $groupe->setRole('ROLE_ADMIN');
             $groupe->setActif(true);
             $manager->persist($groupe);
-        foreach ($tab as $newTab) {
-            $type = new \PASS\AuthentificationLogBundle\Entity\Personne();
+        
+            
+            foreach ($tab as $newTab) {
+            $type = new \PASS\AuthentificationLogBundle\Entity\Personne($newTab[6]);
             $type->setActif($newTab[3]);
             $type->setLdap($newTab[4]);
             

@@ -72,3 +72,8 @@ login_check:
     pattern: /login_check
 logout:
     pattern: /logout
+    
+    
+PASS_importLDAP:
+    path: /import
+    defaults: { _controller: PASSAuthentificationLogBundle:ImportationPersonne:importPersonne }

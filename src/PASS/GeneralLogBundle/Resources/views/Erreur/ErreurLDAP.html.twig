@@ -1,0 +1,16 @@
+{# empty Twig template #}
+{% extends '::base.html.twig' %}
+{% block titrePage %}
+
+
+        Erreur connexion au serveur ldap;
+   
+ 
+{% endblock %}
+{% block contenu %}
+   
+    {% if good %}
+        <div class="alert alert-alert" role="alert"> Une erreur c'est produit lors de la connexion au serveur ldap {{ good}}</div>
+    {% endif %}
+Vous pouvez voir ici les informations qui vous interessent
+{% endblock %}

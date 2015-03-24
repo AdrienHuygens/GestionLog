@@ -11,6 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 
 class GroupeOrdinateurController extends Controller
 {
+    public function indexAction(){
+        
+         return $this->render('PASSGeneralLogBundle:form:ok.html.twig', Array(
+                        "good" => "utilisateur d'utilisateur bien créé.",
+                        'titrePage' => 'Opération éffectué',
+            ));
+        
+    }
     private function host(){
          $repo = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\Systemevents");
          $host = array();
