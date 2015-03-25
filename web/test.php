@@ -36,7 +36,7 @@ contact adrien.huygens@gmail.com
             //$r = ldap_bind($ds, 'uid=syslog,ou=Applications,dc=admin,dc=pass,dc=be', 'syslog');
 
             $dn = "dc=admin,dc=pass,dc=be";
-            $filtre = "sn=*";
+            $filtre = "uid=Ddevleeschauwer";
             $sr = ldap_search($ds, $dn, $filtre);
             echo "Le résultat de la recherche est $sr";
 

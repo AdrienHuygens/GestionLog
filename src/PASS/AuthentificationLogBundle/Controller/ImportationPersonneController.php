@@ -12,22 +12,80 @@ use \PASS\AuthentificationLogBundle\Entity\Personne;
 
 
 class ImportationPersonneController extends Controller {
+    
+    Private $dn;
+    Private $Server;
+    Private $port;
+    function __construct() {
+        
+       
+    }
+
+    private function LdapConnection(){
+        try{
+         $server = $this->container->getParameter("ldap_server");
+        
+        $port = $this->container->getParameter("ldap_port");
+       
+            return  ldap_connect($server);
+        }
+        catch(Exception $ex)
+        {
+            
+        }
+            
+    }
+    
+    public function ModificationPersonneLdapAction(Request $request,$username) {
+        
+        try{
+            $dn  = $this->container->getParameter("ldap_dn");
+            $filtre = "uid=ddevleeschauwer";
+            $ds = $this->LdapConnection();
+            $sr = ldap_search($ds, $dn, $filtre);
+            $info = ldap_get_entries($ds, $sr);
+            
+            $rep = $this->getDoctrine()->getRepository("PASSAuthentificationLogBundle:Personne");
+                         
+                          $val = $rep->getUserLdap($info[0]['uid'][0]);
+                         
+                      $em = $this->getDoctrine()->getManager();
+           
+                   
+                       if (isset($val[0]) && $val[0]->getId() != null) $userP = $val[0];
+                        else $userP = new Personne();   
+                           
+                       
+                      $userP->setMail($info[0]['mail'][0]);
+       
+                       $userP->setUsername($info[0]['uid'][0]);
+                       $em->persist($userP);
+             $em->flush();
+            
+            
+            
+            
+        } catch (Exception $ex) {
+            return 0;
+        }
+        $tab = $rep->getAllUserNoLdap();
+            $tab2 = $rep->getAllUserLdap();
+            return $this->render("PASSAuthentificationLogBundle:listing:listing.html.twig", array("titrePage" => "Listing utilisateur", "activite" => 'utilisateur',
+                        "tab" => $tab, 'chemin' => "PASS_GestionUtilisateur", "ldap"=> $tab2, 'notification'=>1
+            ));
+    }
 
     public function importPersonneAction(Request $request) {
 
-        $server = $this->container->getParameter("ldap_server");
         
-        $port = $this->container->getParameter("ldap_port");
-        $dn = $this->container->getParameter("ldap_dn");
         $filtre = $this->container->getParameter("ldap_filtre");
-
+        $this->dn  = $this->container->getParameter("ldap_dn");
         /*
          * 
          * gestion de connexion à ldap pour la recherche des utilisateurs
          */
         try {
-            $ds = ldap_connect($server);
-
+           $ds = $this->LdapConnection();
             $sr = ldap_search($ds, $dn, $filtre);
             $info = ldap_get_entries($ds, $sr);
 
@@ -61,28 +119,47 @@ class ImportationPersonneController extends Controller {
                  $em = $this->getDoctrine()->getManager();
            
           
-                   foreach ($form->getData() as $userldap)
-                   {
+                   foreach ($form->getData() as $userldapTab)
+                   { 
+                      foreach($userldapTab as $userldap)
+                       {
+                          $rep = $this->getDoctrine()->getRepository("PASSAuthentificationLogBundle:Personne");
+                         try{
+                          $val = $rep->getUserLdap($userldap);
+                         
+                         }// dump($userldap);
+                       catch(Exception $e){
+                           
+                       }
+                   
+                       if (isset($val[0]) && $val[0]->getId() != null) $userP = $val[0];
+                        else $userP = new Personne();   
+                           
                        
-                       $userP = new Personne();
                        $userP->setLdap(True);
-                       $userP->setMail($utilisateur[$userldap[0]]->getMail());
+                       $userP->setActif(True);
+                      $userP->setMail($utilisateur[$userldap]->getMail());
+       
                        $userP->setUsername($userldap);
-                       $userP->setRoles("ROLE_ADMIN");
+            
+                      // $userP->addGroupe();
                        $em->persist($userP);
-                        $em->flush();
+                      
                    }
+                        $em->flush();
+                        }
+                        
                       
                      
                  }
             
-            
+            ldap_close($ds);
             
         } catch (Exception $e) {
             return $this->render('PASSGeneralLogBundle:erreur:ErreurLDAP.html.twig', Array("good" => $e));
         }
 
-        ldap_close($ds);
+       
         return $this->render('PASSAuthentificationLogBundle:Import:importUser.html.twig', Array(
                                
                          "form" => $form->createView(),

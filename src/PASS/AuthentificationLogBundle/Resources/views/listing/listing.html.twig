@@ -1,34 +1,120 @@
 {% extends "::base.html.twig" %}
 
 {% block titrePage %}
-            {{ titrePage }} {% endblock %}
+    {{ titrePage }} {% endblock %}
 
-            
-{% block menuleft  %}  
-    <div id="menuGauche" class='center2'>
-                     <a href="{{ path(chemin) }}/add"> Ajouter un {{ activite }}  </a>  
-                    </div>
-    
+
+    {% block menuleft  %}  
+        <div id="menuGauche" class='center2'>
+            <a href="{{ path(chemin) }}/add"> Ajouter un {{ activite }}  </a>  <br />
+            {% if activite == "utilisateur" %}  <a href="{{ path("PASS_importLDAP") }}"> Importer des utilisateur ldap  </a>  {% endif %}           
+        </div>
+
     {% endblock %}
 
-{% block contenu %}
-     
-     
+    {% block contenu %}
+        {% if (notification  is defined) and (notification != null) %}
+
+            <div class="alert alert-success" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Succes:</span>
+                Le compte à été mis à jour
+            </div>
+
+        {% endif %}
+
         <div class="col-lg-6">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{ activite |capitalize }} locaux</h3>
+                    <h3 class="panel-title">{{ activite |capitalize }} locaux <div class="aligner" > 
+
+                            {% if activite == "utilisateur" %}
+                                <a href="{{ path('PASS_CreationUtilisateur') }}"><span class="glyphicon glyphicon-plus" title="Voir l'utilisateur"  aria-hidden="true"></span> </a>
+
+                            {% elseif activite == "groupe" %}
+                                <a href="{{ path('PASS_CreationGroupe') }}"><span class="glyphicon glyphicon-plus" title="Voir l'utilisateur"  aria-hidden="true"></span> </a>
+
+
+                            {% endif %}            
+
+
+                        </div></h3>
                 </div>
                 <div class="panel-body">
-                    {% for jeune in tab %}
-                        <a href="{{ path(chemin,{'listingId': jeune.id}) }}"> {{ jeune.affichage |capitalize }}  </a><br />
-                        
-                            
-                       
-                    {% endfor %}
-                    
+
+                    <table class="col-lg-12">
+
+                        <tr>
+                            <th> Nom </th>
+                            <th> Action rapide </th>
+
+                        </tr>
+                        {% for jeune in tab %}
+                            <tr>
+                                <td><a href="{{ path(chemin,{'listingId': jeune.id}) }}"> {{ jeune.affichage |capitalize }}  </a></td>
+
+                                <td> 
+                                    {% if activite == "utilisateur" %}
+                                        {% include "PASSAuthentificationLogBundle:listing:actionRapideUser.html.twig" %}
+                                    {% elseif activite == "groupe" %}
+                                        {% include "PASSAuthentificationLogBundle:listing:actionRapideGroupe.html.twig" %}
+
+                                    {% endif %}
+
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+                    </table>
                 </div>
             </div>
         </div>
-   
-{% endblock %} 
+        {% if (ldap is defined) and ldap %}
+
+            <div class="col-lg-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ activite |capitalize }} LDAP <div class="aligner" > 
+
+                                {% if activite == "utilisateur" %}
+                                    <a href="{{ path('PASS_importLDAP') }}"><span class="glyphicon glyphicon-plus" title="Voir l'utilisateur"  aria-hidden="true"></span> </a>
+
+
+                                {% endif %}            
+
+
+                            </div></h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="col-lg-12">
+
+                            <tr>
+                                <th> Nom </th>
+                                <th> Action rapide </th>
+
+                            </tr>
+
+
+                            {% for jeune in ldap %}
+                                <tr>
+                                    <td><a href="{{ path(chemin,{'listingId': jeune.id}) }}"> {{ jeune.affichage |capitalize }}  </a></td>
+
+                                    <td> 
+                                        {% if activite == "utilisateur" %}
+                                            {% include "PASSAuthentificationLogBundle:listing:actionRapideUserLdap.html.twig" %}
+                                        {% elseif activite == "groupe" %}
+                                            {% include "PASSAuthentificationLogBundle:listing:actionRapideGroupe.html.twig" %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+        {% endif %}
+
+    {% endblock %} 

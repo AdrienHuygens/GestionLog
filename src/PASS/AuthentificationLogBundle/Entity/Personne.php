@@ -46,7 +46,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     private $username;
 
     /**
-     * @ORM\Column(name="mdp", type="string", length=255)
+     * @ORM\Column(name="mdp", type="string", length=255, nullable = true)
      * @var string
      *  @Assert\Length(min=2, minMessage="Votre mot de passe dois avoir au moins {{ limit }} caractères.",
      * max =50, maxMessage="La longeur du mot de passe ne peux pas dépasser {{ limit }} caractères",  groups={"registration"})  
@@ -128,6 +128,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
         $this->groupes = new ArrayCollection();
         $this->salt = md5(uniqid(null, true));
         $this->suprimable = $suprimable;
+        $roles = array();
         //$this->setDernierConnexion(new \DateTime("00000000000000"));
     }
 
@@ -390,8 +391,8 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
                 
             }
      public function activiter(){
-        if ($this->actif) return "Groupe activé <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true<\"></span>";
-        else return "Groupe Désactivié <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span>";
+        if ($this->actif) return "Utilisateur activé <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true<\"></span>";
+        else return "Utilisateur Désactivié <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span>";
         
             }
     

@@ -21,12 +21,11 @@ class AuthentificationController extends Controller {
     /**
      * @Route("/hello/{name}")
      * @Template()
-    
 
-    /*
+
+      /*
      *  Controleur pour le formulaire de mon rajout de groupe.
      */
-
     public function groupeAddAction(Request $request, $listingId) {
         $chemin = null;
 
@@ -145,11 +144,11 @@ class AuthentificationController extends Controller {
 
     public function okAction() {
         $em = $this->getDoctrine()->getManager();
-        
+
         /*
-        $this->getUser()->setDernierConnexion(new \DateTime());
-        $em->persist($this->getUser());
-        $em->flush();*/
+          $this->getUser()->setDernierConnexion(new \DateTime());
+          $em->persist($this->getUser());
+          $em->flush(); */
         return $this->render("PASSAuthentificationLogBundle:authentification:ok.html.twig", Array(
                     'titrePage' => 'Connexion effectué',
                     'good' => null));
@@ -158,18 +157,19 @@ class AuthentificationController extends Controller {
     public function utilisateurListingAction($listingId) {
         if ($listingId != 0) {
 
-            $groupe = $this->getDoctrine()->getRepository("PASSAuthentificationLogBundle:Personne")->find($listingId);
+            $utilisateur = $this->getDoctrine()->getRepository("PASSAuthentificationLogBundle:Personne")->find($listingId);
 
             return $this->render('PASSAuthentificationLogBundle:listing:recapitulatif.html.twig', Array(
-                        'titrePage' => 'Gestion d\'un utilisateur', 'groupe' => $groupe->resumer(), 'nom' => $groupe->getUsername(),
-                        'activiter' => " Information sur l'utilisateur", 'lien' => 'PASS_ModificationUtilisateur', 'id' => $listingId
+                        'titrePage' => 'Gestion d\'un utilisateur', 'groupe' => $utilisateur->resumer(), 'nom' => $utilisateur->getUsername(),
+                        'activiter' => " Information sur l'utilisateur", 'lien' => 'PASS_ModificationUtilisateur', 'id' => $listingId,
+                        'activite' => " utilisateur"
             ));
         } else {
             $repoJeune = $this->getDoctrine()->getRepository("PASS\AuthentificationLogBundle\Entity\Personne");
-            $tab = $repoJeune->getAllUser();
-
+            $tab = $repoJeune->getAllUserNoLdap();
+            $tab2 = $repoJeune->getAllUserLdap();
             return $this->render("PASSAuthentificationLogBundle:listing:listing.html.twig", array("titrePage" => "Listing utilisateur", "activite" => 'utilisateur',
-                        "tab" => $tab, 'chemin' => "PASS_GestionUtilisateur"
+                        "tab" => $tab, 'chemin' => "PASS_GestionUtilisateur", "ldap" => $tab2,
             ));
         }
     }
@@ -181,7 +181,8 @@ class AuthentificationController extends Controller {
 
             return $this->render('PASSAuthentificationLogBundle:listing:recapitulatif.html.twig', Array(
                         'titrePage' => 'Gestion d\'un groupe', 'groupe' => $groupe->resumer(), 'nom' => $groupe->getNom(),
-                        'activiter' => " Information sur le groupe", 'lien' => 'PASS_ModificationGroupe', 'id' => $listingId
+                        'activiter' => " Information sur le groupe", 'lien' => 'PASS_ModificationGroupe', 'id' => $listingId,
+                        'activite' => " groupe"
             ));
         } else {
 
@@ -219,7 +220,7 @@ class AuthentificationController extends Controller {
                     'titrePage' => 'Modifier un utilisateur local',
                     'id' => $listingId->getId(),
                     'suprimable' => $personne->getSuprimable()
-            ));
+        ));
     }
 
     public function utilisateurSupprimerAction(Personne $personneId) {
@@ -243,17 +244,16 @@ class AuthentificationController extends Controller {
         $em->flush();
         return $this->redirect($this->generateUrl('PASS_GestionGroupe'));
     }
-    
-    
-    public function changeMDPAction(Request $request,Personne $personneId) {
-        
-       $form = $this->createForm(new changeMDPType(),$personneId);
-       
-       $form->handleRequest($request);
-       
-       if($form ->isValid()){
-           
-           $factory = $this->get('security.encoder_factory');
+
+    public function changeMDPAction(Request $request, Personne $personneId) {
+
+        $form = $this->createForm(new changeMDPType(), $personneId);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+
+            $factory = $this->get('security.encoder_factory');
             $encoder = $factory->getEncoder($personneId);
 
             $personneId->setMdp($encoder->encodePassword($personneId->getMdp(), $personneId->getSalt()));
@@ -267,13 +267,13 @@ class AuthentificationController extends Controller {
                         "good" => "utilisateur d'utilisateur bien créé.",
                         'titrePage' => 'Opération éffectué',
             ));
-       }
-       
-       
-       return $this->render('PASSAuthentificationLogBundle:authentification:changeMdp.html.twig', array(
-        'form' => $form->createView(),
-               'id' => $personneId->getId()
+        }
+
+
+        return $this->render('PASSAuthentificationLogBundle:authentification:changeMdp.html.twig', array(
+                    'form' => $form->createView(),
+                    'id' => $personneId->getId()
         ));
     }
-   
+
 }

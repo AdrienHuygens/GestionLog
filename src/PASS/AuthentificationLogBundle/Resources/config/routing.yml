@@ -59,6 +59,10 @@ PASS_ChangeMDP:
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:changeMDP,personneId: 0 }
     requirements:
         groupeId: \d+ 
+        
+        
+
+        
     
 PASS_Gestion_ok:
     path: /auth/ok
@@ -75,5 +79,8 @@ logout:
     
     
 PASS_importLDAP:
-    path: /import
+    path: /auth/import
     defaults: { _controller: PASSAuthentificationLogBundle:ImportationPersonne:importPersonne }
+PASS_modificationLDAP:
+    path: /auth/ldap/modification/{username}
+    defaults: { _controller: PASSAuthentificationLogBundle:ImportationPersonne:ModificationPersonneLdap, username: 0 }
