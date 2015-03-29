@@ -28,4 +28,8 @@ PASS_GroupeOrdinateurListing:
         listingId: \d+
         
 
-    
+Pass_Mail:
+    path: /mail/{listingId}
+    defaults: { _controller:  PASSGestionLogBundle:EnvoyerMail:index}
+    requirements:
+        listingId: \d+

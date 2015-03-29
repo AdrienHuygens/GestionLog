@@ -1,3 +1,6 @@
 PASS_Configuration:
-    path: /configuration
+    path: /configuration/sql
     defaults: { _controller: PASSGeneralLogBundle:Configuration:index }
+PASS_ConfigurationLdap:
+    path: /configuration/ldap
+    defaults: { _controller: PASSGeneralLogBundle:Configuration:ldap }

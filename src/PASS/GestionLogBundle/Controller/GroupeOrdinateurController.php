@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use PASS\GestionLogBundle\Entity\GroupeOrdinateur;
 use PASS\GestionLogBundle\Form\GroupeOrdinateurType;
+
 use Symfony\Component\HttpFoundation\Request;
 
 class GroupeOrdinateurController extends Controller

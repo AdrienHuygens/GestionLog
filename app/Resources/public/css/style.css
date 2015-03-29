@@ -61,6 +61,7 @@ pre{
     
      margin-bottom: 5px;
      padding-bottom: 5px;
+     overflow: hidden;
 }
 .rowLeft{
     margin-left: 15px;

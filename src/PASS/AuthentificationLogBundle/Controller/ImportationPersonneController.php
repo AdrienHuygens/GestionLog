@@ -9,25 +9,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use PASS\AuthentificationLogBundle\Entity\ldapPersonne;
 use Symfony\Component\HttpFoundation\Request;
 use \PASS\AuthentificationLogBundle\Entity\Personne;
+use PASS\GeneralLogBundle\Entity\ConfigurationLDAP;
 
 
 class ImportationPersonneController extends Controller {
     
-    Private $dn;
-    Private $Server;
-    Private $port;
+   private $serveur;
     function __construct() {
         
-       
+        $this->serveur = new ConfigurationLDAP; 
     }
 
     private function LdapConnection(){
         try{
-         $server = $this->container->getParameter("ldap_server");
-        
-        $port = $this->container->getParameter("ldap_port");
+          
+         
        
-            return  ldap_connect($server);
+            return  ldap_connect($this->serveur->getLdapServer());
         }
         catch(Exception $ex)
         {
@@ -39,8 +37,8 @@ class ImportationPersonneController extends Controller {
     public function ModificationPersonneLdapAction(Request $request,$username) {
         
         try{
-            $dn  = $this->container->getParameter("ldap_dn");
-            $filtre = "uid=ddevleeschauwer";
+            $dn  = $this->serveur->getLdapDn();
+            $filtre = "uid=".$username;
             $ds = $this->LdapConnection();
             $sr = ldap_search($ds, $dn, $filtre);
             $info = ldap_get_entries($ds, $sr);
@@ -78,8 +76,8 @@ class ImportationPersonneController extends Controller {
     public function importPersonneAction(Request $request) {
 
         
-        $filtre = $this->container->getParameter("ldap_filtre");
-        $this->dn  = $this->container->getParameter("ldap_dn");
+        $filtre = $this->serveur->getLdapFiltre();
+        $dn  = $this->serveur->getLdapDn();
         /*
          * 
          * gestion de connexion à ldap pour la recherche des utilisateurs
