@@ -30,6 +30,6 @@ PASS_GroupeOrdinateurListing:
 
 Pass_Mail:
     path: /mail/{listingId}
-    defaults: { _controller:  PASSGestionLogBundle:EnvoyerMail:index}
+    defaults: { _controller:  PASSGestionLogBundle:EnvoyerMail:index, listingId: 1 }
     requirements:
         listingId: \d+

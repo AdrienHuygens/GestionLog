@@ -8,6 +8,10 @@ contact adrien.huygens@gmail.com
     Created on : 11-févr.-2015, 10:35:25
     Author     : adrien
 */
+textarea{
+    height: 200px;
+    
+}
 .topPadding{
     padding-top: 10px;
 }
@@ -26,7 +30,7 @@ contact adrien.huygens@gmail.com
 }
 .form-group{
     display:inline-block;
-    display:inline;
+  
     
 }
 .btn150{

@@ -4,3 +4,7 @@ PASS_Configuration:
 PASS_ConfigurationLdap:
     path: /configuration/ldap
     defaults: { _controller: PASSGeneralLogBundle:Configuration:ldap }
+    
+PASS_ConfigurationMail:
+    path: /configuration/mail
+    defaults: { _controller: PASSGeneralLogBundle:Configuration:mail }

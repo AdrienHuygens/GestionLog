@@ -1,0 +1,12 @@
+<h1>
+{% include "PASSGestionLogBundle:mail:titreMail.html.twig" %}
+</h1>
+
+Bonjour, Je vous signal qu'il y a une <div style='color: {{ log.priority.couleur}};'>{{ log.priority.nom }}</div>.
+<br>
+Sur le serveur {{ log.fromhost }} 
+<br>
+Le message est : {{log.message }} 
+<br>
+le: {{log.devicereportedtime }}
+

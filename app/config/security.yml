@@ -23,7 +23,7 @@ security:
         ROLE_MEMORY:      ROLE_USER
         ROLE_ADMIN:       [ROLE_USER ]
         ROLE_SUPER_ADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
-
+      
     firewalls:
         
         

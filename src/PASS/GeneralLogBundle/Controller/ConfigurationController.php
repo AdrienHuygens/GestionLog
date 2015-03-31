@@ -21,6 +21,8 @@ use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Security\Core\User\User;
 use PASS\GeneralLogBundle\Entity\ConfigurationLDAP;
 use PASS\GeneralLogBundle\Form\ConfigurationLDAPType;
+use PASS\GeneralLogBundle\Form\ConfigurationMailType;
+use PASS\GeneralLogBundle\Entity\ConfigurationMail;
 
 class ConfigurationController extends Controller {
 
@@ -67,5 +69,23 @@ class ConfigurationController extends Controller {
                     'chemin' => $chemin
         ));
     }
+    public function mailAction(Request $request)
+    {
+      
+        $Configs = new \PASS\GeneralLogBundle\Entity\ConfigurationMail();
+        $Configs->verificationTwig();
+       $form = $this->createForm(new ConfigurationMailType(), $Configs);
 
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+
+            $Configs->Enregistrer();
+        } 
+        return $this->render('PASSGeneralLogBundle:form:formMail.html.twig', Array(
+                    "form" => $form->createView(),
+                    'titrePage' => 'Changer la configuration de la base de donné',
+                    
+                    
+        ));
+    }
 }

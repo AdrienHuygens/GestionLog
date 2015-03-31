@@ -22,19 +22,20 @@ class SystemeventsRepository extends EntityRepository  {
      public function getAllLog(Filtre $filtre, $repo) {
         
          $query = $this->createQueryBuilder('systemevent')
-                        ->select('systemevent.id,systemevent.devicereportedtime , '
+                        ->select('systemevent.id,systemevent.receivedat,systemevent.devicereportedtime , '
                                 . 'systemevent.fromhost, systemevent.message, systemevent.syslogtag,'
-                                . 'priority.nom,priority.couleur,priority.couleurText, facility.nom as nomf')
+                                . 'priority.nom,priority.description,priority.couleur,priority.couleurText,facility.description, facility.nom as nomf')
                         
                         ->join('systemevent.priority', 'priority')
                         ->join('systemevent.facility', 'facility')
-                        ->addOrderBy('systemevent.devicereportedtime', 'DESC')
+                        ->addOrderBy('systemevent.id', 'DESC')
+                       
                         
                        
                         ;
          
          $test = $filtre->filtrer($query,$repo);
-         
+         $test ->setMaxResults(40);
          return $test->getQuery()->execute();
     }
     public function getHost(){
@@ -42,6 +43,7 @@ class SystemeventsRepository extends EntityRepository  {
           return $this->createQueryBuilder('systemevent')
                         ->select('systemevent.fromhost')
                         ->addGroupBy('systemevent.fromhost')
+                       
                         ->getQuery()->execute();
                         ;
     }
