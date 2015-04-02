@@ -246,7 +246,7 @@ class Systemevents
      */
     public function getReceivedat()
     {
-        return $this->receivedat;
+        return $this->receivedat->format("d-m-Y H:i:s");
     }
 
     /**

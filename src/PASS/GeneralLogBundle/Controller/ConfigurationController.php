@@ -39,11 +39,7 @@ class ConfigurationController extends Controller {
             // $Config->load();
             // $form->setData($Config);
         }
-        $factory = $this->get('security.encoder_factory');
-        $user = new User('AdminM', 'test');
-        $encoder = $factory->getEncoder($user);
-        dump($encoder->encodePassword('test', $user->getSalt()));
-
+        
 
         return $this->render('PASSGeneralLogBundle:form:form.html.twig', Array(
                     "form" => $form->createView(),
@@ -69,21 +65,73 @@ class ConfigurationController extends Controller {
                     'chemin' => $chemin
         ));
     }
+    
+    public function mdpAction(Request $request) {
+        $chemin = "";
+        $mdp="";
+        $user = new User("AdminM","test");
+         $form =$this->createFormBuilder()
+         ->add('mot_de_pass', 'text')
+                ->add('Generate','submit')
+                ->getForm() ;
+                ;
+         
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $factory = $this->get('security.encoder_factory');
+           $user = new User('AdminM', "test");
+           $encoder = $factory->getEncoder($user);
+           $mdp = $encoder->encodePassword('test', $user->getSalt());
+        
+           
+        } 
+        
+        return $this->render('PASSGeneralLogBundle:form:form.html.twig', Array(
+                    "form" => $form->createView(),
+                    'titrePage' => 'Changer la configuration de la base de donné',
+                    'chemin' => $chemin,
+                    'mdp'=> $mdp
+        ));
+    }
+    
+ 
     public function mailAction(Request $request)
-    {
-      
+    { 
+        
+        $repo = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\Systemevents");
+        $log = $repo->find($repo->getMin()[0][1]);
+     
         $Configs = new \PASS\GeneralLogBundle\Entity\ConfigurationMail();
         $Configs->verificationTwig();
        $form = $this->createForm(new ConfigurationMailType(), $Configs);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-
-            $Configs->Enregistrer();
+         if ($form->get('Prévisualiser')->isClicked()) {
+             $Configs->Previsualisation();
+             return $this->render('PASSGeneralLogBundle:form:prevuMail.html.twig', Array(
+                    "form" => $form->createView(),              
+                    "html"=> $Configs->getBody(),
+                    "log"=>$log,
+                     "css"=>$Configs->getCss(),
+                     "erreur"=> $Configs->verificationTwig($Configs->getBody()),
+                     "erreurTitre"=>$Configs->verificationTwig($Configs->getTitre())
+                   
+                    
+                    
+        ));
+            }
+            if ($form->get('Enregistrer')->isClicked()) {
+             $Configs->Enregistrer();
+            }
+           // $Configs->Enregistrer();
         } 
         return $this->render('PASSGeneralLogBundle:form:formMail.html.twig', Array(
                     "form" => $form->createView(),
-                    'titrePage' => 'Changer la configuration de la base de donné',
+                    'titrePage' => 'Changer le message de l\'email',
+                    "html"=> $Configs->getBody(),
+                    "log"=>$log
+                   
                     
                     
         ));

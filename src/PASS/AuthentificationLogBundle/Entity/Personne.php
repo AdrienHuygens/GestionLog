@@ -126,6 +126,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
 
     public function __construct($suprimable = true) {
         $this->groupes = new ArrayCollection();
+       
         $this->salt = md5(uniqid(null, true));
         $this->suprimable = $suprimable;
         $roles = array();
@@ -448,5 +449,18 @@ return (bool)($this->fingerprinting == $fingerprinting);
     public function getMail()
     {
         return $this->mail;
+    }
+
+    /**
+     * Set suprimable
+     *
+     * @param boolean $suprimable
+     * @return Personne
+     */
+    public function setSuprimable($suprimable)
+    {
+        $this->suprimable = $suprimable;
+
+        return $this;
     }
 }

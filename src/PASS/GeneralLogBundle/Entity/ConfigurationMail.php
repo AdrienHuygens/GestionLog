@@ -66,13 +66,14 @@ class ConfigurationMail {
         $this->strict = $strict;
     }
 
-        public function verificationTwig() {
+  public function verificationTwig() {
         $cpt = 0;
          $string = $this->body;
         $len = strlen($string);
         $start = false;
         $text= "";
         $check="";
+        $liste = array();
         $tab= array("log.id",'log.receivedat',"log.devicereportedtime","log.facility.nom","log.facility.description","log.priority.nom",
                 "log.priority.description","log.priority.couleur","log.priority.couleurText","log.fromhost","log.message","log.syslogtag");
        
@@ -100,9 +101,13 @@ class ConfigurationMail {
                  $test=false;
                  foreach($tab as $val){
                     
-                     if($text == $val) { $test = true;}
+                     if($text == $val) { $test = true;
+                     break;}
                  }
-                 if (!$test){ $check .= "flute";}
+                 if (!$test){ $check .= "flute";}//retourne une erreur 
+                 
+                 $liste["{{".$text."}}"] = $text; 
+                 
                  $text ="";
             }
            
@@ -117,10 +122,23 @@ class ConfigurationMail {
            
         
     }
-    dump($check);
+    return $liste;
 }
     public function Enregistrer() {
         
+      
+        
+        file_put_contents($this->url .'titreMail.html.twig',  $this->titre);
+        file_put_contents($this->url .'Corp.html.twig',  $this->body);
+        file_put_contents($this->url .'cssMail.html.twig',  $this->css);
+    }
+    public function Previsualisation() {
+        
+      
+        
+        file_put_contents($this->url .'tempTitreMail.html.twig',  $this->titre);
+        file_put_contents($this->url .'tempCorp.html.twig',  $this->body);
+        file_put_contents($this->url .'tempCssMail.html.twig',  $this->css);
     }
 
 }

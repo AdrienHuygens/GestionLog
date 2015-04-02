@@ -56,6 +56,7 @@
                        <table id ="table" class="table col-lg-6 ">
                            <thead> 
                                 <tr>
+                                    <th> id </th>
                                     <th> Date </th>
                                     <th> Prioriter </th>
                                     <th> Type </th>
@@ -69,7 +70,7 @@
                                    
                             <tr style="background-color:{{val.couleur}}; color:{{val.couleurText}}">    
                                 
-                               
+                                <td> {{ val.id }} </td>
                                      <td style=" min-width: 13%;"> {{ val.devicereportedtime| date('d-m-Y H:i:s')  }}</td>
                                       <td> {{ val.nom| raw  }}</td>
                                      <td> {{ val.nomf| raw  }}</td>

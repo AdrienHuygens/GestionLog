@@ -5,8 +5,7 @@
         <li> log.receivedat => Date de récéption sur le serveur syslog </li>
           <li> log.devicereportedtime => Date de l'émission du log sur le serveur </li>           
             <li> log.facility.nom => Nom du type de service (local 0, ...) </li>
-            <li> log.facility.description => La déscription de celui-ci </li>
-        
+            <li> log.facility.description => La déscription de celui-ci </li>        
              <li> log.priority.nom => Nom du type de prioriter, (erreur critique) </li>
               <li> log.priority.description => La déscription de la priorité </li>
                <li> log.priority.couleur => La couleur associer à la prioriter </li>
@@ -14,6 +13,9 @@
                  <li> log.fromhost => Le serveur qui envoye le log </li>
                   <li> log.message =>  le message d'erreur </li>
                    <li> log.syslogtag => le tag du service qui emmet le log. </li>
+                  
+                   <li> include "PASSGestionLogBundle:mail:titreMail.html.twig" ==> afficher le titre du mail dans le corp du mail : structure avec une { et ensuite %</li> 
+                   
               
         </ul>
    </pre>

@@ -35,7 +35,7 @@ class SystemeventsRepository extends EntityRepository  {
                         ;
          
          $test = $filtre->filtrer($query,$repo);
-         $test ->setMaxResults(40);
+         
          return $test->getQuery()->execute();
     }
     public function getHost(){
@@ -57,6 +57,14 @@ class SystemeventsRepository extends EntityRepository  {
                         ->getQuery()->execute();
                         ;
     }
+    public function getMin(){
+        return $this->createQueryBuilder('systemevent')
+                        ->select('min(systemevent.id)')
+                        
+                        ->getQuery()->execute();
+                        ;
+    }
+    
     public function getStat($filtre,$name=null){
         
           $em = $this->createQueryBuilder('systemevent')
