@@ -26,7 +26,7 @@ class PersonneRepository extends EntityRepository implements UserProviderInterfa
     }
 
     public function loadUserByUsername($login) {
-        var_dump('loaduserByusername');
+
         $q = $this
                 ->createQueryBuilder('i')
                 ->select(array('i', 'p'))
@@ -36,38 +36,12 @@ class PersonneRepository extends EntityRepository implements UserProviderInterfa
                 ->setParameter('login', $login)
                 ->getQuery();
         try {
-// La méthode Query::getSingleResult() lance une exception
-// s'il n'y a pas d'entrée correspondante aux critères
             $user = $q->setMaxResults(1);
         } catch (NoResultException $e) {
             throw new UsernameNotFoundException(sprintf('L\'utilisateur "%s" n\'a pas été trouvé ou n\'est pas actif.', $username), 0, $e);
         }
 
-        $personne = $user->getResult();
-        if (isset($personne) && ($personne instanceof Personne)) {
-            if ($personne->getLdap()) {
-                $server = $this->container->getParameter('ldap.server');
-                $port = $this->container->getParameter('ldap.port');
-                
-                echo "Je me connecte (pas) ...";
-                
-                $reponse = true;
-                
-                if($reponse){
-                    return $personne;
-                }
-            }
-        }
-
-        return $personne;
-
-        //Si oui 
-        /*
-         * Code écrit ... dans test.php
-         * 
-         * Créer un objet Personne, l'alimenter et le retourner
-         * 
-         */
+        return $user->getResult();
     }
 
     public function loadById($id) {
@@ -113,8 +87,8 @@ class PersonneRepository extends EntityRepository implements UserProviderInterfa
                         ->getQuery()->execute();
     }
 
-         public function updateLastLogin($id)
-        {
-             
-         }
+    public function updateLastLogin($id) {
+        
+    }
+
 }

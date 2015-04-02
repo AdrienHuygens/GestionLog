@@ -7,10 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use \PASS\AuthentificationLogBundle\Entity\Groupe;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use \Symfony\Component\Validator\Constraints\DateTime;
 
 /**
@@ -61,10 +60,10 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      * @ORM\Column(name="salt", type="string", length=255)
      */
     private $salt;
-    
+
     /**
      * @var string
-     *@Assert\Email(
+     * @Assert\Email(
      *     message = "Le mail '{{ value }}' n'est pas un mail validel.",
      *     checkMX = true)
      * @ORM\Column(name="mail", type="string", length=255, nullable=true)
@@ -104,15 +103,15 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      * 
      */
     private $groupes;
+
     /**
-     *@ORM\Column(name="roles",  type="string", length=255, nullable=True)
+     * @ORM\Column(name="roles",  type="string", length=255, nullable=True)
      *
      *  
      */
     private $roles;
-    
-     public static $em;
-        public $fingerprinting;
+    public static $em;
+    public $fingerprinting;
 
     public function __construct() {
         $this->groupes = new ArrayCollection();
@@ -138,6 +137,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     public function getId() {
         return $this->id;
     }
+
     public function setId($id) {
         $this->id = $id;
     }
@@ -223,18 +223,18 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      * @return \DateTime 
      */
     public function getDernierConnexion() {
-        
+
         return $this->dernierConnexion;
     }
-     public function getDernierConnexionString() {
-        if ($this->dernierConnexion ===null){
+
+    public function getDernierConnexionString() {
+        if ($this->dernierConnexion === null) {
             return "00-00-0000 00:00:00";
-        }
-        else{
+        } else {
             return $this->dernierConnexion->format("d-m-Y H:i:s");
         }
-        
     }
+
     /**
      * Set ldap
      *
@@ -287,6 +287,9 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     public function serialize() {
         return serialize(array(
             $this->id,
+            $this->username,
+            $this->ldap,
+            $this->mdp
         ));
     }
 
@@ -296,6 +299,9 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     public function unserialize($serialized) {
         list (
                 $this->id,
+                $this->username,
+                $this->ldap,
+                $this->mdp
                 ) = unserialize($serialized);
     }
 
@@ -319,9 +325,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     }
 
     public function isEqualTo(UserInterface $user) {
-        //return $this->getUsername() === $user->getUsername();
-        return false;
-        
+        return $this->getUsername() === $user->getUsername();
     }
 
     public function __toString() {
@@ -329,87 +333,76 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     }
 
     public function eraseCredentials() {
- 
+        
     }
 
     public function getPassword() {
-        
+
         return $this->getMdp();
     }
+
     function setRoles($roles) {
         $this->roles[] = $roles;
     }
 
-        public function getRoles() {
+    public function getRoles() {
         $tab = array();
-        foreach($this->groupes as  $groupess)
-        {
+        foreach ($this->groupes as $groupess) {
             $tab[] = $groupess->getRole();
-            
         }
-        
+
         return $tab;
-        //return ;
     }
-    public function affichage(){
+
+    public function affichage() {
         return $this->username;
     }
-    
-    
-     public function type(){
-        if ($this->ldap) return "LDAP";
-        else return "local";
-        
-            }
-            
-            public function getGroupeGen(){
-               $strings ="";
-              
-                foreach ($this->getGroupes() as $groupe ){
-                    
-                    $strings = $strings."- ".$groupe."</br>"; 
-                
-                    
-                }
-                
-                return $strings;
-                
-            }
-     public function activiter(){
-        if ($this->actif) return "Groupe activé <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true<\"></span>";
-        else return "Groupe Désactivié <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span>";
-        
-            }
-    
-    
-    public function resumer(){
-         
-         $tab = array('Id' => $this->getId(),
-                      'username' => $this->getUsername(),
-                      'groupe' => $this->getGroupeGen(),
-                      'dernier connexion' => $this->getDernierConnexionString(),
-                        'ldap' => $this->type(),
-                        'Information' => $this->activiter());
-         
-      return $tab;
-             
-             
-         
-         
-         
-     }
 
-     
-     
-      public function makeFingerprinting()
-{
-$this->fingerprinting = sha1($_SERVER['HTTP_USER_AGENT']."".$_SERVER['SERVER_ADDR']."".$_SERVER['SERVER_PROTOCOL']."zmaslemiogorkiem".$_SERVER['HTTP_ACCEPT_ENCODING'].'abbbisjqjsjd893732');
-}
- public function checkFingerprinting($fingerprinting)
-{
-$this->makeFingerprinting();
-return (bool)($this->fingerprinting == $fingerprinting);
-}
+    public function type() {
+        if ($this->ldap)
+            return "LDAP";
+        else
+            return "local";
+    }
+
+    public function getGroupeGen() {
+        $strings = "";
+
+        foreach ($this->getGroupes() as $groupe) {
+
+            $strings = $strings . "- " . $groupe . "</br>";
+        }
+
+        return $strings;
+    }
+
+    public function activiter() {
+        if ($this->actif)
+            return "Groupe activé <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true<\"></span>";
+        else
+            return "Groupe Désactivié <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span>";
+    }
+
+    public function resumer() {
+
+        $tab = array('Id' => $this->getId(),
+            'username' => $this->getUsername(),
+            'groupe' => $this->getGroupeGen(),
+            'dernier connexion' => $this->getDernierConnexionString(),
+            'ldap' => $this->type(),
+            'Information' => $this->activiter());
+
+        return $tab;
+    }
+
+    public function makeFingerprinting() {
+        $this->fingerprinting = sha1($_SERVER['HTTP_USER_AGENT'] . "" . $_SERVER['SERVER_ADDR'] . "" . $_SERVER['SERVER_PROTOCOL'] . "zmaslemiogorkiem" . $_SERVER['HTTP_ACCEPT_ENCODING'] . 'abbbisjqjsjd893732');
+    }
+
+    public function checkFingerprinting($fingerprinting) {
+        $this->makeFingerprinting();
+        return (bool) ($this->fingerprinting == $fingerprinting);
+    }
 
     /**
      * Set mail
@@ -417,8 +410,7 @@ return (bool)($this->fingerprinting == $fingerprinting);
      * @param string $mail
      * @return Personne
      */
-    public function setMail($mail)
-    {
+    public function setMail($mail) {
         $this->mail = $mail;
 
         return $this;
@@ -429,8 +421,8 @@ return (bool)($this->fingerprinting == $fingerprinting);
      *
      * @return string 
      */
-    public function getMail()
-    {
+    public function getMail() {
         return $this->mail;
     }
+
 }

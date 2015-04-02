@@ -21,12 +21,11 @@ class AuthentificationController extends Controller {
     /**
      * @Route("/hello/{name}")
      * @Template()
-    
 
-    /*
+
+      /*
      *  Controleur pour le formulaire de mon rajout de groupe.
      */
-
     public function groupeAddAction(Request $request, $listingId) {
         $chemin = null;
 
@@ -127,7 +126,7 @@ class AuthentificationController extends Controller {
      * function pour la vérification de connexion.
      */
     public function loginAction(Request $request) {
-        var_dump($request);
+        //var_dump($request);
         $session = $request->getSession();
 // get the login error if there is one
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
@@ -145,11 +144,11 @@ class AuthentificationController extends Controller {
 
     public function okAction() {
         $em = $this->getDoctrine()->getManager();
-        
+
         /*
-        $this->getUser()->setDernierConnexion(new \DateTime());
-        $em->persist($this->getUser());
-        $em->flush();*/
+          $this->getUser()->setDernierConnexion(new \DateTime());
+          $em->persist($this->getUser());
+          $em->flush(); */
         return $this->render("PASSAuthentificationLogBundle:authentification:ok.html.twig", Array(
                     'titrePage' => 'Connexion effectué',
                     'good' => null));
@@ -241,17 +240,16 @@ class AuthentificationController extends Controller {
         $em->flush();
         return $this->redirect($this->generateUrl('PASS_GestionGroupe'));
     }
-    
-    
-    public function changeMDPAction(Request $request,Personne $personneId) {
-        
-       $form = $this->createForm(new changeMDPType(),$personneId);
-       
-       $form->handleRequest($request);
-       
-       if($form ->isValid()){
-           
-           $factory = $this->get('security.encoder_factory');
+
+    public function changeMDPAction(Request $request, Personne $personneId) {
+
+        $form = $this->createForm(new changeMDPType(), $personneId);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+
+            $factory = $this->get('security.encoder_factory');
             $encoder = $factory->getEncoder($personneId);
 
             $personneId->setMdp($encoder->encodePassword($personneId->getMdp(), $personneId->getSalt()));
@@ -265,13 +263,13 @@ class AuthentificationController extends Controller {
                         "good" => "utilisateur d'utilisateur bien créé.",
                         'titrePage' => 'Opération éffectué',
             ));
-       }
-       
-       
-       return $this->render('PASSAuthentificationLogBundle:authentification:changeMdp.html.twig', array(
-        'form' => $form->createView(),
-               'id' => $personneId->getId()
+        }
+
+
+        return $this->render('PASSAuthentificationLogBundle:authentification:changeMdp.html.twig', array(
+                    'form' => $form->createView(),
+                    'id' => $personneId->getId()
         ));
     }
-   
+
 }

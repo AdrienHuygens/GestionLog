@@ -1,21 +1,4 @@
-parameters:
-
-<<<<<<< HEAD
-        
-    pass_auth_webservice:
-        class: %pass.service.class%
-    pass_auth_user_provider:
-        class: %security.user.provider.pass.service.class%
-        arguments: [@pass_auth_webservice, @doctrine.orm.entity_manager]
-        
-    security.authentication_provider.pass_auth_webservice:
-        class: %security.authentication.provider.pass_service.class%
-        abstract: true
-        public: false
-        arguments: [@pass_auth_webservice, @security.user_checker, @security.user_checker,@security.encoder_factory,security.authentication.hide_user_not_found]
-=======
-    
-    
 services:
-  
->>>>>>> 4a506d0499e379ad6ab7eed40a7b602873f446bb
+    ldap_authenticator:
+        class:     PASS\AuthentificationLogBundle\Security\LDAPAuthenticator
+        arguments: ["@security.password_encoder"]
