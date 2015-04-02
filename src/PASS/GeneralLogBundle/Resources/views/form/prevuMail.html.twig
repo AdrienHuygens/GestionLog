@@ -1,0 +1,55 @@
+{# empty Twig template #}
+{% extends "::mail.html.twig" %}
+
+{% block titrePage %} prévisualisation du mail {% endblock %}
+{% block stylesheets %} 
+    {{ parent() }}
+    <style> 
+#logo{
+    background-image: url(/images/pass_logo5.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: white;
+    //background-color: #ff00ff;
+    height: 100px;
+    margin-left:10px;
+}
+        {% include "PASSGestionLogBundle:mail:tempCssMail.html.twig"  %}
+
+    </style>
+{% endblock %}
+
+{% block contenu %} 
+    Titre du mail
+    <pre>
+{% include "PASSGestionLogBundle:mail:tempTitreMail.html.twig"  %}
+    </pre>
+    Mail:
+    <pre class="prev">
+        {% include "PASSGestionLogBundle:mail:tempCorp.html.twig"  %}
+
+    </pre>
+
+
+    {{ form_start(form) }}
+
+    <div class="col-lg-12 col-md-12" >
+        Titre du mail:{{ form_widget(form.titre) }}
+    </div>
+    <div class="col-lg-12 col-md-12" >
+        Corp du mail:{{ form_widget(form.body) }}
+    </div>
+    <div class="col-lg-12 col-md-12" >
+        css:{{ form_widget(form.css) }}
+    </div>
+    <div class="col-lg-4 col-md-4" >
+        Codage strict:{{ form_widget(form.strict) }}
+    </div>
+    <div class="col-lg-4 col-md-4" >
+        {{ form_widget(form.Enregistrer) }}
+        {{ form_widget(form.Prévisualiser) }}
+    </div>
+    {{ form_end(form) }}
+
+
+{% endblock %}

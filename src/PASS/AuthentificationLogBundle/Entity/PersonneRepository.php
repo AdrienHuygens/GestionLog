@@ -86,9 +86,45 @@ class PersonneRepository extends EntityRepository implements UserProviderInterfa
                         ->orderBy("p.username")
                         ->getQuery()->execute();
     }
-
-    public function updateLastLogin($id) {
-        
+    
+    
+    function getAllUserNoLdap() {
+        return $this->createQueryBuilder('p')
+                        ->select('p')
+                        ->where("p.ldap = FALSE")
+                        ->orderBy("p.username")
+                        ->getQuery()->execute();
+    }
+    function getAllUserLdap() {
+        return $this->createQueryBuilder('p')
+                        ->select('p')
+                        ->where("p.ldap = TRUE")
+                        ->orderBy("p.username")
+                        ->getQuery()->execute();
     }
 
+     function getUserLdap($username) {
+         try {
+         $p = $this->createQueryBuilder('p')
+                        ->select('p')
+                        ->where("p.ldap = TRUE")
+                        ->andWhere("p.username = '".$username."'")
+                        ->orderBy("p.username")
+                        ->getQuery();
+        
+      
+            // La méthode Query::getSingleResult() lance une exception
+            // s'il n'y a pas d'entrée correspondante aux critères
+         $p->setMaxResults(1);
+        } catch (Exception $e) {
+            return null;
+            throw new UsernameNotFoundException(sprintf('L\'utilisateur "%s" n\'a pas été trouvé ou n\'est pas actif.', $username), 0, $e);
+        }
+        return $p->getResult();
+    }
+    
+         public function updateLastLogin($id)
+        {
+             
+         }
 }

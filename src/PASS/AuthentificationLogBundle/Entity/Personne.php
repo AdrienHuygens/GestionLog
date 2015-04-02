@@ -40,11 +40,12 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      * max =50, maxMessage="La longeur du nom ne peux pas dépasser {{ limit }} caractères")  
      * @Assert\NotBlank(message="le champs ne peux pas être vide")
      * @Assert\Regex(pattern="/\W/", match = false ,message="La chaine ne peux pas avoir que des Chiffres et des lettres")
+     * @Assert\NotEqualTo( value = "AdminM", message="utilisateur existe déjà" )
      */
     private $username;
 
     /**
-     * @ORM\Column(name="mdp", type="string", length=255)
+     * @ORM\Column(name="mdp", type="string", length=255, nullable = true)
      * @var string
      *  @Assert\Length(min=2, minMessage="Votre mot de passe dois avoir au moins {{ limit }} caractères.",
      * max =50, maxMessage="La longeur du mot de passe ne peux pas dépasser {{ limit }} caractères",  groups={"registration"})  
@@ -63,9 +64,9 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
 
     /**
      * @var string
-     * @Assert\Email(
-     *     message = "Le mail '{{ value }}' n'est pas un mail validel.",
-     *     checkMX = true)
+     *@Assert\Email(
+     *     message = "Le mail '{{ value }}' n'est pas un mail valide.",
+     *     checkMX = false, checkHost = true)
      * @ORM\Column(name="mail", type="string", length=255, nullable=true)
      */
     private $mail;
@@ -94,7 +95,16 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      * @Assert\Type(type="bool", message="La valeur {{ value }} n'est pas un type {{ type }} valide.")
      */
     private $actif;
+    
+     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="suprimable", type="boolean", nullable=True)
+     * @Assert\Type(type="bool", message="La valeur {{ value }} n'est pas un type {{ type }} valide.")
+     */
+    private $suprimable;
 
+    
     /**
      *
      * @ORM\ManyToMany(targetEntity="Groupe", inversedBy="personnes")
@@ -113,9 +123,12 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     public static $em;
     public $fingerprinting;
 
-    public function __construct() {
+    public function __construct($suprimable = true) {
         $this->groupes = new ArrayCollection();
+       
         $this->salt = md5(uniqid(null, true));
+        $this->suprimable = $suprimable;
+        $roles = array();
         //$this->setDernierConnexion(new \DateTime("00000000000000"));
     }
 
@@ -204,8 +217,11 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     public function getSalt() {
         return $this->salt;
     }
+    function getSuprimable() {
+        return $this->suprimable;
+    }
 
-    /**
+        /**
      * Set dernierConnexion
      *
      * @param \DateTime $dernierConnexion
@@ -357,52 +373,63 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     public function affichage() {
         return $this->username;
     }
+    
+    
+     public function type(){
+        if ($this->ldap) return "LDAP";
+        else return "local";
+        
+            }
+            
+            public function getGroupeGen(){
+               $strings ="";
+              
+                foreach ($this->getGroupes() as $groupe ){
+                    
+                    $strings = $strings."- ".$groupe."</br>"; 
+                
+                    
+                }
+                
+                return $strings;
+                
+            }
+     public function activiter(){
+        if ($this->actif) return "Utilisateur activé <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true<\"></span>";
+        else return "Utilisateur Désactivié <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span>";
+        
+            }
+    
+    
+    public function resumer(){
+         
+         $tab = array('Id' => $this->getId(),
+                      'username' => $this->getUsername(),
+                      'mail' => $this->mail,
+                      'groupe' => $this->getGroupeGen(),
+                      'dernier connexion' => $this->getDernierConnexionString(),
+                        'ldap' => $this->type(),
+                        'Information' => $this->activiter());
+         
+      return $tab;
+             
+             
+         
+         
+         
+     }
 
-    public function type() {
-        if ($this->ldap)
-            return "LDAP";
-        else
-            return "local";
-    }
-
-    public function getGroupeGen() {
-        $strings = "";
-
-        foreach ($this->getGroupes() as $groupe) {
-
-            $strings = $strings . "- " . $groupe . "</br>";
-        }
-
-        return $strings;
-    }
-
-    public function activiter() {
-        if ($this->actif)
-            return "Groupe activé <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true<\"></span>";
-        else
-            return "Groupe Désactivié <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span>";
-    }
-
-    public function resumer() {
-
-        $tab = array('Id' => $this->getId(),
-            'username' => $this->getUsername(),
-            'groupe' => $this->getGroupeGen(),
-            'dernier connexion' => $this->getDernierConnexionString(),
-            'ldap' => $this->type(),
-            'Information' => $this->activiter());
-
-        return $tab;
-    }
-
-    public function makeFingerprinting() {
-        $this->fingerprinting = sha1($_SERVER['HTTP_USER_AGENT'] . "" . $_SERVER['SERVER_ADDR'] . "" . $_SERVER['SERVER_PROTOCOL'] . "zmaslemiogorkiem" . $_SERVER['HTTP_ACCEPT_ENCODING'] . 'abbbisjqjsjd893732');
-    }
-
-    public function checkFingerprinting($fingerprinting) {
-        $this->makeFingerprinting();
-        return (bool) ($this->fingerprinting == $fingerprinting);
-    }
+     
+     
+      public function makeFingerprinting()
+{
+$this->fingerprinting = sha1($_SERVER['HTTP_USER_AGENT']."".$_SERVER['SERVER_ADDR']."".$_SERVER['SERVER_PROTOCOL']."zmaslemiogorkiem".$_SERVER['HTTP_ACCEPT_ENCODING'].'abbbisjqjsjd893732');
+}
+ public function checkFingerprinting($fingerprinting)
+{
+$this->makeFingerprinting();
+return (bool)($this->fingerprinting == $fingerprinting);
+}
 
     /**
      * Set mail
@@ -425,4 +452,16 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
         return $this->mail;
     }
 
+    /**
+     * Set suprimable
+     *
+     * @param boolean $suprimable
+     * @return Personne
+     */
+    public function setSuprimable($suprimable)
+    {
+        $this->suprimable = $suprimable;
+
+        return $this;
+    }
 }

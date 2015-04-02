@@ -11,10 +11,7 @@ use PASS\GestionLogBundle\Form\DateType;
 
 class statistiqueController extends Controller
 {
-    /**
-     * @Route("/hello/{name}")
-     * @Template()
-     */
+   
     
     public function affichageStatAction(Request $request)
     {

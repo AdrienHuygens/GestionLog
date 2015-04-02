@@ -2,15 +2,12 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Le PASS Gestion de log{% endblock %}</title>
+        
 
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+     <title>{% block title %}Le PASS Gestion de log{% endblock %}</title>    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     
         {% block stylesheets %}
             <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" media="screen" />
-            {% stylesheets '../app/Resources/public/css/*' filter='cssrewrite'  output='css/style.css' %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
-            {% endstylesheets %}
             
            
         {% endblock %}
@@ -18,23 +15,20 @@
     </head>
     <body>
 
-        {{app.request.session.set("filtre",null) }}
-         {{app.request.session.set("r",null) }}
+        
         <div id="corp">
 
-            <div class="row">
+           <div class="row">
                 <div class="col-md-12" id="logo"></div>
             </div>
 
             <div class="row " id="contenu">
-          
-                
 
                    
                    
                     <nav class="navbar navbar-default ">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-9">
+                            
+                            <div class="col-md-12">
                             <div class="container"> 
                                 <div class="navbar-header">
                                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -60,48 +54,19 @@
 
 
 
-                 <div class="col-md-3 "></div>
-                  <div class="col-md-9">
+                 
+                  <div class="col-lg-12 col-md-12">
                  <h1>{% block titrePage %}Bienvenu(e) !{% endblock %}</h1>
                   </div>
                
                 
-                <div class="col-md-3 ">
-                    </br>
-                    <div id="menuGauche" style="padding-left: 10px;" >
-                        {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-                            Bonjour {{ app.user.username |capitalize }} !
-                            
-                            <br />  
-                            <br /> 
-                           
-                            {%  if not is_granted("ROLE_MEMORY") %}
-                           <a href="{{ path('PASS_MonCompte', {'listingId': 1 }) }}"><button  type="button" class="btn btn-success btn150">Mon compte  </button></a>
-                            {% endif %}
-                            <br />  
-                            <br />
-                            <a href="{{ path('logout') }}"> <button type="button" class="btn btn-danger btn150">Se déconnecter</button></a>
-                        {% else %}
-                                             
-                           {#{ include('PASSAuthentificationLogBundle:authentification:loginForm_part.html.twig') }#}
-                             
-                         
-                        {% endif %}
-                        
-                   
-                    </div>
-                     
-                    {% block menuleft %}
-                    
-                    {% endblock %}
-                   
-                </div>
+             
                     
                     
                     
                     
                     
-                <div class="col-md-9">
+                <div class="col-md-12">
                    
                     <br />
                     {% block contenu %}<p>Contenu</p>{% endblock %}

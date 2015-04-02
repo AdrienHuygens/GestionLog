@@ -76,6 +76,16 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
     private $actif;
 
     /**
+     * @var boolean
+     *  
+     * @ORM\Column(name="supprimable", type="boolean",nullable = true)
+     * 
+     * @Assert\Type(type="bool", message="La valeur {{ value }} n'est pas un type {{ type }} valide.")
+     * 
+     */
+    private $supprimable;
+
+    /**
      *  @ORM\ManyToMany(targetEntity="Personne", mappedBy="groupes")
      * 
      * @var Personne
@@ -122,6 +132,10 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
         $this->description = $description;
 
         return $this;
+    }
+
+    function getSupprimable() {
+        return $this->supprimable;
     }
 
     /**
@@ -180,6 +194,7 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
      */
     public function __construct() {
         $this->personnes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->supprimable = true;
     }
 
     /**
@@ -194,11 +209,16 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
         return $this;
     }
 
-    /**
+    function setSupprimable($supprimable) {
+        $this->supprimable = $supprimable;
+    }
+
+    /*
      * Remove personnes
      *
      * @param \PASS\AuthentificationLogBundle\Entity\Personne $personnes
      */
+
     public function removePersonne(\PASS\AuthentificationLogBundle\Entity\Personne $personnes) {
         $this->personnes->removeElement($personnes);
     }
@@ -235,35 +255,34 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
     public function getRole() {
         return $this->role;
     }
-    
-     public function affichage(){
+
+    public function affichage() {
         return $this->nom;
     }
-    public function type(){
-        if ($this->ldap) return "LDAP";
-        else return "local";
-        
-            }
-     public function activiter(){
-        if ($this->actif) return "Groupe activé <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true<\"></span>";
-        else return "Groupe Désactivié <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span>";
-        
-            }
-            
-     public function resumer(){
-         
-         $tab = array('Id' => $this->getId(),
-                      'Nom' => $this->getNom(),
-                      'Description' => '<pre>'.$this->getDescription().'</pre>',
-                        'Type de groupe' => $this->type(),
-                        'Information' => $this->activiter());
-         
-      return $tab;
-             
-             
-         
-         
-         
-     }
+
+    public function type() {
+        if ($this->ldap)
+            return "LDAP";
+        else
+            return "local";
+    }
+
+    public function activiter() {
+        if ($this->actif)
+            return "Groupe activé <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true<\"></span>";
+        else
+            return "Groupe Désactivié <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span>";
+    }
+
+    public function resumer() {
+
+        $tab = array('Id' => $this->getId(),
+            'Nom' => $this->getNom(),
+            'Description' => '<pre>' . $this->getDescription() . '</pre>',
+            'Type de groupe' => $this->type(),
+            'Information' => $this->activiter());
+
+        return $tab;
+    }
 
 }

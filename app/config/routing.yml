@@ -10,4 +10,7 @@ pass_Authen_log:
 pass_gestion_log:
     resource: "@PASSGestionLogBundle/Resources/config/routing.yml"
     prefix: /
-
+    
+pass_general_log2:
+    resource: "@PASSGeneralLogBundle/Resources/config/routing.yml"
+    prefix: /

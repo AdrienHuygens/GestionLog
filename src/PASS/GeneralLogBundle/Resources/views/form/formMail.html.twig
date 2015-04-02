@@ -1,0 +1,37 @@
+{% extends "::base.html.twig" %}
+
+{% block titrePage %}
+            {{ titrePage }} {% endblock %}
+            
+            
+ {% block contenu %}
+    
+   
+      
+     {{ form_start(form) }}
+     
+      <div class="col-lg-12 col-md-12" >
+                Titre du mail:{{ form_widget(form.titre) }}
+            </div>
+      <div class="col-lg-12 col-md-12" >
+                Corp du mail:{{ form_widget(form.body) }}
+            </div>
+                 <div class="col-lg-12 col-md-12" >
+                css:{{ form_widget(form.css) }}
+            </div>
+                <div class="col-lg-4 col-md-4" >
+                Codage strict:{{ form_widget(form.strict) }}
+            </div>
+                <div class="col-lg-4 col-md-4" >
+                {{ form_widget(form.Enregistrer) }}
+                 {{ form_widget(form.Prévisualiser) }}
+            </div>
+                 {{ form_end(form) }}
+{% endblock %}
+
+{% block menuleft %}
+    
+    {% include  "PASSGeneralLogBundle:form:ListeVariableMail.html.twig" %}
+   
+    
+    {% endblock %}

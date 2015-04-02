@@ -1,0 +1,14 @@
+{# empty Twig template #}
+<a href="{{ path('PASS_GestionUtilisateur',{'listingId': jeune.id}) }}"><span class="glyphicon glyphicon-user" title="Voir l'utilisateur"  aria-hidden="true"></span> </a>
+ 
+ {%   if jeune.suprimable or  is_granted("ROLE_MEMORY")  %}
+<a href="{{ path('PASS_ModificationUtilisateur',{'listingId': jeune.id}) }}"><span class="glyphicon glyphicon-pencil" title="Modifier l'utilisateur"  aria-hidden="true"></span> </a>
+  
+                            
+<a href="{{ path('PASS_SupprimerUtilisateur',{'personneId': jeune.id}) }}">
+    <span class="glyphicon glyphicon-trash" title="Supprimer l'utilisateur"  aria-hidden="true"></span> </a>
+ 
+                                
+<a href="{{ path('PASS_ChangeMDP',{'personneId': jeune.id}) }}">
+    <span class="glyphicon glyphicon-asterisk" title="Changer le mot de passe de l'utilisateur"  aria-hidden="true"></span> </a>
+    {%  endif %}

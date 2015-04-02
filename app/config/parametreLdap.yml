@@ -1,0 +1,6 @@
+parameters:
+    ldap_server: 192.168.100.34
+    ldap_port: 387
+    ldap_dn: 'ou=users,dc=admin,dc=pass,dc=be'
+    ldap_filtre: objectclass=PASS
+    ldap_connexion: true

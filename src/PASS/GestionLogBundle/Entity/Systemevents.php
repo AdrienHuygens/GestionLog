@@ -246,7 +246,7 @@ class Systemevents
      */
     public function getReceivedat()
     {
-        return $this->receivedat;
+        return $this->receivedat->format("d-m-Y H:i:s");
     }
 
     /**
@@ -269,8 +269,8 @@ class Systemevents
      */
     public function getDevicereportedtime()
     {
-        //return $this->devicereportedtime->format("d-m-Y H:i:s");
-        return "0";
+        return $this->devicereportedtime->format("d-m-Y H:i:s");
+        //return "0";
     }
 
     /**

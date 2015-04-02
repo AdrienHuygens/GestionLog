@@ -8,6 +8,8 @@ contact adrien.huygens@gmail.com
     Created on : 11-févr.-2015, 10:35:25
     Author     : adrien
 */
+
+
 .topPadding{
     padding-top: 10px;
 }
@@ -26,7 +28,7 @@ contact adrien.huygens@gmail.com
 }
 .form-group{
     display:inline-block;
-    display:inline;
+   display:inline;
     
 }
 .btn150{
@@ -61,6 +63,7 @@ pre{
     
      margin-bottom: 5px;
      padding-bottom: 5px;
+     overflow: hidden;
 }
 .rowLeft{
     margin-left: 15px;

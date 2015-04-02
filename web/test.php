@@ -36,14 +36,15 @@ contact adrien.huygens@gmail.com
             //$r = ldap_bind($ds, 'uid=syslog,ou=Applications,dc=admin,dc=pass,dc=be', 'syslog');
 
             $dn = "dc=admin,dc=pass,dc=be";
-            $filtre = "sn=*";
+            $filtre = "uid=Ddevleeschauwer";
             $sr = ldap_search($ds, $dn, $filtre);
             echo "Le résultat de la recherche est $sr";
 
             echo "Le nombre d'entrées retournées est " . ldap_count_entries($ds, $sr) . ".<p>";
             $info = ldap_get_entries($ds, $sr);
             echo "Données pour " . $info["count"] . " entrées:<p>";
-
+           
+            
             for ($i = 0; $i < $info["count"]; $i++) {
                 echo "dn est : " . $info[$i]["dn"] . "<br>";
                 echo "premiere entree cn : " . $info[$i]["cn"][0] . "<br>";

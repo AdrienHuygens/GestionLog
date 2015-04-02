@@ -7,10 +7,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use PASS\GestionLogBundle\Entity\GroupeOrdinateur;
 use PASS\GestionLogBundle\Form\GroupeOrdinateurType;
+
 use Symfony\Component\HttpFoundation\Request;
 
 class GroupeOrdinateurController extends Controller
 {
+    public function indexAction(){
+        
+         return $this->render('PASSGeneralLogBundle:form:ok.html.twig', Array(
+                        "good" => "utilisateur d'utilisateur bien créé.",
+                        'titrePage' => 'Opération éffectué',
+            ));
+        
+    }
     private function host(){
          $repo = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\Systemevents");
          $host = array();

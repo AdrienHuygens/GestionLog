@@ -11,7 +11,7 @@
     Mettre un filtre
   </button>
     </div>
-    <div id='filtre'class="rowBottom col-lg-12 col-md-12" style='display:"";'>
+    <div id='filtre'class="rowBottom col-lg-12 col-mg-12 " >
             {{ form_start(form) }}
 
             <div class="col-lg-3 col-md-3" >
@@ -25,7 +25,7 @@
             <div class="col-lg-3 col-md-3" >
                 Groupe d'ordinateur:{{ form_widget(form.priority) }}
             </div>
-            <div class="col-lg-3 col-md-2 topPadding" >
+            <div class="col-lg-3 col-md-3 topPadding" >
                 Nombre par page:{{ form_widget(form.nbPage) }}
             </div>
 
@@ -43,7 +43,7 @@
 
             </div></br></div>
                 
-           <div class="col-lg-12">
+           <div class="col-lg-12 col-mg-12">
             <div class="panel panel-info">
                 
                 <div class="panel-heading">
@@ -56,6 +56,7 @@
                        <table id ="table" class="table col-lg-6 ">
                            <thead> 
                                 <tr>
+                                    <th> id </th>
                                     <th> Date </th>
                                     <th> Prioriter </th>
                                     <th> Type </th>
@@ -65,11 +66,11 @@
                                     </tr>
                                     </thead> 
                                     <tbody>
-                                {% for val in listing %}
+                                {% for val in listing  %}
                                    
                             <tr style="background-color:{{val.couleur}}; color:{{val.couleurText}}">    
                                 
-                               
+                                <td> {{ val.id }} </td>
                                      <td style=" min-width: 13%;"> {{ val.devicereportedtime| date('d-m-Y H:i:s')  }}</td>
                                       <td> {{ val.nom| raw  }}</td>
                                      <td> {{ val.nomf| raw  }}</td>

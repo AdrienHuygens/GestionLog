@@ -9,7 +9,9 @@
         {{ form_errors(form) }}
          
         {{ form_row(form.username) }}
+        {% if suprimable or  is_granted("ROLE_MEMORY")  %}
         mot de passe: <a href="{{ path('PASS_ChangeMDP',  {'personneId':id}) }}" > changer le mot de passe </a>  <br><br>
+        {% endif %}
          {{ form_row(form.mail) }}
         {{ form_row(form.groupes) }}
          
@@ -20,9 +22,9 @@
            
         
            
-           
+           {% if suprimable or  is_granted("ROLE_MEMORY")  %}
            <a href="{{ path('PASS_SupprimerUtilisateur', {'personneId':id}) }}"><button type="button" class="btn btn-danger">Supprimer l'utilisateur</button></a>
-        
+           {% endif %}
 
 
         

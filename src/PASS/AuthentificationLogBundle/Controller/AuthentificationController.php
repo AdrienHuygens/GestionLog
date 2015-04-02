@@ -157,18 +157,19 @@ class AuthentificationController extends Controller {
     public function utilisateurListingAction($listingId) {
         if ($listingId != 0) {
 
-            $groupe = $this->getDoctrine()->getRepository("PASSAuthentificationLogBundle:Personne")->find($listingId);
+            $utilisateur = $this->getDoctrine()->getRepository("PASSAuthentificationLogBundle:Personne")->find($listingId);
 
             return $this->render('PASSAuthentificationLogBundle:listing:recapitulatif.html.twig', Array(
-                        'titrePage' => 'Gestion d\'un utilisateur', 'groupe' => $groupe->resumer(), 'nom' => $groupe->getUsername(),
-                        'activiter' => " Information sur l'utilisateur", 'lien' => 'PASS_ModificationUtilisateur', 'id' => $listingId
+                        'titrePage' => 'Gestion d\'un utilisateur', 'groupe' => $utilisateur->resumer(), 'nom' => $utilisateur->getUsername(),
+                        'activiter' => " Information sur l'utilisateur", 'lien' => 'PASS_ModificationUtilisateur', 'id' => $listingId,
+                        'activite' => " utilisateur"
             ));
         } else {
             $repoJeune = $this->getDoctrine()->getRepository("PASS\AuthentificationLogBundle\Entity\Personne");
-            $tab = $repoJeune->getAllUser();
-
+            $tab = $repoJeune->getAllUserNoLdap();
+            $tab2 = $repoJeune->getAllUserLdap();
             return $this->render("PASSAuthentificationLogBundle:listing:listing.html.twig", array("titrePage" => "Listing utilisateur", "activite" => 'utilisateur',
-                        "tab" => $tab, 'chemin' => "PASS_GestionUtilisateur"
+                        "tab" => $tab, 'chemin' => "PASS_GestionUtilisateur", "ldap" => $tab2,
             ));
         }
     }
@@ -180,7 +181,8 @@ class AuthentificationController extends Controller {
 
             return $this->render('PASSAuthentificationLogBundle:listing:recapitulatif.html.twig', Array(
                         'titrePage' => 'Gestion d\'un groupe', 'groupe' => $groupe->resumer(), 'nom' => $groupe->getNom(),
-                        'activiter' => " Information sur le groupe", 'lien' => 'PASS_ModificationGroupe', 'id' => $listingId
+                        'activiter' => " Information sur le groupe", 'lien' => 'PASS_ModificationGroupe', 'id' => $listingId,
+                        'activite' => " groupe"
             ));
         } else {
 
@@ -216,7 +218,9 @@ class AuthentificationController extends Controller {
         return $this->render('PASSAuthentificationLogBundle:authentification:editPersonneForm.html.twig', Array(
                     "form" => $form->createView(),
                     'titrePage' => 'Modifier un utilisateur local',
-                    'id' => $listingId->getId()));
+                    'id' => $listingId->getId(),
+                    'suprimable' => $personne->getSuprimable()
+        ));
     }
 
     public function utilisateurSupprimerAction(Personne $personneId) {

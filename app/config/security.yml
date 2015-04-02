@@ -1,18 +1,24 @@
 security:
     encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
+        Symfony\Component\Security\Core\User\User: sha512
         PASS\AuthentificationLogBundle\Entity\Personne: sha512
     providers:
+        main_provider:
+            chain :
+                providers: [in_memory, database]
         
         database:
             entity: { class: PASSAuthentificationLogBundle:Personne, property: username}
         in_memory:
-            memory: ~
+            memory:
+                users:
+                    AdminM: { password: stHGdg4MhYOm/OVTWjpMJievIvJqafsQQ3WpWlUNDT6WfHupVWjBQaxdppMQkdCmYSXl6QQQXVYLGL/MDZi5Zw== , roles: 'ROLE_MEMORY'  }
             
     role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
+        ROLE_MEMORY:      ROLE_USER
+        ROLE_ADMIN:       [ROLE_USER ]
         ROLE_SUPER_ADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
-
+      
     firewalls:
                 
         ldap:

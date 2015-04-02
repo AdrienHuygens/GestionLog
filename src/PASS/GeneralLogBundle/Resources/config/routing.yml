@@ -1,0 +1,13 @@
+PASS_Configuration:
+    path: /configuration/sql
+    defaults: { _controller: PASSGeneralLogBundle:Configuration:index }
+PASS_ConfigurationLdap:
+    path: /configuration/ldap
+    defaults: { _controller: PASSGeneralLogBundle:Configuration:ldap }
+    
+PASS_ConfigurationMail:
+    path: /configuration/mail
+    defaults: { _controller: PASSGeneralLogBundle:Configuration:mail }
+PASS_MDP:
+    path: /configuration/mdp
+    defaults: { _controller: PASSGeneralLogBundle:Configuration:mdp }
