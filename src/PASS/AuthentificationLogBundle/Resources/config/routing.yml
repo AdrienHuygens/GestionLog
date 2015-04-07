@@ -38,7 +38,7 @@ PASS_MonCompte:
         
 PASS_ModificationGroupe:
     path: /auth/gestion/groupe/modification/{listingId}
-    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:groupeAdd }
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:groupeAdd, listingId: 0  }
     requirements:
         listingId: \d+
         
@@ -84,3 +84,6 @@ PASS_importLDAP:
 PASS_modificationLDAP:
     path: /auth/ldap/modification/{username}
     defaults: { _controller: PASSAuthentificationLogBundle:ImportationPersonne:ModificationPersonneLdap, username: 0 }
+PASS_GestionRole:
+    path: /auth/Role
+    defaults: { _controller: PASSAuthentificationLogBundle:GestionRole:gestionRole }

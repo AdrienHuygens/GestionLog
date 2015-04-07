@@ -49,7 +49,7 @@ class Systemevents
      * @var integer
      *
      * ORM\Column(name="facility", type="smallint", nullable=true)
-     * @ORM\ManyToOne(targetEntity="facility")
+     * @ORM\ManyToOne(targetEntity="facility", cascade={"remove","remove"})
      * @ORM\JoinColumn(name="facility", referencedColumnName="id")
      */
     private $facility;
@@ -58,7 +58,7 @@ class Systemevents
      * @var integer
      *
      * ORM\Column(name="priority", type="integer", nullable=true)
-     * @ORM\ManyToOne(targetEntity="priority")
+     * @ORM\ManyToOne(targetEntity="priority", cascade={"remove","remove"})
      * @ORM\JoinColumn(name="priority", referencedColumnName="id")
      */
     private $priority;

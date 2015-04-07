@@ -25,7 +25,7 @@ class ImportationPersonneController extends Controller {
           
          
        
-            return  ldap_connect($this->serveur->getLdapServer());
+            return  $db = ldap_connect ( $this->serveur->getLdapServer(),$this->serveur->getLdapPort());
         }
         catch(Exception $ex)
         {

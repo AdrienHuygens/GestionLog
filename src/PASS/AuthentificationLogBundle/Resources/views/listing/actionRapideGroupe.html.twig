@@ -1,13 +1,14 @@
 {# empty Twig template #}
 
-<a href="{{ path('PASS_GestionGroupe',{'listingId': jeune.id}) }}"><span class="glyphicon glyphicon-user" title="Voir l'utilisateur"  aria-hidden="true"></span> </a>
-                            
-<a href="{{ path('PASS_ModificationGroupe',{'listingId': jeune.id}) }}"><span class="glyphicon glyphicon-pencil" title="Modifier l'utilisateur"  aria-hidden="true"></span> </a>
+<a href="{{ path('PASS_GestionGroupe',{'listingId': jeune.id}) }}"><span class="glyphicon glyphicon-user" title="Voir le groupe"  aria-hidden="true"></span> </a>
+
+{% if jeune.supprimable %}
+<a href="{{ path('PASS_ModificationGroupe',{'listingId': jeune.id}) }}"><span class="glyphicon glyphicon-pencil" title="Modifier le groupe"  aria-hidden="true"></span> </a>
   
                             
 <a href="{{ path('PASS_SupprimerGroupe',{'groupeId': jeune.id}) }}">
-    <span class="glyphicon glyphicon-trash" title="Supprimer l'utilisateur"  aria-hidden="true"></span> </a>
+    <span class="glyphicon glyphicon-trash" title="Supprimer le groupe"  aria-hidden="true"></span> </a>
  
-                                
+     {% endif %}                           
 
  

@@ -16,6 +16,15 @@ class GroupeRepository extends EntityRepository
         return $this->createQueryBuilder('p')
                         ->select('p')
                         ->orderBy("p.nom")
+                        
+                        ->getQuery()->execute();
+    }
+    function getGroupeVisible(){
+         return $this->createQueryBuilder('p')
+                        ->select('p')
+                        ->where("p.supprimable = true")
+                        
+                        
                         ->getQuery()->execute();
     }
     

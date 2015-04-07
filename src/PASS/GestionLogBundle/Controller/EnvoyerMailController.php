@@ -13,13 +13,15 @@ use Symfony\Component\HttpFoundation\Request;
 class EnvoyerMailController extends Controller
 {
     public function indexAction(\PASS\GestionLogBundle\Entity\Systemevents $listingId){
-       /* if($this->getRequest()->getClientIp() === "127.0.0.1") {
+        /*$titre = new \PASS\GeneralLogBundle\Entity\ConfigurationMail();
+        $titre = $titre->getTitre();
+        if($this->getRequest()->getClientIp() === "127.0.0.1") {
         $message = \Swift_Message::newInstance()
-        ->setSubject('Hello Email')
+        ->setSubject($this->renderView('PASSGestionLogBundle:mail:titreMail.html.twig',array("log"=> $listingId)))
         ->setFrom('GDL@pass.be')
-        ->setTo(array("huygens@pass.be"))
-        ->attach(\Swift_Attachment::fromPath("images/pass_logo5.png"), "application/octet-stream")
-        ->setBody($this->renderView('PASSGestionLogBundle:mail:mail.html.twig'),'text/html')
+        ->setTo(array("sortino@pass.be"))
+       
+        ->setBody($this->renderView('PASSGestionLogBundle:mail:mail.html.twig',array("log"=> $listingId)),'text/html')
     ;
     $this->get('mailer')->send($message);
     

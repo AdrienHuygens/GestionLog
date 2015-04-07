@@ -11,11 +11,13 @@ namespace PASS\AuthentificationLogBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use PASS\GestionLogBundle\Entity\facility;
+
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-class LoadPersonneData implements \Doctrine\Common\DataFixtures\FixtureInterface, ContainerAwareInterface {
+class LoadPersonneData extends AbstractFixture implements \Doctrine\Common\DataFixtures\FixtureInterface, ContainerAwareInterface,  OrderedFixtureInterface  {
 
      private $container;
 /**
@@ -30,25 +32,25 @@ $this->container = $container;
 
         $tab = array(
             /* id,username, mdp, actif, ldap , groupe, supprimable  */
-            array(0, 'adrien', 'abcde',true,false,'Admin',false),
+            array(0, 'adrien', 'abcde',true,false,false),
             
         );
-             $newTabs = array( 'Default', 'ROLE_DEFAULT',"Groupe Par default",false,True,false);
+             $newTabs = array( 'Default',"Groupe Par default",false,True,false);
             
             $groupe = new \PASS\AuthentificationLogBundle\Entity\Groupe();
             $groupe->setNom($newTabs[0]);
-            $groupe->setRole($newTabs[1]);
-            $groupe->setDescription($newTabs[2]);
-            $groupe->setActif($newTabs[4]);
-            $groupe->setLdap($newTabs[3]);
-            $groupe->setSupprimable($newTabs[5]);
+            $groupe->addRole($this->getReference('ROLE_DEFAULT'));
+            $groupe->setDescription($newTabs[1]);
+            $groupe->setActif($newTabs[3]);
+            $groupe->setLdap($newTabs[2]);
+            $groupe->setSupprimable($newTabs[4]);
             
              $manager->persist($groupe);
       
         
             
             foreach ($tab as $newTab) {
-            $type = new \PASS\AuthentificationLogBundle\Entity\Personne($newTab[6]);
+            $type = new \PASS\AuthentificationLogBundle\Entity\Personne($newTab[5]);
             $type->setActif($newTab[3]);
             $type->setLdap($newTab[4]);
             
@@ -59,7 +61,7 @@ $this->container = $container;
             $type->setMdp($encoder->encodePassword($newTab[2],$type->getSalt()));
             //$type->setMdp($newTab[2]);
             $type->setUsername($newTab[1]);
-            
+            $type->addRole($this->getReference('ROLE_ADMIN'));
             $type->addGroupe($groupe);
             $manager->persist($type);
         }
@@ -67,7 +69,7 @@ $this->container = $container;
     }
 
     public function getOrder() {
-        return 1;
+        return 2;
     }
 
 }

@@ -16,7 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * 
  * @UniqueEntity(fields={"nom", "ldap"}, message="Le groupe existe déjà!!!")
  */
-class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
+class Groupe  {
 
     /**
      * @var integer
@@ -41,9 +41,12 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
     /**
      * @var string
      *
-     * @ORM\Column(name="role", type="string", length=50)
-     */
-    private $role;
+     * *
+    *  @ORM\ManyToMany(targetEntity="Role", inversedBy="groupes")
+     *
+    */
+     
+    private $roles;
 
     /**
      * @var string
@@ -194,6 +197,7 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
      */
     public function __construct() {
         $this->personnes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
         $this->supprimable = true;
     }
 
@@ -205,6 +209,11 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
      */
     public function addPersonne(\PASS\AuthentificationLogBundle\Entity\Personne $personnes) {
         $this->personnes[] = $personnes;
+
+        return $this;
+    }
+     public function addRole(\PASS\AuthentificationLogBundle\Entity\Role $role) {
+        $this->roles[] = $role;
 
         return $this;
     }
@@ -222,6 +231,9 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
     public function removePersonne(\PASS\AuthentificationLogBundle\Entity\Personne $personnes) {
         $this->personnes->removeElement($personnes);
     }
+    public function removeRole(\PASS\AuthentificationLogBundle\Entity\Role $role) {
+        $this->roles->removeElement($role);
+    }
 
     /**
      * Get personnes
@@ -230,6 +242,13 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
      */
     public function getPersonnes() {
         return $this->personnes;
+    }
+     public function getRoles() {
+         $tab =array();
+         foreach ($this->roles->toArray() as $role){
+             $tab[] = $role->getRole();
+         }
+        return $tab;
     }
 
     public function __toString() {
@@ -243,8 +262,8 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
      * @return Role
      */
     public function setRole($role) {
-        $this->role = $role;
-        return $this;
+        $this->roles = $role;
+       
     }
 
     /**
@@ -252,9 +271,7 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
      *
      * @return string
      */
-    public function getRole() {
-        return $this->role;
-    }
+   
 
     public function affichage() {
         return $this->nom;

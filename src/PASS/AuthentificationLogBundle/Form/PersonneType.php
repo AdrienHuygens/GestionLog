@@ -12,6 +12,12 @@ class PersonneType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
+    private $em;
+    private $emrole;
+    public function __construct($em,$em2) {
+        $this->em = $em;
+        $this->emrole = $em2;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -28,7 +34,8 @@ class PersonneType extends AbstractType
            // ->add('ldap')
             //->add('actif',null,array("label"=>"Compte utilisateur actif?", "action"=>'checked'))
                 ->add('mail')
-            ->add('groupes',null,array("label"=> "Groupe (control + click souri pour multi-selection):") )
+            ->add('groupes',null,array("label"=> "Groupe (control + click souri pour multi-selection):", "choices" => $this->em->getGroupeVisible()) )
+             ->add('roles',null,array("label"=> "Role (control + click souri pour multi-selection):", "choices" =>$this->emrole->getType()) )
              ->add('Enregistrer','submit')
             
         ;

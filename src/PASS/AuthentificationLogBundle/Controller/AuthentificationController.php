@@ -26,21 +26,21 @@ class AuthentificationController extends Controller {
       /*
      *  Controleur pour le formulaire de mon rajout de groupe.
      */
-    public function groupeAddAction(Request $request, $listingId) {
+    public function groupeAddAction(Request $request,  Groupe $listingId=null) {
         $chemin = null;
 
-        if ($listingId !== 0) {
+        if ($listingId !== null) {
             $em = $this->getDoctrine()->getRepository('PASSAuthentificationLogBundle:Groupe');
 
             $groupe = $em->findOneById($listingId);
             $titre = "Modifier un groupe local";
-            $chemin = $this->generateUrl('PASS_SupprimerGroupe', array('groupeId' => $listingId));
+            $chemin = $this->generateUrl('PASS_SupprimerGroupe', array('groupeId' => $listingId->getId()));
         } else {
             $groupe = new Groupe();
             $groupe->setLdap(False);
             $groupe->setActif(True);
 
-            $groupe->setRole('ROLE_ADMIN');
+            
             $titre = "Ajouter un Groupe local";
         }
 
@@ -61,7 +61,7 @@ class AuthentificationController extends Controller {
             //$this->addFlash('success', '')
             ///$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
             //return $this->redirect($this->generateUrl('', array('id' => $advert->getId())));
-            if ($listingId === 0) {
+            if ($listingId === null) {
                 return $this->render('PASSAuthentificationLogBundle:authentification:ok.html.twig', Array(
                             "good" => "Groupe bien créé.",
                             'titrePage' => 'Opération éffectué'
@@ -85,15 +85,19 @@ class AuthentificationController extends Controller {
         $user = new Personne();
         $user->setActif(True);
         $user->setLdap(False);
+        $ems = $this->getDoctrine() ->getRepository('PASSAuthentificationLogBundle:Groupe');
+        $ems2 = $this->getDoctrine() ->getRepository('PASSAuthentificationLogBundle:Role');
+        $groupe = $ems->findBy(array("nom"=>'Default'));
+       
 
-
-        $form = $this->createForm(new PersonneType(), $user);
+        $form = $this->createForm(new PersonneType( $ems,$ems2 ), $user);
+        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $factory = $this->get('security.encoder_factory');
             $encoder = $factory->getEncoder($user);
-
+            $user->addGroupe($groupe[0]);
             $user->setMdp($encoder->encodePassword($user->getMdp(), $user->getSalt()));
 
 
@@ -145,10 +149,11 @@ class AuthentificationController extends Controller {
     public function okAction() {
         $em = $this->getDoctrine()->getManager();
 
-        /*
+        
           $this->getUser()->setDernierConnexion(new \DateTime());
           $em->persist($this->getUser());
-          $em->flush(); */
+          $em->flush(); 
+          dump($this->getUser()->getRoles());
         return $this->render("PASSAuthentificationLogBundle:authentification:ok.html.twig", Array(
                     'titrePage' => 'Connexion effectué',
                     'good' => null));
@@ -162,7 +167,7 @@ class AuthentificationController extends Controller {
             return $this->render('PASSAuthentificationLogBundle:listing:recapitulatif.html.twig', Array(
                         'titrePage' => 'Gestion d\'un utilisateur', 'groupe' => $utilisateur->resumer(), 'nom' => $utilisateur->getUsername(),
                         'activiter' => " Information sur l'utilisateur", 'lien' => 'PASS_ModificationUtilisateur', 'id' => $listingId,
-                        'activite' => " utilisateur"
+                        'activite' => "utilisateur"
             ));
         } else {
             $repoJeune = $this->getDoctrine()->getRepository("PASS\AuthentificationLogBundle\Entity\Personne");
@@ -182,7 +187,7 @@ class AuthentificationController extends Controller {
             return $this->render('PASSAuthentificationLogBundle:listing:recapitulatif.html.twig', Array(
                         'titrePage' => 'Gestion d\'un groupe', 'groupe' => $groupe->resumer(), 'nom' => $groupe->getNom(),
                         'activiter' => " Information sur le groupe", 'lien' => 'PASS_ModificationGroupe', 'id' => $listingId,
-                        'activite' => " groupe"
+                        'activite' => "groupe"
             ));
         } else {
 
@@ -196,7 +201,7 @@ class AuthentificationController extends Controller {
     public function utilisateurModificationAction(Request $request, Personne $listingId) {
 
         $personne = $listingId;
-        $form = $this->createForm(new editPersonneType(), $personne);
+        $form = $this->createForm(new editPersonneType($this->getDoctrine() ->getRepository('PASSAuthentificationLogBundle:Groupe'), $this->getDoctrine()->getRepository('PASSAuthentificationLogBundle:Role')), $personne);
         // $request = $this->getRequest();
         //$form->bindRequest($request);
 

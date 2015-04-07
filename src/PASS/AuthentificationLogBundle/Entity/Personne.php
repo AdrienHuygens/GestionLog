@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use \Symfony\Component\Validator\Constraints\DateTime;
+use PASS\AuthentificationLogBundle\Entity\Role;
 
 /**
  * Personne
@@ -112,19 +113,18 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      * 
      * 
      */
-    private $groupes;
-
-    /**
-     * @ORM\Column(name="roles",  type="string", length=255, nullable=True)
-     *
-     *  
-     */
+    private $groupes;  
+    
+   /**
+    *@ORM\ManyToMany(targetEntity="Role", inversedBy="personnes", cascade={"persist"})
+    */
     private $roles;
     public static $em;
-    public $fingerprinting;
+   
 
     public function __construct($suprimable = true) {
         $this->groupes = new ArrayCollection();
+        $this->roles = new ArrayCollection();
        
         $this->salt = md5(uniqid(null, true));
         $this->suprimable = $suprimable;
@@ -136,11 +136,26 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
         $this->groupes[] = $groupe;
         return $this;
     }
+     public function addRole(Role $role) {
+        $this->roles[] = $role;
+     
+    }
 
     public function removeGroupe(Groupe $groupe) {
 
         $this->groupes->removeElement($groupe);
     }
+    public function removeRole( $role) {
+       $tab = new ArrayCollection();
+
+        foreach ($this->roles as $roles) {
+            if ($role !== $roles)
+                $tab[] = $role;
+        }
+        $this->role = $tab;
+        //$this->roles->removeElement($role);
+    }
+
 
     /**
      * Get id
@@ -360,11 +375,33 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     function setRoles($roles) {
         $this->roles[] = $roles;
     }
+    public function getRoles(){
 
-    public function getRoles() {
+        return $this->roles;
+        
+    }
+    
+
+    public function getAllRoles() {
         $tab = array();
         foreach ($this->groupes as $groupess) {
-            $tab[] = $groupess->getRole();
+            foreach ($groupess->getRoles() as $role){
+                $i = 0;
+                foreach ($tab as $tmp){
+                    if ($tmp === $role) $i = 1;
+                }
+                if ($i ===0) $tab[] = $role;
+            }
+        }
+         foreach ($this->roles as $roles) {
+             $i = 0;
+                foreach ($tab as $tmp){
+                    
+                    if ($tmp === $roles) $i = 1;
+                }
+                if ($i === 0) $tab[] = $roles->getRole();
+            
+           
         }
 
         return $tab;
@@ -421,16 +458,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
 
      
      
-      public function makeFingerprinting()
-{
-$this->fingerprinting = sha1($_SERVER['HTTP_USER_AGENT']."".$_SERVER['SERVER_ADDR']."".$_SERVER['SERVER_PROTOCOL']."zmaslemiogorkiem".$_SERVER['HTTP_ACCEPT_ENCODING'].'abbbisjqjsjd893732');
-}
- public function checkFingerprinting($fingerprinting)
-{
-$this->makeFingerprinting();
-return (bool)($this->fingerprinting == $fingerprinting);
-}
-
+      
     /**
      * Set mail
      *

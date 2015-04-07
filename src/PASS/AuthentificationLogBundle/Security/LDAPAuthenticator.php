@@ -9,11 +9,8 @@ use PASS\AuthentificationLogBundle\Entity\Personne;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-/**
- * Description of LDAPAuthenticator
- *
- * @author Laurent Cardon <laurent.cardon@jsb.be>
- */
+
+
 class LDAPAuthenticator implements SimpleFormAuthenticatorInterface {
 
     private $encoder;
@@ -23,7 +20,7 @@ class LDAPAuthenticator implements SimpleFormAuthenticatorInterface {
     }
 
     public function authenticateToken(\Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token, \Symfony\Component\Security\Core\User\UserProviderInterface $userProvider, $providerKey) {
-        dump($token);
+        
         try {
             $user = $userProvider->loadUserByUsername($token->getUsername());
         } catch (UsernameNotFoundException $ex) {
@@ -37,11 +34,19 @@ class LDAPAuthenticator implements SimpleFormAuthenticatorInterface {
             }else{
                 $pass = $user->getPassword();
             }
-        } else {
-            throw new AuthenticationException("Mauvais type d'utilisateur reçu");
+        } 
+        else if($user && $user instanceof \Symfony\Component\Security\Core\User\UserInterface){
+                $pass = $user->getPassword();
+             $valid =$this->encoder->isPasswordValid($user, $token->getCredentials());
         }
         
-        dump($valid);
+        else {
+           
+           //throw new AuthenticationException("Mauvais type d'utilisateur reçu");
+             
+        }
+        
+       
 
         if ($valid) {
             
@@ -49,14 +54,15 @@ class LDAPAuthenticator implements SimpleFormAuthenticatorInterface {
             $user,
             $pass,
             $providerKey,
-            $user->getRoles()
+            $user->getAllRoles()
+                  //array("ROLES_ADMIN")
             );
-            dump($token);
+          
             
             return $token;
             
         } else {
-            die();
+           
             throw new AuthenticationException('Invalid username or password');
         }
     }
@@ -71,7 +77,19 @@ class LDAPAuthenticator implements SimpleFormAuthenticatorInterface {
 
     private function passwordCheck(\Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token, Personne $user) {
         if ($user->getLdap()) {
-
+                 $configs = new \PASS\GeneralLogBundle\Entity\ConfigurationLDAP();
+                 if ($configs->getLdapConnexion()){
+                    try{
+                     $db = ldap_connect ($configs->getLdapServer(),$configs->getLdapPort());
+                     ldap_set_option( $db, LDAP_OPT_PROTOCOL_VERSION, 3);
+                     ldap_set_option( $db, LDAP_OPT_REFERRALS, 0);
+                    $r = ldap_bind($db, 'uid='.$token->getUsername().','.$configs->getLdapDn(), $token->getCredentials());
+                    }
+                catch (Exeption $e){
+                    throw new AuthenticationException('Erreur avec la connexion LDAP');
+                }
+                    
+                    return $r;
             /**
              * 
              * Adrien, tu peux venir mettre ta verif LDAP ici ou renvoyer vers une fonction qui le fais
@@ -79,9 +97,13 @@ class LDAPAuthenticator implements SimpleFormAuthenticatorInterface {
              * PS : N'oublie pas de checker cette petite merde !
              * 
              */
+                 }
+                 else {
+                     throw new AuthenticationException('Connxion ldap refuser contacter l\'administrateur');
+                 }
             
-            return true;
         } else {
+            
             return $this->encoder->isPasswordValid($user, $token->getCredentials());
         }
     }
