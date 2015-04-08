@@ -15,27 +15,41 @@ use PASS\AuthentificationLogBundle\Entity\Personne;
 use PASS\AuthentificationLogBundle\Form\PersonneType;
 use PASS\AuthentificationLogBundle\Form\editPersonneType;
 use PASS\AuthentificationLogBundle\Form\changeMDPType;
+use JMS\SecurityExtraBundle\Annotation\Secure;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class AuthentificationController extends Controller {
 
-    /**
-     * @Route("/hello/{name}")
-     * @Template()
+   
 
-
-      /*
-     *  Controleur pour le formulaire de mon rajout de groupe.
+    
+     /**
+     * 
+     * @Secure(roles="ROLE_GROUPE_U,ROLE_GROUPE_C, ROLE_ADMIN")
      */
     public function groupeAddAction(Request $request,  Groupe $listingId=null) {
         $chemin = null;
 
         if ($listingId !== null) {
-            $em = $this->getDoctrine()->getRepository('PASSAuthentificationLogBundle:Groupe');
+             if (!$this->get('security.context')->isGranted('ROLE_GROUPE_U') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+             
+                    throw new AccessDeniedException('Au gestionnaire de groupe avec modification ');
+                  }
+                  $em = $this->getDoctrine()->getRepository('PASSAuthentificationLogBundle:Groupe');
 
             $groupe = $em->findOneById($listingId);
             $titre = "Modifier un groupe local";
+            $chemin= null;
+            if ($this->get('security.context')->isGranted('ROLE_GROUPE_D')){
             $chemin = $this->generateUrl('PASS_SupprimerGroupe', array('groupeId' => $listingId->getId()));
+            }
+            
         } else {
+              if (!$this->get('security.context')->isGranted('ROLE_GROUPE_C') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+             
+                    throw new AccessDeniedException('Au gestionnaire de groupe avec création');
+                  }
             $groupe = new Groupe();
             $groupe->setLdap(False);
             $groupe->setActif(True);
@@ -77,7 +91,10 @@ class AuthentificationController extends Controller {
                     'chemin' => $chemin
         ));
     }
-
+    /**
+     * 
+     * @Secure(roles="ROLE_USER_C, ROLE_ADMIN")
+     */
     public function utilisateurAddAction(Request $request) {
 
         $chemin = null;
@@ -95,6 +112,7 @@ class AuthentificationController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+           
             $factory = $this->get('security.encoder_factory');
             $encoder = $factory->getEncoder($user);
             $user->addGroupe($groupe[0]);
@@ -104,7 +122,10 @@ class AuthentificationController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-
+            
+           
+            
+            
             return $this->render('PASSAuthentificationLogBundle:authentification:ok.html.twig', Array(
                         "good" => "utilisateur d'utilisateur bien créé.",
                         'titrePage' => 'Opération éffectué',
@@ -117,16 +138,9 @@ class AuthentificationController extends Controller {
         ));
     }
 
-    /**
-     * fonction pour ajouter un role a la bdd et création du formulaire de celui si.
-     * 
-     * @param Request $request récuperation des champs
-     */
-    public function roleAddAction(Request $request) {
-        
-    }
+   
 
-    /**
+    /*
      * function pour la vérification de connexion.
      */
     public function loginAction(Request $request) {
@@ -145,7 +159,11 @@ class AuthentificationController extends Controller {
                     'error' => $error,
         ));
     }
-
+    
+    /**
+     * 
+     * @Secure(roles="ROLE_DEFAULT, ROLE_ADMIN")
+     */
     public function okAction() {
         $em = $this->getDoctrine()->getManager();
 
@@ -153,12 +171,16 @@ class AuthentificationController extends Controller {
           $this->getUser()->setDernierConnexion(new \DateTime());
           $em->persist($this->getUser());
           $em->flush(); 
-          dump($this->getUser()->getRoles());
+         // dump($this->getUser()->getRoles());
         return $this->render("PASSAuthentificationLogBundle:authentification:ok.html.twig", Array(
                     'titrePage' => 'Connexion effectué',
                     'good' => null));
     }
-
+    
+    /**
+     * 
+     * @Secure(roles="ROLE_USER_R, ROLE_ADMIN")
+     */
     public function utilisateurListingAction($listingId) {
         if ($listingId != 0) {
 
@@ -178,7 +200,10 @@ class AuthentificationController extends Controller {
             ));
         }
     }
-
+    /**
+     * 
+     * @Secure(roles="ROLE_GROUPE_R, ROLE_ADMIN")
+     */
     public function groupeListingAction($listingId) {
         if ($listingId != 0) {
 
@@ -197,27 +222,53 @@ class AuthentificationController extends Controller {
             return $this->render("PASSAuthentificationLogBundle:listing:listing.html.twig", array("titrePage" => "Listing des groupes", "activite" => 'groupe', "tab" => $tab, 'chemin' => "PASS_GestionGroupe",));
         }
     }
-
+    
     public function utilisateurModificationAction(Request $request, Personne $listingId) {
-
+  
+         if ((!$this->get('security.context')->isGranted('ROLE_USER_U') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) && $listingId->getUsername() !== $this->getUser()->getUsername()) {
+             
+                    throw new AccessDeniedException('Vous avez pas acces à cette partie.');
+                  }
         $personne = $listingId;
+        
         $form = $this->createForm(new editPersonneType($this->getDoctrine() ->getRepository('PASSAuthentificationLogBundle:Groupe'), $this->getDoctrine()->getRepository('PASSAuthentificationLogBundle:Role')), $personne);
         // $request = $this->getRequest();
         //$form->bindRequest($request);
-
+        
+         $groupetmp = clone  $personne->getGroupes();
+         $roletmp = clone  $personne->getRoles();
+         
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
-            $factory = $this->get('security.encoder_factory');
-            $encoder = $factory->getEncoder($personne);
-
+          
+            
             //$user->setMdp($encoder->encodePassword($personne->getMdp(), $personne->getSalt()));
-
-
+            foreach($groupetmp as $groupe){
+                if(! $groupe->getSupprimable()) $personne->addGroupe($groupe);
+            }
+            foreach($roletmp as $role){
+                if($role->getType() =="") $personne->addRole($role);
+            }
             $em = $this->getDoctrine()->getManager();
             $em->persist($personne);
+           
             $em->flush();
-            return $this->redirect($this->generateUrl('PASS_GestionUtilisateur', array('listingId' => $listingId->getId())));
+             $token = new UsernamePasswordToken(
+           $this->getUser(),
+            null,
+            'ldap',
+            $this->getUser()->getAllRoles()
+                  //array("ROLES_ADMIN")
+            );
+            $this->container->get('security.context')->setToken($token);    
+           
+            if ( !$this->get('security.context')->isGranted('ROLE_USER_U') && !$this->get('security.context')->isGranted('ROLE_ADMIN')){
+                return $this->render("PASSAuthentificationLogBundle:authentification:ok.html.twig", Array(
+                    'titrePage' => 'Modification de votre compte',
+                    'good' =>" modification de votre profil réalisé"));
+            }
+            else return $this->redirect($this->generateUrl('PASS_GestionUtilisateur', array('listingId' => $listingId->getId())));
         }
 
         return $this->render('PASSAuthentificationLogBundle:authentification:editPersonneForm.html.twig', Array(
@@ -227,7 +278,10 @@ class AuthentificationController extends Controller {
                     'suprimable' => $personne->getSuprimable()
         ));
     }
-
+    /**
+     * 
+     * @Secure(roles="ROLE_USER_D, ROLE_ADMIN")
+     */
     public function utilisateurSupprimerAction(Personne $personneId) {
 
         $em = $this->container->get('doctrine')->getEntityManager();
@@ -238,7 +292,10 @@ class AuthentificationController extends Controller {
         $em->flush();
         return $this->redirect($this->generateUrl('PASS_GestionUtilisateur'));
     }
-
+    /**
+     * 
+     * @Secure(roles="ROLE_GROUPE_D, ROLE_ADMIN")
+     */
     public function groupeSupprimerAction(Groupe $groupeId) {
 
         $em = $this->container->get('doctrine')->getEntityManager();
@@ -249,9 +306,13 @@ class AuthentificationController extends Controller {
         $em->flush();
         return $this->redirect($this->generateUrl('PASS_GestionGroupe'));
     }
-
+    
     public function changeMDPAction(Request $request, Personne $personneId) {
-
+        
+         if ((!$this->get('security.context')->isGranted('ROLE_USER_U') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) && $personneId->getUsername() !== $this->getUser()->getUsername()) {
+             
+                    throw new AccessDeniedException('Vous avez pas acces à cette partie.');
+                  }
         $form = $this->createForm(new changeMDPType(), $personneId);
 
         $form->handleRequest($request);
@@ -269,7 +330,7 @@ class AuthentificationController extends Controller {
             $em->flush();
 
             return $this->render('PASSAuthentificationLogBundle:authentification:ok.html.twig', Array(
-                        "good" => "utilisateur d'utilisateur bien créé.",
+                        "good" => "Modification mot de passe.",
                         'titrePage' => 'Opération éffectué',
             ));
         }

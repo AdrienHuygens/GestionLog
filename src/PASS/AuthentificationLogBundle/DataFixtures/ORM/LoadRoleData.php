@@ -23,7 +23,7 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface{
         
         $tab  = array(
             array('Default','Role par default attribuer à tous' ,'ROLE_DEFAULT',null),
-            array ('Admin', 'Role Administrateur', 'ROLE_ADMIN',null),
+            array ('Admin: Tout les droits', 'Role Administrateur', 'ROLE_ADMIN',"ROLE_ADMIN"),
             array ('Gestion utilisateur: Creation d\'un utilisateur', 'Création d\'un utilisateur', 'ROLE_USER_C','ROLE_USER'),
             array ('Gestion utilisateur: Voir les utilisateurs', 'lecture d\'un utilisateur', 'ROLE_USER_R','ROLE_USER'),
             array ('Gestion utilisateur: Modifier des utilisateurs', 'modification d\'un utilisateur', 'ROLE_USER_U','ROLE_USER'),
@@ -34,6 +34,18 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface{
             array ('Gestion Groupe: Modifier des groupes', 'modificatop, d\'un utilisateur', 'ROLE_GROUPE_U','ROLE_GROUPE'),
             array ('Gestion Groupe: supprimer un groupe', 'Supression d\'un groupe', 'ROLE_GROUPE_D','ROLE_GROUPE'),
             
+            array ('Gestion LDAP: Importer des utilisateurs', 'Importer des utilisateurs ldap en bdd', 'ROLE_LDAP_I','ROLE_LDAP'),
+            
+             array ('Gestion Configuration: Voir la configuration', 'Permet de voir le system de configuration', 'ROLE_CONFIGURATION_R','ROLE_CONFIGURATION'),
+             array ('Gestion Configuration: Modifier la configuration', 'Permet de modifier la configuration', 'ROLE_CONFIGURATION_U','ROLE_CONFIGURATION'),
+            
+            array ('Gestion Groupe d\'ordinateur: Crée les groupes', 'permet de creer les groupe d\'ordinateur', 'ROLE_GROUPE_ORDI_C','ROLE_GROUPE_ORDI'),
+            array ('Gestion Groupe d\'ordinateur: Voir les groupes', 'permet de voir les groupe d\'ordinateur', 'ROLE_GROUPE_ORDI_R','ROLE_GROUPE_ORDI'),
+            array ('Gestion Groupe d\'ordinateur: modifier les groupes', 'permet de modifier les groupe d\'ordinateur', 'ROLE_GROUPE_ORDI_U','ROLE_GROUPE_ORDI'),
+            array ('Gestion Groupe d\'ordinateur: supprimer les groupes', 'permet de supprimer les groupe d\'ordinateur', 'ROLE_GROUPE_ORDI_D','ROLE_GROUPE_ORDI'),
+            
+             array ('Voir les Logs', 'permet de voir les log', 'ROLE_LOG_R','ROLE_LOG'),
+            array ('Voir les Stats', 'permet de voir les stats', 'ROLE_STAT_R','ROLE_STAT'),
         );
         
         $ref = new Role();

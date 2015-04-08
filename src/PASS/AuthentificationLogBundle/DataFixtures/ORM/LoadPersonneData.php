@@ -63,13 +63,14 @@ $this->container = $container;
             $type->setUsername($newTab[1]);
             $type->addRole($this->getReference('ROLE_ADMIN'));
             $type->addGroupe($groupe);
+            $type->addGroupe($this->getReference('ALLADMIN'));
             $manager->persist($type);
         }
         $manager->flush();
     }
 
     public function getOrder() {
-        return 2;
+        return 3;
     }
 
 }

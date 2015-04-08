@@ -116,13 +116,14 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     private $groupes;  
     
    /**
-    *@ORM\ManyToMany(targetEntity="Role", inversedBy="personnes", cascade={"persist"})
+    *@ORM\ManyToMany(targetEntity="Role", inversedBy="personnes")
     */
     private $roles;
     public static $em;
    
 
     public function __construct($suprimable = true) {
+ 
         $this->groupes = new ArrayCollection();
         $this->roles = new ArrayCollection();
        
@@ -133,10 +134,12 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     }
 
     public function addGroupe(Groupe $groupe) {
+       
         $this->groupes[] = $groupe;
         return $this;
     }
      public function addRole(Role $role) {
+         
         $this->roles[] = $role;
      
     }
@@ -145,14 +148,18 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
 
         $this->groupes->removeElement($groupe);
     }
-    public function removeRole( $role) {
+    public function removeRole($role) {
        $tab = new ArrayCollection();
-
+        if ($role->getRole() ==="ROLE_ADMIN" || $role->getRole() ==="ROLE_DEFAULT"){
+               $tab[] =  $role;
+                }
         foreach ($this->roles as $roles) {
-            if ($role !== $roles)
+            
+            if ($role !== $roles || $role==="ROLE_DEFAULT")
                 $tab[] = $role;
         }
         $this->role = $tab;
+        
         //$this->roles->removeElement($role);
     }
 
@@ -373,6 +380,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     }
 
     function setRoles($roles) {
+        
         $this->roles[] = $roles;
     }
     public function getRoles(){
@@ -381,7 +389,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
         
     }
     
-
+    
     public function getAllRoles() {
         $tab = array();
         foreach ($this->groupes as $groupess) {
@@ -390,14 +398,16 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
                 foreach ($tab as $tmp){
                     if ($tmp === $role) $i = 1;
                 }
+                
                 if ($i ===0) $tab[] = $role;
             }
         }
          foreach ($this->roles as $roles) {
              $i = 0;
+          
                 foreach ($tab as $tmp){
                     
-                    if ($tmp === $roles) $i = 1;
+                    if ($tmp === $roles->getRole()) $i = 1;
                 }
                 if ($i === 0) $tab[] = $roles->getRole();
             
@@ -492,4 +502,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
 
         return $this;
     }
+     public function __clone() {
+   
+  }
 }

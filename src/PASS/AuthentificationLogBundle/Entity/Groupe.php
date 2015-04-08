@@ -208,6 +208,7 @@ class Groupe  {
      * @return Groupe
      */
     public function addPersonne(\PASS\AuthentificationLogBundle\Entity\Personne $personnes) {
+        
         $this->personnes[] = $personnes;
 
         return $this;
@@ -229,6 +230,7 @@ class Groupe  {
      */
 
     public function removePersonne(\PASS\AuthentificationLogBundle\Entity\Personne $personnes) {
+         
         $this->personnes->removeElement($personnes);
     }
     public function removeRole(\PASS\AuthentificationLogBundle\Entity\Role $role) {

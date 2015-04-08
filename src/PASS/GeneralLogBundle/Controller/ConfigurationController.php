@@ -23,9 +23,14 @@ use PASS\GeneralLogBundle\Entity\ConfigurationLDAP;
 use PASS\GeneralLogBundle\Form\ConfigurationLDAPType;
 use PASS\GeneralLogBundle\Form\ConfigurationMailType;
 use PASS\GeneralLogBundle\Entity\ConfigurationMail;
+use JMS\SecurityExtraBundle\Annotation\Secure;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
 class ConfigurationController extends Controller {
-
+    /**
+     * 
+     * @Secure(roles="ROLE_CONFIGURATION_U,ROLE_CONFIGURATION_R, ROLE_ADMIN")
+     */
     public function indexAction(Request $request) {
         $chemin = "";
         $Config = new \PASS\GeneralLogBundle\Entity\ConfigurationSql();
@@ -33,7 +38,10 @@ class ConfigurationController extends Controller {
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-
+             if (!$this->get('security.context')->isGranted('ROLE_CONFIGURATION_U') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+             
+                    throw new AccessDeniedException('Modification Non dispognibe, vous n\'avez pas les droits ');
+                  }
             $Config->Enregistrer();
         } else {
             // $Config->load();
@@ -48,6 +56,10 @@ class ConfigurationController extends Controller {
         ));
     }
 
+    /**
+     * 
+     * @Secure(roles="ROLE_CONFIGURATION_U, ROLE_CONFIGURATION_R, ROLE_ADMIN")
+     */
     public function ldapAction(Request $request) {
         $chemin = "";
         $Configs = new \PASS\GeneralLogBundle\Entity\ConfigurationLDAP();
@@ -55,7 +67,10 @@ class ConfigurationController extends Controller {
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-
+             if (!$this->get('security.context')->isGranted('ROLE_CONFIGURATION_U') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+             
+                    throw new AccessDeniedException('Modification Non dispognibe, vous n\'avez pas les droits ');
+                  }
             $Configs->Enregistrer();
         } 
         
@@ -94,7 +109,10 @@ class ConfigurationController extends Controller {
         ));
     }
     
- 
+    /**
+     * 
+     * @Secure(roles="ROLE_CONFIGURATION_U,ROLE_CONFIGURATION_R, ROLE_ADMIN")
+     */
     public function mailAction(Request $request)
     { 
         
@@ -122,6 +140,10 @@ class ConfigurationController extends Controller {
         ));
             }
             if ($form->get('Enregistrer')->isClicked()) {
+                 if (!$this->get('security.context')->isGranted('ROLE_CONFIGURATION_U') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+             
+                    throw new AccessDeniedException('Modification Non dispognibe, vous n\'avez pas les droits ');
+                  }
              $Configs->Enregistrer();
             }
            // $Configs->Enregistrer();

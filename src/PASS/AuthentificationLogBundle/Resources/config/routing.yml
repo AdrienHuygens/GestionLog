@@ -1,8 +1,5 @@
 ## YAML Template.
 
-PASS_AuthentificationLog_homepage:
-    path:  /hello
-    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:index }
 
 PASS_CreationGroupe:
     path: /auth/gestion/groupe/add

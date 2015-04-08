@@ -1,28 +1,33 @@
 PASS_AffichageLog:
-    path:  /listing
+    path:  /auth/listing
     defaults: { _controller: PASSGestionLogBundle:gestionLog:affichageLog }
 PASS_AffichageStat:
-    path:  /stat
+    path:  /auth/stat
     defaults: { _controller: PASSGestionLogBundle:statistique:affichageStat }
 
 PASS_Erase:
-    path:  /erase/{l}
-    defaults: { _controller: PASSGestionLogBundle:gestionLog:Erase, listingId: 0 }
+    path:  /auth/erase/{l}
+    defaults: { _controller: PASSGestionLogBundle:gestionLog:Erase }
     
        
 PASS_GroupeOrdinateurAdd:
-    path:  /groupeOrdinateur/add
+    path:  /auth/groupeOrdinateur/add
     defaults: { _controller: PASSGestionLogBundle:GroupeOrdinateur:groupeOrdinateurAdd }
     
 PASS_GroupeOrdinateurModification:
-    path: /groupeOrdinateur/modification/{listingId}
+    path: /auth/groupeOrdinateur/modification/{listingId}
     defaults: { _controller:  PASSGestionLogBundle:GroupeOrdinateur:GroupeOrdinateurModification, listingId: 0 }
     requirements:
         listingId: \d+
         
+PASS_GroupeOrdinateurDelete:
+    path: /auth/groupeOrdinateur/Delete/{groupeId}
+    defaults: { _controller:  PASSGestionLogBundle:GroupeOrdinateur:GroupeOrdinateurSupprimer, groupeId: 0 }
+    requirements:
+        groupeId: \d+       
         
 PASS_GroupeOrdinateurListing:
-    path: /groupeOrdinateur/{listingId}
+    path: /auth/groupeOrdinateur/{listingId}
     defaults: { _controller:  PASSGestionLogBundle:GroupeOrdinateur:groupeOrdinateurListing, listingId: 0 }
     requirements:
         listingId: \d+

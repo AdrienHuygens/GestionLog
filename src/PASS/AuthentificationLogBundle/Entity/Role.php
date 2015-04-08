@@ -73,15 +73,19 @@ class Role implements \Serializable
         $this->personnes = array();
         $this->groupes = array();
         $this->actif = true;
+         
     }
     
     public function addPersonnes(Personne $personne){
+         
+            
         $this->personnes[] = $personne;
     }
     
     
 
     function getPersonnes() {
+         
         return $this->personnes;
     }
 
@@ -90,6 +94,7 @@ class Role implements \Serializable
     }
 
     function setPersonnes($personnes) {
+        die();
         $this->personnes = $personnes;
     }
 
@@ -211,6 +216,7 @@ class Role implements \Serializable
 
     
     public function serialize() {
+        
         return serialize(array(
             $this->id,
             $this->nom,

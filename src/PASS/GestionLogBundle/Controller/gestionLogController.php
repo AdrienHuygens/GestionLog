@@ -19,16 +19,18 @@ use PASS\GestionLogBundle\Form\DateType;
 use PASS\GestionLogBundle\Form\GroupeType;
 
 use Symfony\Component\HttpFoundation\Session\Session;
+use JMS\SecurityExtraBundle\Annotation\Secure;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
 
 
 class gestionLogController extends Controller
 {
-    /**
-     * @Route("/affichagelog")
-     * @Template()
-     */
     
+    /**
+     * 
+     * @Secure(roles="ROLE_LOG_R, ROLE_ADMIN")
+     */
     public function affichageLogAction(Request $request)
     {
         

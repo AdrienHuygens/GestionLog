@@ -8,11 +8,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use PASS\GestionLogBundle\Entity\Filtre;
 use PASS\GestionLogBundle\Form\DateType;
+use JMS\SecurityExtraBundle\Annotation\Secure;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
 class statistiqueController extends Controller
 {
    
-    
+    /**
+     * 
+     * @Secure(roles="ROLE_STAT_R, ROLE_ADMIN")
+     */
     public function affichageStatAction(Request $request)
     {
        
