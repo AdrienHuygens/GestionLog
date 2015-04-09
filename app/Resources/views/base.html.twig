@@ -43,11 +43,17 @@
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>
                                     </button>
-                                    <a class="navbar-brand" href="#">Gestion de log </a>
+                                    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                                    <a class="navbar-brand" href="{{ path('PASS_ACCUEIL2') }}">GDL</a>
+                                    {% else %}
+                                          <a class="navbar-brand" href="{{ path('PASS_ACCUEIL') }}">GDL</a>
+                                        {% endif %}
                                 </div>
                                 <div id="navbar" class="navbar-collapse collapse">
                                    <ul class="nav navbar-nav">
-                                       <li> {{ knp_menu_render('breadcrumb',{'currentAsLink':false}) }}</li>
+                                       <li> {#{ knp_menu_render('breadcrumb',{'currentAsLink':false}) }#}
+                                           {{ knp_menu_render('PASSGeneralLogBundle:Builder:createBreadcrumbMenu') }}
+                                       </li>
                                  
                                    </ul>
                                 </div><!--/.nav-collapse -->
@@ -75,15 +81,15 @@
                             <br />  
                             <br /> 
                            
-                            {%  if not is_granted("ROLE_MEMORY") %}
-                           <a href="{{ path('PASS_MonCompte', {'listingId': app.user.id }) }}"><button  type="button" class="btn btn-success btn150">Mon compte  </button></a>
+                            {%  if not is_granted("ROLE_MEMORY") and not app.user.ldap %}
+                           <a href="{{ path('PASS_MonCompte') }}"><button  type="button" class="btn btn-success btn150">Mon compte  </button></a>
                             {% endif %}
                             <br />  
                             <br />
                             <a href="{{ path('logout') }}"> <button type="button" class="btn btn-danger btn150">Se déconnecter</button></a>
                         {% else %}
                                              
-                           {#{ include('PASSAuthentificationLogBundle:authentification:loginForm_part.html.twig') }#}
+                           {{ include('PASSAuthentificationLogBundle:authentification:loginForm_part.html.twig') }}
                              
                          
                         {% endif %}

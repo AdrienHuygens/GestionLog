@@ -6,6 +6,7 @@
 
 
 {% block contenu %}
+    {% if  is_granted("ROLE_LOG_R") or is_granted("ROLE_ADMIN")%} 
     <div class="rowBottom rowLeft">
   <button id='btn'type="button" class="btn btn-default" onClick='filtre()'  >
     Mettre un filtre
@@ -121,5 +122,9 @@ $("#table").tablesorter({
     sortInitialOrder: "asc",
   });
 });
- </script>       
+ </script>    
+ 
+ {%else%}
+     Vous n'avez pas les droits pour cette partie.
+ {%endif%}
 {% endblock %}

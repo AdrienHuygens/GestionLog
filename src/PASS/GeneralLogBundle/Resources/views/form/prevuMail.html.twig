@@ -46,7 +46,9 @@
         Codage strict:{{ form_widget(form.strict) }}
     </div>
     <div class="col-lg-4 col-md-4" >
+       {% if  is_granted("ROLE_CONFIGURATION_U") or is_granted("ROLE_ADMIN")%} 
         {{ form_widget(form.Enregistrer) }}
+        {%endif%}
         {{ form_widget(form.Prévisualiser) }}
     </div>
     {{ form_end(form) }}

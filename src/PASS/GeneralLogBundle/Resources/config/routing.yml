@@ -11,3 +11,9 @@ PASS_ConfigurationMail:
 PASS_MDP:
     path: /mdp
     defaults: { _controller: PASSGeneralLogBundle:Configuration:mdp }
+PASS_ACCUEIL:
+    path: /
+    defaults: { _controller: PASSGeneralLogBundle:Accueil:index }
+PASS_ACCUEIL2:
+    path: /auth/
+    defaults: { _controller: PASSGeneralLogBundle:Accueil:index }

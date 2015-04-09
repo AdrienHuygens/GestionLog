@@ -34,7 +34,7 @@ class ConfigurationController extends Controller {
     public function indexAction(Request $request) {
         $chemin = "";
         $Config = new \PASS\GeneralLogBundle\Entity\ConfigurationSql();
-        $form = $this->createForm(new ConfigurationSqlType(), $Config);
+        $form = $this->createForm(new ConfigurationSqlType($this->get('security.context')), $Config);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -63,7 +63,7 @@ class ConfigurationController extends Controller {
     public function ldapAction(Request $request) {
         $chemin = "";
         $Configs = new \PASS\GeneralLogBundle\Entity\ConfigurationLDAP();
-        $form = $this->createForm(new ConfigurationLDAPType(), $Configs);
+        $form = $this->createForm(new ConfigurationLDAPType($this->get('security.context')), $Configs);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -121,7 +121,7 @@ class ConfigurationController extends Controller {
      
         $Configs = new \PASS\GeneralLogBundle\Entity\ConfigurationMail();
         $Configs->verificationTwig();
-       $form = $this->createForm(new ConfigurationMailType(), $Configs);
+       $form = $this->createForm(new ConfigurationMailType($this->get('security.context')), $Configs);
 
         $form->handleRequest($request);
         if ($form->isValid()) {

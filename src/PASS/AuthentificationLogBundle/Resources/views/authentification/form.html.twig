@@ -8,7 +8,7 @@
       
      {{ form(form) }}
      
-     {%if chemin != null %}
+     {%if chemin is defined and chemin != null %}
     <a href="{{ chemin }}"><button type="button" class="btn btn-danger">Supprimer le groupe</button></a>
     
     

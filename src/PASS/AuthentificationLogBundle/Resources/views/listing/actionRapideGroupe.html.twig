@@ -1,14 +1,18 @@
 {# empty Twig template #}
-
-<a href="{{ path('PASS_GestionGroupe',{'listingId': jeune.id}) }}"><span class="glyphicon glyphicon-user" title="Voir le groupe"  aria-hidden="true"></span> </a>
-
+{% if is_granted("ROLE_GROUPE_R") or is_granted("ROLE_ADMIN") %}
+    <a href="{{ path('PASS_GestionGroupe',{'listingId': jeune.id}) }}"><span class="glyphicon glyphicon-user" title="Voir le groupe"  aria-hidden="true"></span> </a>
+{% endif %}
 {% if jeune.supprimable %}
-<a href="{{ path('PASS_ModificationGroupe',{'listingId': jeune.id}) }}"><span class="glyphicon glyphicon-pencil" title="Modifier le groupe"  aria-hidden="true"></span> </a>
-  
-                            
-<a href="{{ path('PASS_SupprimerGroupe',{'groupeId': jeune.id}) }}">
-    <span class="glyphicon glyphicon-trash" title="Supprimer le groupe"  aria-hidden="true"></span> </a>
- 
-     {% endif %}                           
+    {% if is_granted("ROLE_GROUPE_U") or is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('PASS_ModificationGroupe',{'listingId': jeune.id}) }}"><span class="glyphicon glyphicon-pencil" title="Modifier le groupe"  aria-hidden="true"></span> </a>
+    {% endif %}
+    {% if is_granted("ROLE_GROUPE_D") or is_granted("ROLE_ADMIN") %}                        
+        <a href="{{ path('PASS_SupprimerGroupe',{'groupeId': jeune.id}) }}">
+            <span class="glyphicon glyphicon-trash" title="Supprimer le groupe"  aria-hidden="true"></span> </a>
+        {% endif %}
+        {% if is_granted("ROLE_DROIT_U") or is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('PASS_droitGroupe',{'groupe': jeune.id}) }}">
+            <span class="glyphicon glyphicon-eye-open" title="Changer  les droits du groupe"  aria-hidden="true"></span> </a>
+        {% endif %}
+    {% endif %}                           
 
- 

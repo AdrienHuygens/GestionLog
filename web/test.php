@@ -12,9 +12,9 @@ contact adrien.huygens@gmail.com
     </head>
     <body>
         <?php
-        $server = "ldaps://192.168.55.13";
+        $server = "192.168.100.34";
 
-        $port = 636;
+        $port = "389";
 
         $racine = "";
 
@@ -23,22 +23,18 @@ contact adrien.huygens@gmail.com
         $rootpw = "secret";
         $cpt = 0;
 
-       $ds;
+        echo "Connexion...<br>";
 
-       
-       
-             $ds = ldap_connect($server,636);
-        
+        $ds = ldap_connect($server);
         var_dump($ds . "<br>");
-         var_dump("<br> ===>".$ds." <===<br>");
         if ($ds == 1) {
             $cpt = 3;
             echo "Connexion...<br>";
-            ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-            ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
+            ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
+            ldap_set_option($ldapconn, LDAP_OPT_REFERRALS, 0);
             // on s'authentifie en tant que super-utilisateur, ici, ldap_admin
-           // $r = ldap_bind($ds, 'uid=syslog,ou=Applications,dc=admin,dc=pass,dc=be', 'syslog');
-            $r = ldap_bind($ds, 'uid=ahuygensr,ou=users,dc=admin,dc=pass,dc=be', 'Ga007007');
+            $r = ldap_bind($ds, 'uid=syslog,ou=Applications,dc=admin,dc=pass,dc=be', 'syslog');
+            $r = ldap_bind($ds, 'uid=lmuller,ou=users,dc=admin,dc=pass,dc=be', 'abcde');
             echo"<br>";
             echo $r;
             /*$dn = "dc=admin,dc=pass,dc=be";

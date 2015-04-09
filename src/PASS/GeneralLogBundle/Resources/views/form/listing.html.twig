@@ -5,15 +5,16 @@
 
             
 {% block menuleft  %}  
+    {% if  is_granted("ROLE_GROUPE_ORDI_C") or is_granted("ROLE_ADMIN")%} 
     <div id="menuGauche" class='center2'>
                      <a href="{{ path(chemin) }}/add"> Ajouter un {{ activite }}  </a>  
                     </div>
-    
+    {%endif%}
     {% endblock %}
 
 {% block contenu %}
      
-     
+    {% if  is_granted("ROLE_GROUPE_ORDI_R") or is_granted("ROLE_ADMIN")%} 
         <div class="col-lg-6">
             <div class="panel panel-info">
                 <div class="panel-heading">
@@ -30,5 +31,5 @@
                 </div>
             </div>
         </div>
-   
+     {%endif%}
 {% endblock %} 

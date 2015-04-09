@@ -134,9 +134,14 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     }
 
     public function addGroupe(Groupe $groupe) {
+        $ok = true;
+        foreach ($this->groupes as $tmp){
+            if ($tmp === $groupe) $ok = false;
+        }
+        
+       if($ok) $this->groupes[] = $groupe;
+        
        
-        $this->groupes[] = $groupe;
-        return $this;
     }
      public function addRole(Role $role) {
          

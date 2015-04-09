@@ -7,17 +7,4 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
-    PASS_main.menu_builder:
-        class: PASS\GeneralLogBundle\Menu\Builder
-        arguments: ["@knp_menu.factory"]
-
-    # your menu
-    PASS_main.menu.breadcrumb:
-        class: Knp\Menu\MenuItem
-        factory_service: PASS_main.menu_builder # the menu builder service above
-        factory_method: createBreadcrumbMenu # the method name to generate the menu
-        arguments: ["@request"]
-        scope: request
-        tags:
-            - { name: knp_menu.menu, alias: breadcrumb } # The alias is used in the template
-    
+   

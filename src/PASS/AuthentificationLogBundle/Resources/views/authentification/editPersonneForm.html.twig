@@ -5,6 +5,7 @@
 
 
     {% block contenu %}
+       
         {{ form_start(form) }}
         {{ form_errors(form) }}
 
@@ -13,17 +14,20 @@
             mot de passe: <a href="{{ path('PASS_ChangeMDP',  {'personneId':id}) }}" > changer le mot de passe </a>  <br><br>
         {% endif %}
         {{ form_row(form.mail) }}
+        {% if is_granted("ROLE_DROIT_U") or is_granted("ROLE_ADMIN") %}
         {{ form_row(form.groupes) }}
+         
         {{ form_row(form.roles) }}
+        
         {{ form_row(form.actif) }}
-
+         {% endif %}
         {{ form_row(form._token) }}
         {{ form_row(form.Enregistrer) }}
 
 
 
         {% if suprimable or  is_granted("ROLE_MEMORY")   %}
-            {% if is_granted("ROLE_USER_D")%}
+            {% if is_granted("ROLE_USER_D") or is_granted("ROLE_ADMIN") %}
                 <a href="{{ path('PASS_SupprimerUtilisateur', {'personneId':id}) }}"><button type="button" class="btn btn-danger">Supprimer l'utilisateur</button></a>
             {% endif %}
         {% endif %}

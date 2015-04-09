@@ -27,9 +27,19 @@ PASS_ModificationUtilisateur:
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurModification, listingId: 0 }
     requirements:
         listingId: \d+
+PASS_droitGroupeUtilisateur:
+    path: /auth/gestion/droit/utilisateur/{personne}
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:roleUser, personne: 0 }
+    requirements:
+        personne: \d+
+PASS_droitGroupe:
+    path: /auth/gestion/droit/groupe/{groupe}
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:roleGroupe, groupe: 0 }
+    requirements:
+        groupe: \d+
 PASS_MonCompte:
-    path: /auth/monCompte/{listingId}
-    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:utilisateurModification, listingId: 0 }
+    path: /auth/monCompte
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:MonCompte }
     requirements:
         listingId: \d+
         

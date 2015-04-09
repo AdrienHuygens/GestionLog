@@ -27,7 +27,7 @@ class ImportationPersonneController extends Controller {
         try {
 
 
-            set_time_limit(60);
+            
             
             $db = ldap_connect($this->serveur->getLdapServer(), $this->serveur->getLdapPort())or die("Could not connect to $ldaphost") ;
             
@@ -148,6 +148,7 @@ class ImportationPersonneController extends Controller {
                 foreach ($form->getData() as $userldapTab) {
                     foreach ($userldapTab as $userldap) {
                         $rep = $this->getDoctrine()->getRepository("PASSAuthentificationLogBundle:Personne");
+                         $rep2 = $this->getDoctrine()->getRepository("PASSAuthentificationLogBundle:Groupe");
                         try {
                             $val = $rep->getUserLdap($userldap);
                         }// dump($userldap);
@@ -163,6 +164,9 @@ class ImportationPersonneController extends Controller {
 
                         $userP->setLdap(True);
                         $userP->setActif(True);
+                        //dump($rep2->findby(array('nom'=>"Default"))[0]);
+                        
+                        $userP->addGroupe($rep2->findby(array('nom'=>"Default"))[0]);
                         $userP->setMail($utilisateur[$userldap]->getMail());
 
                         $userP->setUsername($userldap);

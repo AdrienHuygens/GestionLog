@@ -12,7 +12,7 @@ use PASS\AuthentificationLogBundle\Entity\Groupe;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="PASS\AuthentificationLogBundle\Entity\RoleRepository")
  */
-class Role implements \Serializable
+class Role implements \Serializable, \Symfony\Component\Security\Core\Role\RoleInterface
 {
     /**
      * @var integer

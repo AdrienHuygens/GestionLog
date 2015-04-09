@@ -23,8 +23,8 @@
                 Codage strict:{{ form_widget(form.strict) }}
             </div>
                 <div class="col-lg-4 col-md-4" >
-                {{ form_widget(form.Enregistrer) }}
-                 {{ form_widget(form.Prévisualiser) }}
+                    {%if form.Enregistrer is defined %} {{ form_widget(form.Enregistrer) }}{%endif%}
+                 {%if form.Prévisualiser is defined %} {{ form_widget(form.Prévisualiser) }}{%endif%}
             </div>
                  {{ form_end(form) }}
 {% endblock %}

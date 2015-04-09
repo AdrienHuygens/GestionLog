@@ -93,7 +93,7 @@ class GroupeOrdinateurController extends Controller
 
         /**
      * 
-     * @Secure(roles="ROLE_GROUPE_ORDI_R, ROLE_ADMIN")
+     * @Secure(roles="ROLE_GROUPE_ORDI_C,ROLE_GROUPE_ORDI_R, ROLE_ADMIN")
     */
      public function groupeOrdinateurListingAction($listingId) {
         if ($listingId != 0) {

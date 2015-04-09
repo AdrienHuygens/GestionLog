@@ -8,8 +8,11 @@
 {% endblock %}
 {% block contenu %}
    
-    {% if good %}
-        <div class="alert alert-success" role="alert">{{ good}}</div>
+    {% if good  is defined and good  %}
+        <div class="alert alert-success" role="alert">{{ good }}</div>
+    {% endif %}
+    {% if error  is defined %}
+        <div class="alert alert-alert" role="alert">{{ error}}</div>
     {% endif %}
 Vous pouvez voir ici les informations qui vous interessent
 {% endblock %}

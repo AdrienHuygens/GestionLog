@@ -6,6 +6,7 @@
 
 
     {% block contenu %}
+            {% if  is_granted("ROLE_STAT_R") or is_granted("ROLE_ADMIN")%} 
         <div class="rowBottom rowLeft">
             <button id='btn'type="button" class="btn btn-default" onClick='filtre()'  >
                 Mettre un filtre
@@ -147,7 +148,8 @@
 
 
 
-
+            
 
         </div>
+            {%endif%}
     {% endblock %}

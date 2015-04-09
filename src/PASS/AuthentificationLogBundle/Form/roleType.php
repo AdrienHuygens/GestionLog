@@ -6,30 +6,32 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class GroupeType extends AbstractType
+class roleType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     
     
     private $emrole;
     public function __construct($em2) {
-   
+      
         $this->emrole = $em2;
     }
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom','text', array('label' => 'Nom du groupe:'))
-            ->add('description', null, array('label' => 'Description du groupe:'))
-             ->add('roles',null,array("label"=> "Role (control + click souri pour multi-selection):", "choices" =>$this->emrole->getType()) )
-             
-            //->add('ldap')
-            //->add('actif')
             
+            ->add('nom','text',array("label" =>"Nom du groupe:","disabled"=>'false'))
+            ->add('roles',null,array("label"=> "Role (control + click souri pour multi-selection):", "choices" =>$this->emrole->getType()) )
+              //->add('ldap')
+            //->add('actif')
+             ->add('Enregistrer','submit')
+              
+              
         ;
+        
     }
     
     /**
@@ -38,7 +40,8 @@ class GroupeType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'PASS\AuthentificationLogBundle\Entity\Groupe'
+            'data_class' => 'PASS\AuthentificationLogBundle\Entity\Groupe',
+             
         ));
     }
 
@@ -48,8 +51,5 @@ class GroupeType extends AbstractType
     public function getName()
     {
         return 'pass_authentificationlogbundle_groupe';
-    }
-    public function __clone(){
-        
     }
 }

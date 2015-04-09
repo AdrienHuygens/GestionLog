@@ -6,8 +6,13 @@
 
     {% block menuleft  %}  
         <div id="menuGauche" class='center2'>
-            <a href="{{ path(chemin) }}/add"> Ajouter un {{ activite }}  </a>  <br />
-            {% if activite == "utilisateur" %}  <a href="{{ path("PASS_importLDAP") }}"> Importer des utilisateur ldap  </a>  {% endif %}           
+             {% if activite == "utilisateur" and is_granted("ROLE_USER_C") or is_granted("ROLE_ADMIN")%} 
+                <a href="{{ path(chemin) }}/add"> Ajouter un {{ activite }}  </a>  <br />
+                {%endif %}
+              {% if activite == "groupe" and is_granted("ROLE_GROUPE_C") or is_granted("ROLE_ADMIN")%} 
+                <a href="{{ path(chemin) }}/add"> Ajouter un {{ activite }}  </a>  <br />
+                {%endif %}
+            {% if activite == "utilisateur"and is_granted("ROLE_LDAP_I") or is_granted("ROLE_ADMIN") %}  <a href="{{ path("PASS_importLDAP") }}"> Importer des utilisateur ldap  </a>  {% endif %}           
         </div>
 
     {% endblock %}
@@ -22,16 +27,17 @@
             </div>
 
         {% endif %}
+        {% if (activite == "utilisateur" and is_granted("ROLE_USER_R") or is_granted("ROLE_ADMIN")) or(activite == "groupe" and is_granted("ROLE_GROUPE_R") or is_granted("ROLE_ADMIN")) %} 
 
         <div class="col-lg-6">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <h3 class="panel-title">{{ activite |capitalize }} locaux <div class="aligner" > 
 
-                            {% if activite == "utilisateur" %}
+                            {% if activite == "utilisateur" and is_granted("ROLE_USER_C") or is_granted("ROLE_ADMIN")%}
                                 <a href="{{ path('PASS_CreationUtilisateur') }}"><span class="glyphicon glyphicon-plus" title="Voir l'utilisateur"  aria-hidden="true"></span> </a>
 
-                            {% elseif activite == "groupe" %}
+                            {% elseif activite == "groupe" and is_granted("ROLE_GROUPE_C") or is_granted("ROLE_ADMIN") %}
                                 <a href="{{ path('PASS_CreationGroupe') }}"><span class="glyphicon glyphicon-plus" title="Voir l'utilisateur"  aria-hidden="true"></span> </a>
 
 
@@ -69,8 +75,9 @@
                 </div>
             </div>
         </div>
+                    {%endif%}
         {% if (ldap is defined) and ldap %}
-
+             {% if (  is_granted("ROLE_LDAP_I") or is_granted("ROLE_ADMIN"))%}
             <div class="col-lg-6">
                 <div class="panel panel-info">
                     <div class="panel-heading">
@@ -82,7 +89,7 @@
 
                                 {% endif %}            
 
-
+                                
                             </div></h3>
                     </div>
                     <div class="panel-body">
@@ -113,7 +120,7 @@
                     </div>
                 </div>
             </div>
-
+                            {%endif%}
 
         {% endif %}
 

@@ -1,5 +1,5 @@
 parameters:
-    ldap_server: 192.168.55.13
+    ldap_server: 192.168.100.34
     ldap_port: 389
     ldap_dn: 'ou=users,dc=admin,dc=pass,dc=be'
     ldap_filtre: objectclass=PASS

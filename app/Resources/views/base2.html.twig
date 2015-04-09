@@ -46,11 +46,17 @@
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>
                                     </button>
-                                    <a class="navbar-brand" href="#">Gestion de log </a>
+                                    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                                    <a class="navbar-brand" href="{{ path('PASS_ACCUEIL2') }}">GDL</a>
+                                    {% else %}
+                                          <a class="navbar-brand" href="{{ path('PASS_ACCUEIL') }}">GDL</a>
+                                        {% endif %}
                                 </div>
                                 <div id="navbar" class="navbar-collapse collapse">
                                    <ul class="nav navbar-nav">
-                                       <li> {{ knp_menu_render('breadcrumb',{'currentAsLink':false}) }}</li>
+                                       <li> {#{ knp_menu_render('breadcrumb',{'currentAsLink':false}) }#}
+                                           {{ knp_menu_render('PASSGeneralLogBundle:Builder:createBreadcrumbMenu') }}
+                                       </li>
                                  
                                    </ul>
                                 </div><!--/.nav-collapse -->

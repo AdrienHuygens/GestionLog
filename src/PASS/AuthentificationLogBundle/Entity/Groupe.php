@@ -233,8 +233,15 @@ class Groupe  {
          
         $this->personnes->removeElement($personnes);
     }
-    public function removeRole(\PASS\AuthentificationLogBundle\Entity\Role $role) {
-        $this->roles->removeElement($role);
+    public function removeRole( $role) {
+        $tab = new ArrayCollection();
+        
+        foreach ($this->roles as $roles) {
+            
+            if ($role !== $roles)
+                $tab[] = $role;
+        }
+        $this->role = $tab;
     }
 
     /**
@@ -245,7 +252,12 @@ class Groupe  {
     public function getPersonnes() {
         return $this->personnes;
     }
-     public function getRoles() {
+    
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+    public function getRole() {
          $tab =array();
          foreach ($this->roles->toArray() as $role){
              $tab[] = $role->getRole();

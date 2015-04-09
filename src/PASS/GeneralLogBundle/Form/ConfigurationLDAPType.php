@@ -22,6 +22,10 @@ class ConfigurationLDAPType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
+     private $val;
+    public function __construct($val) {
+        $this->val = $val;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -31,7 +35,9 @@ class ConfigurationLDAPType extends AbstractType
             ->add('ldap_dn', 'text')
             ->add('ldap_filtre', 'text')
             ->add('ldap_connexion', 'checkbox',array('label'=>"Connexion par ldap",'required' => false))
-             -> add("Enregistrer",'submit')
+                ;
+         if ($this->val->isGranted('ROLE_CONFIGURATION_U') || $this->val->isGranted('ROLE_ADMIN') )
+             $builder-> add("Enregistrer",'submit')
              
             
         ;

@@ -1,14 +1,23 @@
 {# empty Twig template #}
+{% if is_granted("ROLE_USER_R") or is_granted("ROLE_ADMIN") %}
 <a href="{{ path('PASS_GestionUtilisateur',{'listingId': jeune.id}) }}"><span class="glyphicon glyphicon-user" title="Voir l'utilisateur"  aria-hidden="true"></span> </a>
- 
- {%   if jeune.suprimable or  is_granted("ROLE_MEMORY")  %}
+ {% endif %}
+{% if is_granted("ROLE_USER_U") or is_granted("ROLE_ADMIN") %}
 <a href="{{ path('PASS_ModificationUtilisateur',{'listingId': jeune.id}) }}"><span class="glyphicon glyphicon-pencil" title="Modifier l'utilisateur"  aria-hidden="true"></span> </a>
-  
-                            
+ {% endif %}
+{%   if jeune.suprimable or  is_granted("ROLE_MEMORY")  %}             
+ 
+      {% if is_granted("ROLE_USER_D") or is_granted("ROLE_ADMIN") %}         
 <a href="{{ path('PASS_SupprimerUtilisateur',{'personneId': jeune.id}) }}">
     <span class="glyphicon glyphicon-trash" title="Supprimer l'utilisateur"  aria-hidden="true"></span> </a>
- 
-                                
+ {% endif %}
+           {% if is_granted("ROLE_USER_U") or is_granted("ROLE_ADMIN") %}                     
 <a href="{{ path('PASS_ChangeMDP',{'personneId': jeune.id}) }}">
     <span class="glyphicon glyphicon-asterisk" title="Changer le mot de passe de l'utilisateur"  aria-hidden="true"></span> </a>
+    {% endif %}
     {%  endif %}
+        
+        {% if is_granted("ROLE_ROLE_U") or is_granted("ROLE_ADMIN") %}
+    <a href="{{ path('PASS_droitGroupeUtilisateur',{'personne': jeune.id}) }}">
+    <span class="glyphicon glyphicon-eye-open" title="Changer les groupes et les droits de l'utilisateur"  aria-hidden="true"></span> </a>
+    {% endif %}

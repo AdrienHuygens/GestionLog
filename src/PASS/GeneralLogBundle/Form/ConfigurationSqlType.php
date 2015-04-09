@@ -22,6 +22,10 @@ class ConfigurationSqlType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
+     private $val;
+    public function __construct($val) {
+        $this->val = $val;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -32,8 +36,9 @@ class ConfigurationSqlType extends AbstractType
             ->add('database_name', 'text')
             ->add('database_user', 'text')
             ->add('databasePassword', 'text')
-             -> add("Enregistrer",'submit')
-             
+                   ;
+         if ($this->val->isGranted('ROLE_CONFIGURATION_U') || $this->val->isGranted('ROLE_ADMIN') )
+             $builder-> add("Enregistrer",'submit')
             
         ;
         

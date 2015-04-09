@@ -46,6 +46,8 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface{
             
              array ('Voir les Logs', 'permet de voir les log', 'ROLE_LOG_R','ROLE_LOG'),
             array ('Voir les Stats', 'permet de voir les stats', 'ROLE_STAT_R','ROLE_STAT'),
+             array ('Gestion des droits sur les utilisateurs et groupes', 'permet modifier les droits utilisateur', 'ROLE_DROIT_U','ROLE_DROIT'),
+             
         );
         
         $ref = new Role();

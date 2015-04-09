@@ -15,9 +15,10 @@
      {{ form(form) }}
       </div>
      {%if chemin != null %}
+         {% if  is_granted("ROLE_GROUPE_ORDI_D") or is_granted("ROLE_ADMIN")%} 
     <a href="{{ chemin }}"><button type="button" class="btn btn-danger">Supprimer le groupe</button></a>
     
-    
+        {% endif %}
     {% endif %}
 
      
