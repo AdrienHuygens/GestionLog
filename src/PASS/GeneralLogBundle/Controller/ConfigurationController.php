@@ -62,22 +62,56 @@ class ConfigurationController extends Controller {
      */
     public function ldapAction(Request $request) {
         $chemin = "";
+        $color= "";
         $Configs = new \PASS\GeneralLogBundle\Entity\ConfigurationLDAP();
-        $form = $this->createForm(new ConfigurationLDAPType($this->get('security.context')), $Configs);
+        $Type =new ConfigurationLDAPType($this->get('security.context'));
+        $form = $this->createForm($Type, $Configs);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-             if (!$this->get('security.context')->isGranted('ROLE_CONFIGURATION_U') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+           
+            
+                  if (!$this->get('security.context')->isGranted('ROLE_CONFIGURATION_U') && !$this->get('security.context')->isGranted('ROLE_CONFIGURATION_R')&& !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+             
+                    throw new AccessDeniedException('Modification Non dispognibe, vous n\'avez pas les droits ');
+                  } 
+                  
+            if ($form->get('Tester')->isClicked()) {
+                 
+                $db = ldap_connect($Configs->getLdapServer(), $Configs->getLdapPort()) ;
+               
+                if($db){
+                    ldap_set_option($db, LDAP_OPT_PROTOCOL_VERSION, 3);
+                    ldap_set_option($db, LDAP_OPT_REFERRALS, 0);
+                    $test = @ldap_bind($db);
+                   
+                    if ($test){
+                        dump($test);
+                        $Type->setColor("colorGreen");
+                    }
+                    else{
+                        $Type->setColor("colorRed");
+                    }
+                    $form = $this->createForm($Type, $Configs);
+                }
+               
+               
+            }
+             if ($form->get('Enregistrer')->isClicked()) {
+                  if (!$this->get('security.context')->isGranted('ROLE_CONFIGURATION_U') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
              
                     throw new AccessDeniedException('Modification Non dispognibe, vous n\'avez pas les droits ');
                   }
-            $Configs->Enregistrer();
+                $Configs->Enregistrer();
+            }
+            
         } 
         
         return $this->render('PASSGeneralLogBundle:form:form.html.twig', Array(
                     "form" => $form->createView(),
                     'titrePage' => 'Changer la configuration de la base de donné',
-                    'chemin' => $chemin
+                    'chemin' => $chemin,
+                    
         ));
     }
     
@@ -92,6 +126,10 @@ class ConfigurationController extends Controller {
                 ;
          
         $form->handleRequest($request);
+        
+        
+        
+        
         if ($form->isValid()) {
             $factory = $this->get('security.encoder_factory');
            $user = new User('AdminM', "test");

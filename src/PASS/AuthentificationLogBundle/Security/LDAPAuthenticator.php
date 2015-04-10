@@ -86,18 +86,13 @@ class LDAPAuthenticator implements SimpleFormAuthenticatorInterface {
                         
                       ldap_set_option($db, LDAP_OPT_PROTOCOL_VERSION, 3);
                         ldap_set_option($db, LDAP_OPT_REFERRALS, 0);
-                     $test = @ldap_bind($db);
-                     if ($test){
+                    
                      $r = @ldap_bind($db, 'uid='.$token->getUsername().','.$configs->getLdapDn(), $token->getCredentials());
                        //ldap_unbind ( $db );
                        @ldap_close($db);
                       
                   
-                     }
                    
-                    else {
-                         throw new AuthenticationException('Serveur LDAP mal configurer');
-                    }
                      }
                        
                        

@@ -25,9 +25,9 @@ class Date implements \Serializable{
     
     function __construct() {
         //$this->signe  = null;
-       $this->date1 = new \DateTime('NOW');
+      
        $this->date2 = new \DateTime('NOW');
-       date_sub($this->date1, date_interval_create_from_date_string('1 days'));
+       date_add($this->date2, date_interval_create_from_date_string('1 days'));
     }
 
     public function getSigne() {

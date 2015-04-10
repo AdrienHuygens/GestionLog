@@ -235,7 +235,10 @@ class AuthentificationController extends Controller {
             return $this->render("PASSAuthentificationLogBundle:listing:listing.html.twig", array("titrePage" => "Listing des groupes", "activite" => 'groupe', "tab" => $tab, 'chemin' => "PASS_GestionGroupe",));
         }
     }
-    
+    /**
+     * 
+     * @Secure(roles="ROLE_USER_U, ROLE_ADMIN")
+     */
     public function utilisateurModificationAction(Request $request, Personne $listingId) {
   
         return $this->modifUser($request, $listingId);

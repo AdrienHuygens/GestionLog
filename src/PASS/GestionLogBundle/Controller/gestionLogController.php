@@ -21,7 +21,7 @@ use PASS\GestionLogBundle\Form\GroupeType;
 use Symfony\Component\HttpFoundation\Session\Session;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
-
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 
 class gestionLogController extends Controller
@@ -96,40 +96,68 @@ class gestionLogController extends Controller
                ->add('Reset','button')
                ->getForm() ;
           $form->handleRequest($request);
-            
-        
-                  
+          
+                 
             $this->get('session')->set('pages',  $filtre->getNbPage());
             $this->get('session')->set('filtre',  $filtre);
             $this->get('session')->set('r',  'log');
+            
+        if ($form->isSubmitted()){
+            
+           
         
+ 
+            return $this->redirectToRoute('PASS_AffichageLog');
+            
+        }
+            
           $pagination = null;
         
-            $tab = $repo->getAllLog($filtre, $repo2);
            
            
+          /*
             if(count($tab) !== 0){
                
                 $paginator  = $this->get('knp_paginator');
                 $pagination = $paginator->paginate(
                     $tab,
-                   $request->query->get('page', 1)/*page number*/,
+                   $request->query->get('page', 1),
                         
-                    $filtre->getNbPage()/*limit per page*/
+                    $filtre->getNbPage()
                 );
                 
             }
-           
+           */
+          /*
+           * ===================================================
+           * Gestion de la pagination 
+           * ==================================================
+           * 
+           */
+            $page =  $request->query->get('page', 1);
+            $maxArticles = $this->get('session')->get('pages');
+             $articles_count = $this->getDoctrine()->getEntityManager()->getRepository("PASSGestionLogBundle:Systemevents")
+                                    
+                ->countTotal($filtre, $repo2);
              
-              
+             $paginations = array(
+            'page' => $page,
+            'route' => 'PASS_AffichageLog',
+            'pages_count' => ceil($articles_count / $maxArticles),
+            'route_params' => array()
+        );  
+             $tab = $repo->getAllLog($filtre, $repo2, $page, $maxArticles);
             
-            
+                 //  $articles = $this->getDoctrine()->getRepository("PASSGestionLogBundle:Systemevents")
+                //->getList($page, $maxArticles);
             
             return $this->render("PASSGestionLogBundle:affichage:affichage.html.twig",
                     array("titrePage" => "Logs serveur",                       
-                        "listing" =>  $pagination,
+                        "listing" =>  $tab,
                         "form" => $form->createView(),
-                        "lien" => 'PASS_AffichageLog'
+                        "lien" => 'PASS_AffichageLog',
+                        
+                        'pagination' => $paginations
                        
                     
             ));

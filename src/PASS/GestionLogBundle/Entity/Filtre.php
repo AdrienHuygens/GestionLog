@@ -205,7 +205,7 @@ class Filtre implements \Serializable {
     
     public function serialize() {
         return serialize(array(
-            $this->hosts, $this->dates, $this->priority
+            $this->hosts, $this->dates, $this->priority,$this->groupes,$this->nbPage,
         ));
     }
 
@@ -216,7 +216,7 @@ class Filtre implements \Serializable {
 
 
         list (
-                $this->hosts, $this->dates,$this->priority
+                 $this->hosts, $this->dates, $this->priority,$this->groupes,$this->nbPage,
                 ) = unserialize($serialized);
     }
 

@@ -23,8 +23,13 @@ class ConfigurationLDAPType extends AbstractType
      * @param array $options
      */
      private $val;
+     private $color="";
     public function __construct($val) {
         $this->val = $val;
+    }
+    
+    public function setColor($color){
+        $this->color = $color;
     }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -38,6 +43,7 @@ class ConfigurationLDAPType extends AbstractType
                 ;
          if ($this->val->isGranted('ROLE_CONFIGURATION_U') || $this->val->isGranted('ROLE_ADMIN') )
              $builder-> add("Enregistrer",'submit')
+                      -> add("Tester",'submit', array('attr' => array('class' => $this->color)))
              
             
         ;

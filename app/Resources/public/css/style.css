@@ -8,7 +8,12 @@ contact adrien.huygens@gmail.com
     Created on : 11-févr.-2015, 10:35:25
     Author     : adrien
 */
-
+.colorRed{
+    background-color: #FF0000;
+}
+.colorGreen{
+    background-color: #00FF00;
+}
 
 .topPadding{
     padding-top: 10px;

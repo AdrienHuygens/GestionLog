@@ -98,8 +98,9 @@
             </div>
                           <div class="navigation text-center">
                                {% if listing != null %}
-                 {{ knp_pagination_render(listing) }}
+                 {#{ knp_pagination_render(listing) }#}
                  {% endif %}  
+                 {% include 'PASSGestionLogBundle:pagination:pagination.html.twig' %}
                 </div>
         </div>
 <script>

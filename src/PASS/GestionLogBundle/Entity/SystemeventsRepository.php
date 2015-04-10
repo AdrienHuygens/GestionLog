@@ -15,11 +15,12 @@ namespace PASS\GestionLogBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use PASS\GestionLogBundle\Entity\Filtre;
 use PASS\GestionLogBundle\Entity\StatServeur;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 
 class SystemeventsRepository extends EntityRepository  {
 
-     public function getAllLog(Filtre $filtre, $repo) {
+     public function getAllLog(Filtre $filtre, $repo,$page=1, $maxperpage=40) {
         
          $query = $this->createQueryBuilder('systemevent')
                         ->select('systemevent.id,systemevent.receivedat,systemevent.devicereportedtime , '
@@ -36,7 +37,11 @@ class SystemeventsRepository extends EntityRepository  {
          
          $test = $filtre->filtrer($query,$repo);
          
+         
+         $test->setFirstResult(($page-1) * $maxperpage)
+            ->setMaxResults($maxperpage);
          return $test->getQuery()->execute();
+        
     }
     public function getHost(){
         
@@ -82,6 +87,21 @@ class SystemeventsRepository extends EntityRepository  {
                $filtre->gestionDate($em);
                         
                         return $em ->getQuery()->execute();
+    }
+    
+   
+      public function countTotal(Filtre $filtre,$repo )
+    {
+        $q = $this->_em->createQueryBuilder('systemevent')
+            ->select('Count(systemevent)')
+             ->from("PASSGestionLogBundle:Systemevents", "systemevent")
+             ->join('systemevent.priority', 'priority')
+                        ->join('systemevent.facility', 'facility')
+        ;
+ 
+        $test = $filtre->filtrer($q,$repo);
+ 
+          return $test->getQuery()->getSingleScalarResult();
     }
    
 }
