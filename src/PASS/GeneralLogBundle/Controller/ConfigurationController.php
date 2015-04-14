@@ -25,8 +25,44 @@ use PASS\GeneralLogBundle\Form\ConfigurationMailType;
 use PASS\GeneralLogBundle\Entity\ConfigurationMail;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use mysqli;
 
 class ConfigurationController extends Controller {
+  
+    private function testSql($Config){
+        if ($Config->getDatabaseDriver() ==="pdo_pgsql"){
+                    try{
+                    if ($Config->getDatabasePort() != null)
+                    $db = @pg_connect("host=".$Config->getDatabaseHost()." port=".$Config->getDatabasePort()." dbname=".$Config->getDatabaseName()."user=".$Config->getDatabaseUser()."password=".$Config->getDatabasePassword());
+                    else $db = @pg_connect("host=".$Config->getDatabaseHost()." dbname=".$Config->getDatabaseName()." user=".$Config->getDatabaseUser()." password=".$Config->getDatabasePassword());
+                    
+                    if (pg_connection_status($db) === PGSQL_CONNECTION_OK){
+                       
+                        @pg_close($db);
+                        return true;
+                    } 
+                    
+                    
+                    @pg_close($db);
+                    }
+                    catch(Exception $e){
+                        
+                    }
+                    return false;                        
+                }
+        else if ($Config->getDatabaseDriver() ==="pdo_mysql"){
+                                
+                     $mysqli = @new mysqli($Config->getDatabaseHost(), $Config->getDatabaseUser(), $Config->getDatabasePassword(),$Config->getDatabaseName() , $Config->getDatabasePort());
+                        if (!$mysqli->connect_errno) return true;
+                     else return false;
+                }
+        else {
+                    return false;
+                }
+    }
+    
+    
+    
     /**
      * 
      * @Secure(roles="ROLE_CONFIGURATION_U,ROLE_CONFIGURATION_R, ROLE_ADMIN")
@@ -34,25 +70,47 @@ class ConfigurationController extends Controller {
     public function indexAction(Request $request) {
         $chemin = "";
         $Config = new \PASS\GeneralLogBundle\Entity\ConfigurationSql();
-        $form = $this->createForm(new ConfigurationSqlType($this->get('security.context')), $Config);
-
+        $Type =new ConfigurationSqlType($this->get('security.context'));
+        $form = $this->createForm($Type, $Config);
+        $erro = array();
         $form->handleRequest($request);
         if ($form->isValid()) {
+            
+            if ($form->get('Tester')->isClicked()) {
+                    
+                if ($this->testSql($Config)){
+                     $Type->setColor("colorGreen");
+                     
+                }
+                else{
+                     $Type->setColor("colorRed");
+                }
+                   $form = $this->createForm($Type, $Config);
+                
+            }
+           if ($form->get('Enregistrer')->isClicked()) {
              if (!$this->get('security.context')->isGranted('ROLE_CONFIGURATION_U') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
              
                     throw new AccessDeniedException('Modification Non dispognibe, vous n\'avez pas les droits ');
                   }
+          if ($this->testSql($Config)){
+              
             $Config->Enregistrer();
-        } else {
-            // $Config->load();
-            // $form->setData($Config);
+            $erro[] = array('vue' =>"PASSGeneralLogBundle:notification:connexionbddSucces.html.twig");
+            }
+            else{
+                $Config = new \PASS\GeneralLogBundle\Entity\ConfigurationSql();
+                 $form = $this->createForm($Type, $Config);
+                 $erro[] = array('vue' =>"PASSGeneralLogBundle:notification:connexionbddError.html.twig");
+            }
+        } 
         }
-        
-
+    
         return $this->render('PASSGeneralLogBundle:form:form.html.twig', Array(
                     "form" => $form->createView(),
                     'titrePage' => 'Changer la configuration de la base de donné',
-                    'chemin' => $chemin
+                    'chemin' => $chemin,
+                    'notification'=>$erro
         ));
     }
 
@@ -86,7 +144,7 @@ class ConfigurationController extends Controller {
                     $test = @ldap_bind($db);
                    
                     if ($test){
-                        dump($test);
+                       
                         $Type->setColor("colorGreen");
                     }
                     else{

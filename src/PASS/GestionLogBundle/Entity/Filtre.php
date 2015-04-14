@@ -163,7 +163,7 @@ class Filtre implements \Serializable {
     public function gestionDate($query){
        
         if (isset($this->dates) ) {
-
+            if ($this->dates->getSql() != null)
             $query->andWhere($this->dates->getSql());
         }
     }

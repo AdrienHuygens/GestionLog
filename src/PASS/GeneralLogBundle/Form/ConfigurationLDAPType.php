@@ -43,7 +43,7 @@ class ConfigurationLDAPType extends AbstractType
                 ;
          if ($this->val->isGranted('ROLE_CONFIGURATION_U') || $this->val->isGranted('ROLE_ADMIN') )
              $builder-> add("Enregistrer",'submit')
-                      -> add("Tester",'submit', array('attr' => array('class' => $this->color)))
+                      -> add("Tester",'submit', array('label'=>'Tester la conexion','attr' => array('class' => $this->color)))
              
             
         ;

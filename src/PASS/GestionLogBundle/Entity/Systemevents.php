@@ -269,8 +269,10 @@ class Systemevents
      */
     public function getDevicereportedtime()
     {
+        if ($this->devicereportedtime !== null)
         return $this->devicereportedtime->format("d-m-Y H:i:s");
-        //return "0";
+        
+        else return 0;
     }
 
     /**

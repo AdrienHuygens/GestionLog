@@ -22,8 +22,9 @@
          {{app.request.session.set("r",null) }}
         <div id="corp">
 
-            <div class="row">
-                <div class="col-md-12" id="logo"></div>
+            <div class="row ">
+                <div class="col-md-4 col-lg-4" id="logo"></div>
+                <div class="col-md-8 col-lg-8" id="baniere"></div>
             </div>
 
             <div class="row " id="contenu">
@@ -108,8 +109,17 @@
                     
                     
                 <div class="col-md-9">
+                     <br />
+                    {% block notif %}
+                    
+                        {% if notification is defined %}
+                               {% for notif in notification  %}
+                                   {% include notif.vue %}
+
+                               {% endfor %}
+                            {% endif %}
+                    {% endblock %}
                    
-                    <br />
                     {% block contenu %}<p>Contenu</p>{% endblock %}
                 </div>
             
@@ -117,7 +127,7 @@
             </div>   
               
             <div class="row row2">
-                <div class="col-xs-12" id="pied">
+                <div class="col-lg-12" id="pied">
 
                 </div>
             </div>

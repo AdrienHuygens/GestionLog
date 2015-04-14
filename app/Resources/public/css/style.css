@@ -88,14 +88,24 @@ pre{
     border-radius: 20px;
 
 }
-
+#baniere{
+    background: url(/images/baniere.svg);
+    height: 100px;
+    //background-size: cover;
+    background-repeat: no-repeat;
+    //background-color: #ff00ff;
+     overflow: hidden;
+    
+}
 #logo{
+    
     background-image: url(/images/pass_logo5.png);
     background-size: contain;
     background-repeat: no-repeat;
     background-color: white;
     //background-color: #ff00ff;
     height: 100px;
+     overflow: hidden;
     
 }
 .center{

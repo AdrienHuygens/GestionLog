@@ -250,7 +250,7 @@ class Groupe  {
      * @return \Doctrine\Common\Collections\Collection 
      */
     public function getPersonnes() {
-        return $this->personnes;
+        return $this->personnes->toArray();
     }
     
     public function getRoles()
@@ -304,14 +304,34 @@ class Groupe  {
         else
             return "Groupe Désactivié <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span>";
     }
+    public function genRole(){
+    $strings = "";
 
+        foreach ($this->getRoles() as $role) {
+
+            $strings = $strings . "- " . $role->getNom() . "</br>";
+        }
+
+        return $strings;
+        
+    }
+    
+    public function genPersonne(){
+        $string ="";
+        foreach($this->getPersonnes() as $personne){
+            $string.='- '.$personne->getUsername().'<br>';
+        }
+        return $string;
+    }
     public function resumer() {
 
         $tab = array('Id' => $this->getId(),
             'Nom' => $this->getNom(),
             'Description' => '<pre>' . $this->getDescription() . '</pre>',
             'Type de groupe' => $this->type(),
-            'Information' => $this->activiter());
+            'Information' => $this->activiter(),
+            'Role' => $this->genRole(),
+                'Personne'=> $this->genPersonne());
 
         return $tab;
     }

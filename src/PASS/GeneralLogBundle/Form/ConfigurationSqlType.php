@@ -23,8 +23,12 @@ class ConfigurationSqlType extends AbstractType
      * @param array $options
      */
      private $val;
+     private $color;
     public function __construct($val) {
         $this->val = $val;
+    }
+      public function setColor($color){
+        $this->color = $color;
     }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -32,14 +36,14 @@ class ConfigurationSqlType extends AbstractType
             
             ->add('database_driver','choice',array("choices"=>array('pdo_pgsql'=>'pdo_pgsql','pdo_mysql' =>'pdo_mysql'),'required' => true))
             ->add('database_host', 'text')
-            ->add('database_port', 'text',array('label'=>"test",'required' => false))
+            ->add('database_port', 'text',array('label'=>"port",'required' => false))
             ->add('database_name', 'text')
             ->add('database_user', 'text')
-            ->add('databasePassword', 'text')
+            ->add('databasePassword', 'password')
                    ;
          if ($this->val->isGranted('ROLE_CONFIGURATION_U') || $this->val->isGranted('ROLE_ADMIN') )
              $builder-> add("Enregistrer",'submit')
-            
+                         -> add("Tester",'submit', array('label'=>'tester la connexion','attr' => array('class' => $this->color)))
         ;
         
     }

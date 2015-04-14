@@ -39,9 +39,9 @@ class GroupeOrdinateurController extends Controller
         
         
         
+        $priority = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\priority")->getPriorityMin();
 
-
-        $form = $this->createForm(new GroupeOrdinateurType($this->host()), $Groupe);
+        $form = $this->createForm(new GroupeOrdinateurType($this->host(),$priority), $Groupe);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -67,9 +67,10 @@ class GroupeOrdinateurController extends Controller
      * @Secure(roles="ROLE_GROUPE_ORDI_U, ROLE_ADMIN")
     */
   public function GroupeOrdinateurModificationAction(Request $request, GroupeOrdinateur $listingId) {
-       $chemin =    $this->generateUrl('PASS_GroupeOrdinateurDelete', array('groupeId' => $listingId->getId()));;
+       $chemin =    $this->generateUrl('PASS_GroupeOrdinateurDelete', array('groupeId' => $listingId->getId()));
+        $priority = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\priority")->getPriorityMin();
         $Groupe = $listingId;
-        $form = $this->createForm(new GroupeOrdinateurType($this->host()), $Groupe);
+        $form = $this->createForm(new GroupeOrdinateurType($this->host(),$priority), $Groupe);
         // $request = $this->getRequest();
         //$form->bindRequest($request);
 
@@ -99,16 +100,16 @@ class GroupeOrdinateurController extends Controller
         if ($listingId != 0) {
             
             $groupe = $this->getDoctrine()->getRepository("PASSGestionLogBundle:GroupeOrdinateur")->find($listingId);
-
+           
             return $this->render('PASSGeneralLogBundle:form:recapitulatif.html.twig', Array(
                         'titrePage' => 'Gestion d\'un Groupe d\'ordinateur', 'groupe' => $groupe->resumer(), 'nom' => $groupe->getNom(),
-                        'activiter' => " Information sur l'utilisateur", 'lien' => 'PASS_GroupeOrdinateurModification', 'id' => $listingId
+                        'activiter' => "Groupe d'ordinateur", 'lien' => 'PASS_GroupeOrdinateurModification', 'id' => $listingId
             ));
         } else {
             $repoJeune = $this->getDoctrine()->getRepository("PASSGestionLogBundle:GroupeOrdinateur");
             $tab = $repoJeune->getNameGroupe();
 
-            return $this->render("PASSGeneralLogBundle:form:listing.html.twig", array("titrePage" => "Listing des groupes D'ordinateur", "activite" => 'groupe',
+            return $this->render("PASSGeneralLogBundle:form:listing.html.twig", array("titrePage" => "Listing des groupes D'ordinateur", "activite" => 'groupeOrdi',
                         "tab" => $tab, 'chemin' => "PASS_GroupeOrdinateurListing"
             ));
         }

@@ -5,20 +5,14 @@
             
             
  {% block contenu %}
-     {%if (mdp is defined) and (mdp != null) %}
-        
-         mdp=<i> {{mdp}}</i>
     
-    {% endif %}
      
-      <div class="col-lg-12">
      {{ form(form) }}
-      </div>
-     {%if chemin != null %}
-         {% if  is_granted("ROLE_GROUPE_ORDI_D") or is_granted("ROLE_ADMIN")%} 
+     
+     {%if chemin is defined and chemin != null %}
     <a href="{{ chemin }}"><button type="button" class="btn btn-danger">Supprimer le groupe</button></a>
     
-        {% endif %}
+    
     {% endif %}
 
      

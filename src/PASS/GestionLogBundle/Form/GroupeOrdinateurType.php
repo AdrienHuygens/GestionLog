@@ -9,8 +9,10 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class GroupeOrdinateurType extends AbstractType
 {
     private $host;
-    function __construct($host) {
+    private $priority;
+    function __construct($host,$priority) {
         $this->host = $host;
+        $this->priority = $priority;
     }
 
     
@@ -27,6 +29,9 @@ class GroupeOrdinateurType extends AbstractType
             ->add('description')
             //->add('actif')
             ->add('ordinateurs','choice',array('choices'=>  $this->host,'multiple' => true,'required' => false ))
+            ->add('mail')
+             ->add('groupe')
+              ->add('priority',null, array('choices'=>  $this->priority))
             ->add('Enregistrer','submit')
             ;
     }

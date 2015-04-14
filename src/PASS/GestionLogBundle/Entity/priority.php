@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * 
  * @ORM\Entity(repositoryClass="PASS\GestionLogBundle\Entity\priorityRepository")
  */
-class priority
+class priority implements \Serializable
 {
     /**
      * @var integer
@@ -181,4 +181,21 @@ class priority
     {
         return $this->couleurText;
     }
+    
+    public function __toString() {
+        return $this->getNom();
+    }
+
+    public function serialize() {
+         return serialize(array(
+            $this->id, $this->nom, $this->description, $this->couleur,  $this->couleurText
+        ));
+    }
+
+    public function unserialize($serialized) {
+        list (
+             $this->id, $this->nom, $this->description, $this->couleur,  $this->couleurText
+                ) = unserialize($serialized);
+    }
+
 }

@@ -1,0 +1,15 @@
+{# empty Twig template #}
+{% if is_granted("ROLE_GROUPE_ORDI_R") or is_granted("ROLE_ADMIN") %}
+<a href="{{ path('PASS_GroupeOrdinateurListing',{'listingId': jeune.id}) }}"><span class="glyphicon glyphicon-user" title="Voir les details du groupe d'ordinateur"  aria-hidden="true"></span> </a>
+ {% endif %}
+{% if is_granted("ROLE_GROUPE_ORDI_U") or is_granted("ROLE_ADMIN") %}
+<a href="{{ path('PASS_GroupeOrdinateurModification',{'listingId': jeune.id}) }}"><span class="glyphicon glyphicon-pencil" title="Modifier le groupe d'ordinateur"  aria-hidden="true"></span> </a>
+ {% endif %}
+
+ 
+      {% if is_granted("ROLE_GROUPE_ORDI_D") or is_granted("ROLE_ADMIN") %}         
+<a href="{{ path('PASS_GroupeOrdinateurDelete',{'groupeId': jeune.id}) }}">
+    <span class="glyphicon glyphicon-trash" title="Supprimer le groupe d'ordinateur"  aria-hidden="true"></span> </a>
+ {% endif %}
+           
+ 

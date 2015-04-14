@@ -25,6 +25,13 @@ class priorityRepository extends EntityRepository  {
                         ->getQuery()->execute();
                         ;
     }
-    
+    public function getPriorityMin(){
+        
+          return $this->createQueryBuilder('prio')
+                        ->select('prio')
+                        ->where("prio.id <= 3")
+                        ->getQuery()->execute();
+                        ;
+    }
    
 }

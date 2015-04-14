@@ -20,18 +20,24 @@ class GroupeOrdinateurRepository extends EntityRepository  {
      
     public function getGroupe(){
         
-          return $this->createQueryBuilder('groupe')
+          $query= $this->createQueryBuilder('groupe')
                         ->select('groupe.id,groupe.nom')
                        
-                        ->getQuery()->execute();
                         ;
+         
+                        
+                        return $query->getQuery()->execute();
     }
-    public function getNameGroupe(){
+    public function getNameGroupe($mail =false){
+        $query =$this->createQueryBuilder('groupe')
+                        ->select('groupe') ;
         
-          return $this->createQueryBuilder('groupe')
-                        ->select('groupe')
-                       
-                        ->getQuery()->execute();
+        
+        if($mail){
+                $query->where("groupe.mail=True");
+          }
+        
+          return $query ->getQuery()->execute();
                         ;
     }
    
