@@ -10,6 +10,8 @@ use PASS\GestionLogBundle\Entity\Filtre;
 use PASS\GestionLogBundle\Form\DateType;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use PASS\GestionLogBundle\Entity\Statistique;
+use PASS\GestionLogBundle\Entity\StatServeur;
 
 class statistiqueController extends Controller
 {
@@ -75,8 +77,9 @@ class statistiqueController extends Controller
         
          
                 $stat = new \PASS\GestionLogBundle\Entity\Statistiquelog($filtre,$this->getDoctrine());
+                
                 $resStat = $stat->stat();
-               
+               dump($resStat);
            
              
               
@@ -97,6 +100,36 @@ class statistiqueController extends Controller
         
     }
     
-    
-   
+    public function RemoveStatAction()
+    {
+        $date = new \DateTime('14-04-2015');
+        $event = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\Systemevents");
+       
+        $event = $event->getDateLog($date);
+       
+        $tab = array();
+        $filtre = new Filtre();
+        
+        foreach($event as $log){
+           
+            $tab[$log['fromhost']][] = array('couleur'=>$log['couleur'],'1'=>$log['1'],'id'=>$log['prioId'], 'nom'=>$log['nom']);
+            
+        }
+        
+          $em = $this->getDoctrine()->getManager();
+          foreach($tab as $key =>$value){
+              $stat = new StatServeur($key);
+              $stat->generation($value,True);
+              $statistique = new Statistique();
+              $statistique->setServeur($key);
+              
+              $statistique->setDate($date);
+              $statistique->setPriority($stat->getTableaux());
+               dump($stat->getTableaux());
+           $em->persist($statistique);
+           
+          }      
+          $em->flush();
+          dump($statistique);   
+    }
 }

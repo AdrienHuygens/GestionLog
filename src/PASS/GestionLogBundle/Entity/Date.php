@@ -58,7 +58,7 @@ class Date implements \Serializable{
     public function  getDate(){
         return array($this->signe,  $this->date1,  $this->date2);
     }
-    public function getSql(){
+    public function getSql($variable){
         
         
         if ($this->signe ==="=" || $this->signe ==="<"){
@@ -66,12 +66,12 @@ class Date implements \Serializable{
                 
                 //$this->date1->strtotime(' +59 Seconde');
                 //var_dump($this->date1);
-                return "systemevent.devicereportedtime BETWEEN '".$this->date1->format("Y-m-d H:i:s")."' AND '". $this->date1->modify('+59 second')->format("Y-m-d H:i:s")."'";
+                return $variable."BETWEEN '".$this->date1->format("Y-m-d H:i:s")."' AND '". $this->date1->modify('+59 second')->format("Y-m-d H:i:s")."'";
             }
-            return "systemevent.devicereportedtime" .$this->signe."'".$this->date1->format("Y-m-d H:i:s")."'";
+            return  $variable.$this->signe."'".$this->date1->format("Y-m-d H:i:s")."'";
         }
         elseif ($this->signe ==="between"){
-           return "systemevent.devicereportedtime BETWEEN '".$this->date1->format("Y-m-d H:i:s")."' AND '". $this->date2->format("Y-m-d H:i:s")."'"; 
+           return  $variable." BETWEEN '".$this->date1->format("Y-m-d H:i:s")."' AND '". $this->date2->format("Y-m-d H:i:s")."'"; 
         }
         else{
            return;

@@ -160,11 +160,11 @@ class Filtre implements \Serializable {
         
         return $query;
     }
-    public function gestionDate($query){
+    public function gestionDate($query,$variable="systemevent.devicereportedtime"){
        
         if (isset($this->dates) ) {
-            if ($this->dates->getSql() != null)
-            $query->andWhere($this->dates->getSql());
+            if ($this->dates->getSql($variable) != null)
+            $query->andWhere($this->dates->getSql($variable));
         }
     }
     private function gestionPriority($query){

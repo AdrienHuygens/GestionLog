@@ -37,3 +37,7 @@ Pass_Mail:
     path: /mail
     defaults: { _controller:  PASSGestionLogBundle:EnvoyerMail:index }
     
+PASS_statRemove:
+    path: /removeStat
+    defaults: { _controller:  PASSGestionLogBundle:statistique:RemoveStat }
+    

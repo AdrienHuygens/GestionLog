@@ -45,16 +45,16 @@ class Statistiquelog  {
         
          $repo = $this->doctrine->getRepository("PASS\GestionLogBundle\Entity\Systemevents");
          $repo2 = $this->doctrine->getRepository("PASS\GestionLogBundle\Entity\GroupeOrdinateur");
+          $repo3 = $this->doctrine->getRepository("PASS\GestionLogBundle\Entity\Statistique");
          $nom = $this->filtre->hostSql($repo2);
-         if($this->filtre->getGroupes() == null){
+         if(true||$this->filtre->getGroupes() == null){
          $stat = new StatServeur("Tout les Serveur");
        
             $listing = $repo->getStat($this->filtre);
             $stat->generation($listing);
             
             $this->stats[] = $stat;
-         }
-         else{
+        
              foreach ($this->filtre->getGroupes() as  $groupess) {
                 $groupesR =$repo2->find($groupess);
                 
@@ -71,8 +71,15 @@ class Statistiquelog  {
             $tab[] = $name;
            
              $stat = new StatServeur(" Nom du Serveur: ".$name);
-       
+             
+             $listing2 = $repo3->getStat($this->filtre ,$tab);
+            
+             
             $listing = $repo->getStat($this->filtre ,$tab);
+           
+            $listing = $this->listing($listing, $listing2);
+            dump($listing);
+            
             $stat->generation($listing);
 
             $this->stats[] = $stat;
@@ -81,8 +88,16 @@ class Statistiquelog  {
         return $this->stats;
         
         
-    }
-   
     
+    }
+    private function listing ($listing, $listing2){
+         if($listing2 != null ){
+             foreach($listing2[0]->getPriority() as $list){
+            $listing[] = $list;
+             }
+            }
+            return $listing;
+        
+    }
 
 }

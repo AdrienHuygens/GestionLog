@@ -43,6 +43,32 @@ class SystemeventsRepository extends EntityRepository  {
          return $test->getQuery()->execute();
         
     }
+    
+    public function getDateLog($date) {
+        
+         $query = $this->createQueryBuilder('systemevent')
+                        ->select(
+                                 'systemevent.fromhost, count(systemevent.priority),priority.nom,priority.id as prioId, priority.couleur'
+                                //. 'priority.nom,priority.description,priority.couleur,priority.couleurText,facility.description, facility.nom as nomf')
+                        )
+                        ->join('systemevent.priority', 'priority')
+                       
+                        ->where('systemevent.devicereportedtime <= :date')
+                        ->setParameter(':date', $date)
+                        ->groupBy('systemevent.fromhost, priority.id')
+                       
+                        
+                       
+                        ;
+         
+       
+         
+         
+        
+         return $query->getQuery()->execute();
+        
+    }
+    
     public function getHost(){
         
           return $this->createQueryBuilder('systemevent')
@@ -81,7 +107,10 @@ class SystemeventsRepository extends EntityRepository  {
           if ($name !== null) {
               
               foreach ($name as $nom){
-              $em->orWhere ("systemevent.fromhost = '". $nom. "'");
+              $em->orWhere ("systemevent.fromhost = :nom")
+                      ->setParameter(':nom', $nom)
+                      ;
+              
                 }
               }
                $filtre->gestionDate($em);
