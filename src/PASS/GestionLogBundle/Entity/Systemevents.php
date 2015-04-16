@@ -48,11 +48,11 @@ class Systemevents
     /**
      * @var integer
      *
-     * ORM\Column(name="facility", type="smallint", nullable=true)
-     * @ORM\ManyToOne(targetEntity="facility", cascade={"remove","remove"})
-     * @ORM\JoinColumn(name="facility", referencedColumnName="id")
+     * ORM\Column(name="Facility", type="smallint", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Facility", cascade={"remove","remove"})
+     * @ORM\JoinColumn(name="Facility", referencedColumnName="id")
      */
-    private $facility;
+    private $Facility;
 
     /**
      * @var integer
@@ -276,26 +276,26 @@ class Systemevents
     }
 
     /**
-     * Set facility
+     * Set Facility
      *
-     * @param integer $facility
+     * @param integer $Facility
      * @return Systemevents
      */
-    public function setFacility($facility)
+    public function setFacility($Facility)
     {
-        $this->facility = $facility;
+        $this->Facility = $Facility;
 
         return $this;
     }
 
     /**
-     * Get facility
+     * Get Facility
      *
      * @return integer 
      */
     public function getFacility()
     {
-        return $this->facility;
+        return $this->Facility;
     }
 
     /**

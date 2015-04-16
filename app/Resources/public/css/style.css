@@ -90,8 +90,10 @@ pre{
 }
 #baniere{
     background: url(/images/baniere.svg);
-    height: 100px;
-    //background-size: cover;
+   
+    height:100px;
+    //width: 40%;
+    background-size: contain;
     background-repeat: no-repeat;
     //background-color: #ff00ff;
      overflow: hidden;
@@ -139,7 +141,10 @@ background-repeat: no-repeat;
 
 
 }
-
+.navbar-default .navbar-brand:hover{
+    color: white;
+    background-color: transparent;
+}
 .nav-pills li.active a:focus {
     background-color: blueviolet;
     color: #ffffff;

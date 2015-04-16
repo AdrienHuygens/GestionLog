@@ -27,14 +27,14 @@
             </div>
 
         {% endif %}
-        {% if (activite == "utilisateur" and is_granted("ROLE_USER_R") or is_granted("ROLE_ADMIN")) or(activite == "groupe" and is_granted("ROLE_GROUPE_R") or is_granted("ROLE_ADMIN")) %} 
+        {% if (activite == "utilisateur" and is_granted("ROLE_USER_R") or is_granted("ROLE_ADMIN")or is_granted("ROLE_MEMORY")) or(activite == "groupe" and is_granted("ROLE_GROUPE_R") or is_granted("ROLE_ADMIN")) %} 
 
         <div class="col-lg-6">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <h3 class="panel-title">{{ activite |capitalize }} locaux <div class="aligner" > 
 
-                            {% if activite == "utilisateur" and is_granted("ROLE_USER_C") or is_granted("ROLE_ADMIN")%}
+                            {% if activite == "utilisateur" and is_granted("ROLE_USER_C") or is_granted("ROLE_ADMIN") or is_granted("ROLE_MEMORY")%}
                                 <a href="{{ path('PASS_CreationUtilisateur') }}"><span class="glyphicon glyphicon-plus" title="Voir l'utilisateur"  aria-hidden="true"></span> </a>
 
                             {% elseif activite == "groupe" and is_granted("ROLE_GROUPE_C") or is_granted("ROLE_ADMIN") %}
@@ -57,8 +57,13 @@
                         </tr>
                         {% for jeune in tab %}
                             <tr>
-                                <td><a href="{{ path(chemin,{'listingId': jeune.id}) }}"> {{ jeune.affichage |capitalize }}  </a></td>
-
+                                <td>
+                                    {% if ((is_granted("ROLE_MEMORY") and not jeune.suprimable ))%}
+                                    <a href="{{ path(chemin,{'listingId': jeune.id}) }}"> {{ jeune.affichage |capitalize }}  </a>
+                                    {% else %}
+                                {{ jeune.affichage |capitalize }}
+                                {%endif%}
+                                </td>
                                 <td> 
                                     {% if activite == "utilisateur" %}
                                         {% include "PASSAuthentificationLogBundle:listing:actionRapideUser.html.twig" %}

@@ -389,8 +389,9 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     }
 
     public function getRoles() {
-
+       
         return $this->roles;
+        
     }
 
     public function getAllRoles() {

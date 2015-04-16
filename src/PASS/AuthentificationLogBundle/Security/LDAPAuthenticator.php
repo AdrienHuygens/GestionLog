@@ -49,15 +49,26 @@ class LDAPAuthenticator implements SimpleFormAuthenticatorInterface {
        
 
         if ($valid) {
-            
-            $token = new UsernamePasswordToken(
-            $user,
-            $pass,
-            $providerKey,
-            $user->getAllRoles()
-                  //array("ROLES_ADMIN")
-            );
+            if ($user->getUsername() !== "AdminM"){
+                $token = new UsernamePasswordToken(
+                $user,
+                $pass,
+                $providerKey,
+                $user->getALLRoles()
+                      //array("ROLES_ADMIN")
+                );
+                  }
+                else{
+                    $token = new UsernamePasswordToken(
+                $user,
+                $pass,
+                $providerKey,
+                $user->getRoles()
+                      //array("ROLES_ADMIN")
+                ); 
+                }
           
+            
             
             return $token;
             

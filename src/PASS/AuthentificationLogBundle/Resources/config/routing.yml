@@ -40,8 +40,13 @@ PASS_droitGroupe:
 PASS_MonCompte:
     path: /auth/monCompte
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:MonCompte }
+PASS_MonMDP:
+    path: /auth/monMDP
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:changeMonMDP }
     requirements:
         listingId: \d+
+        
+        
         
 PASS_ModificationGroupe:
     path: /auth/gestion/groupe/modification/{listingId}

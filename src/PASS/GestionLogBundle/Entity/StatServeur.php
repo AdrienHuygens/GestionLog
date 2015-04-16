@@ -44,7 +44,7 @@ class StatServeur {
         $this->nb3 += $nb3;
     }
 
-    function setNb4( $nb4) {
+    function setNb4($nb4) {
         $this->nb4 += $nb4;
     }
 
@@ -140,39 +140,50 @@ class StatServeur {
         $this->nb7 = $nbDebug;
     }
 
-    public function generation($listing,$test=false) {
-      // dump($listing);
+    public function generation($listing, $test = false) {
+     
         foreach ($listing as $ligne) {
-           $tmp = "nb" . $ligne['id'];
-            if(!$test){
-           
-            if($this->$tmp){$this->Tableaux[] = array($ligne['nom'], $ligne['1']);
-            
-            $this->TableauCouleur[] = $ligne['couleur'];}
-            else{
-                // Ici Mettre à jour les données ..... dans le tableau !
-                
-            }
-            }
-            else{
-                $this->Tableaux[] = array('nom'=>$ligne['nom'],1=> $ligne['1'],'couleur'=>$ligne['couleur'],'id'=> $ligne['id']);
-            }
-            
-            // var_dump($tmp);
+            $tmp = "nb" . $ligne['id'];
             $this->setNbLog(intval($ligne['1']));
             $this->$tmp += $ligne['1'];
-            
-            
+                   
+            if (!$test) {
+
+                if ($this->$tmp -$ligne['1'] == 0) {
+                    $this->Tableaux[] = array($ligne['nom'], $ligne['1']);
+
+                    $this->TableauCouleur[] = $ligne['couleur'];
+                  
+                } else {
+                    $cmp=0;
+                    foreach ($this->Tableaux    as $tab){
+                       
+                    if($tab[0] === $ligne['nom']){
+                        
+                        $this->Tableaux[$cmp][1] =  $this->$tmp;
+                           
+                           
+                    }
+                    $cmp++;
+                    }
+                   
+                }
+            } else {
+                $this->Tableaux[] = array('nom' => $ligne['nom'], 1 => $ligne['1'], 'couleur' => $ligne['couleur'], 'id' => $ligne['id']);
+            }
+
+
+
+
             //var_dump($ligne['1']);
         }
-       
+
         //var_dump($this->nb6);
     }
 
     function getTableaux() {
-        
-            return $this->Tableaux;
-      
+
+        return $this->Tableaux;
     }
 
     function getTableauCouleur() {

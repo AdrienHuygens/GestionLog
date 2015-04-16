@@ -79,8 +79,7 @@ class statistiqueController extends Controller
                 $stat = new \PASS\GestionLogBundle\Entity\Statistiquelog($filtre,$this->getDoctrine());
                 
                 $resStat = $stat->stat();
-               dump($resStat);
-           
+             
              
               
             
@@ -102,10 +101,11 @@ class statistiqueController extends Controller
     
     public function RemoveStatAction()
     {
-        $date = new \DateTime('14-04-2015');
-        $event = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\Systemevents");
+    try{
+        $date = new \DateTime('15-04-2015');
+        $rep = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\Systemevents");
        
-        $event = $event->getDateLog($date);
+        $event = $rep->getDateLog($date);
        
         $tab = array();
         $filtre = new Filtre();
@@ -130,6 +130,18 @@ class statistiqueController extends Controller
            
           }      
           $em->flush();
-          dump($statistique);   
+          $delete = $rep->deleteLog($date);
+           $erro[] = array('vue' =>"PASSGeneralLogBundle:notification:BDDClear.html.twig");
+           
+       
     }
+    catch(Exception $e)
+    {
+        $erro[] = array('vue' =>"PASSGeneralLogBundle:notification:BDDClearError.html.twig");
+         }
+    return $this->render('PASSGeneralLogBundle:form:ok.html.twig', Array(
+                            "notification"=>'1',
+                            'titrePage' => 'Opération éffectué'));
+    }
+   
 }

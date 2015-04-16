@@ -46,14 +46,14 @@ class Builder extends ContainerAware
         }
         if ($secu->isGranted('ROLE_USER_C')||$secu->isGranted('ROLE_USER_R') || $secu->isGranted('ROLE_GROUPE_C')
             || $secu->isGranted('ROLE_GROUPE_R') || $secu->isGranted('ROLE_LDAP_I') || $secu->isGranted('ROLE_GROUPE_ORDI_R')
-                || $secu->isGranted('ROLE_GROUPE_ORDI_C')|| $secu->isGranted('ROLE_STAT') ||$secu->isGranted('ROLE_ADMIN')) {
+                || $secu->isGranted('ROLE_GROUPE_ORDI_C')|| $secu->isGranted('ROLE_STAT') ||$secu->isGranted('ROLE_ADMIN')||$secu->isGranted('ROLE_MEMORY')) {
         $menu->addChild('Admin',array('uri'=>'#','label'=>'Administration ▼'))->setAttribute('class', 'dropdown');
         $menu['Admin']->setLinkAttribute('class', 'dropdown-toggle');
          $menu['Admin']->setLinkAttribute('role', 'button');
           $menu['Admin']->setLinkAttribute('data-toggle', 'dropdown');
            $menu['Admin']->setChildrenAttribute('role', 'menu');
             $menu['Admin']->setChildrenAttribute('class', 'dropdown-menu');
-          if ($secu->isGranted('ROLE_USER_C') || $secu->isGranted('ROLE_USER_R')|| $secu->isGranted('ROLE_ADMIN'))
+          if ($secu->isGranted('ROLE_USER_C') || $secu->isGranted('ROLE_USER_R')|| $secu->isGranted('ROLE_ADMIN')||$secu->isGranted('ROLE_MEMORY'))
           $menu['Admin']->addChild('Gestion Utilisateur', array('route' => 'PASS_GestionUtilisateur'))->setAttribute('divider_append', true);
           if ($secu->isGranted('ROLE_GROUPE_C') || $secu->isGranted('ROLE_GROUPE_R')|| $secu->isGranted('ROLE_ADMIN')){
           $menu['Admin']->addChild('Gestion Groupe', array('route' => 'PASS_GestionGroupe'));
@@ -86,7 +86,7 @@ class Builder extends ContainerAware
            $menu['User']->setChildrenAttribute('role', 'menu');
                     $menu['User']->setChildrenAttribute('class', 'dropdown-menu');
                 if(!$this->container->get('security.context')->getToken()->getUser()->getldap())
-                $menu['User']->addChild('Profile', array('route' => 'PASS_MonCompte'))->setAttribute('divider_append', true);
+                $menu['User']->addChild('Profil', array('route' => 'PASS_MonCompte'))->setAttribute('divider_append', true);
                 $menu['User']->addChild('Déconnexion', array('route' => 'logout'));
                 
                

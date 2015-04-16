@@ -7,7 +7,7 @@ namespace PASS\GestionLogBundle\Entity;
  * contact adrien.huygens@gmail.com
  * 
  *  -> 'devicereportedtime,'
-                . ' facility, fromhost, message, syslogtag,'
+                . ' Facility, fromhost, message, syslogtag,'
                 . ' nom from PASSGestionLogBundle:systemevents '
                 . 'Inner Join PASSGestionLogBundle:priority On  systemevents.priority = priority.syslogid;')
                         
@@ -25,10 +25,10 @@ class SystemeventsRepository extends EntityRepository  {
          $query = $this->createQueryBuilder('systemevent')
                         ->select('systemevent.id,systemevent.receivedat,systemevent.devicereportedtime , '
                                 . 'systemevent.fromhost, systemevent.message, systemevent.syslogtag,'
-                                . 'priority.nom,priority.description,priority.couleur,priority.couleurText,facility.description, facility.nom as nomf')
+                                . 'priority.nom,priority.description,priority.couleur,priority.couleurText,Facility.description, Facility.nom as nomf')
                         
                         ->join('systemevent.priority', 'priority')
-                        ->join('systemevent.facility', 'facility')
+                        ->join('systemevent.Facility', 'Facility')
                         ->addOrderBy('systemevent.id', 'DESC')
                        
                         
@@ -47,9 +47,10 @@ class SystemeventsRepository extends EntityRepository  {
     public function getDateLog($date) {
         
          $query = $this->createQueryBuilder('systemevent')
+                        
                         ->select(
                                  'systemevent.fromhost, count(systemevent.priority),priority.nom,priority.id as prioId, priority.couleur'
-                                //. 'priority.nom,priority.description,priority.couleur,priority.couleurText,facility.description, facility.nom as nomf')
+                                //. 'priority.nom,priority.description,priority.couleur,priority.couleurText,Facility.description, Facility.nom as nomf')
                         )
                         ->join('systemevent.priority', 'priority')
                        
@@ -60,14 +61,23 @@ class SystemeventsRepository extends EntityRepository  {
                         
                        
                         ;
-         
+  
+         return $query->getQuery()->execute();
+        
+    }
+      public function DeleteLog($date){
+        
+        $query = $this->createQueryBuilder('systemevent')
+                        ->delete()
+                       
+                        ->where('systemevent.devicereportedtime <= :date')
+                        ->setParameter(':date', $date);
+        return $query->getQuery()->execute();
+    }
        
          
          
         
-         return $query->getQuery()->execute();
-        
-    }
     
     public function getHost(){
         
@@ -107,8 +117,9 @@ class SystemeventsRepository extends EntityRepository  {
           if ($name !== null) {
               
               foreach ($name as $nom){
-              $em->orWhere ("systemevent.fromhost = :nom")
-                      ->setParameter(':nom', $nom)
+                 
+              $em->orWhere ("systemevent.fromhost = '".$nom."'")
+                      
                       ;
               
                 }
@@ -125,7 +136,7 @@ class SystemeventsRepository extends EntityRepository  {
             ->select('Count(systemevent)')
              ->from("PASSGestionLogBundle:Systemevents", "systemevent")
              ->join('systemevent.priority', 'priority')
-                        ->join('systemevent.facility', 'facility')
+                        ->join('systemevent.Facility', 'Facility')
         ;
  
         $test = $filtre->filtrer($q,$repo);

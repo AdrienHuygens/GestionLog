@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Le PASS Gestion de log{% endblock %}</title>
 
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="icon" type="image/x-icon" href="/images/pass_logo5.png" />
     
         {% block stylesheets %}
             <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" media="screen" />
@@ -21,15 +21,15 @@
         {{app.request.session.set("filtre",null) }}
          {{app.request.session.set("r",null) }}
         <div id="corp">
-
+            <div class="container-fluid">
             <div class="row ">
-                <div class="col-md-4 col-lg-4" id="logo"></div>
-                <div class="col-md-8 col-lg-8" id="baniere"></div>
+                <div class="col-md-4 col-lg-4 col-xs-6" id="logo"></div>
+                <div class="col-md-6 col-lg-6 col-xs-6" id="baniere"></div>
             </div>
-
+                </div>
             <div class="row " id="contenu">
           
-                
+            
 
                    
                    
@@ -45,9 +45,9 @@
                                         <span class="icon-bar"></span>
                                     </button>
                                     {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-                                    <a class="navbar-brand" href="{{ path('PASS_ACCUEIL2') }}">GDL</a>
+                                    <a class="navbar-brand men" href="{{ path('PASS_ACCUEIL2') }}">GDL</a>
                                     {% else %}
-                                          <a class="navbar-brand" href="{{ path('PASS_ACCUEIL') }}">GDL</a>
+                                          <a class="navbar-brand men" href="{{ path('PASS_ACCUEIL') }}">GDL</a>
                                         {% endif %}
                                 </div>
                                 <div id="navbar" class="navbar-collapse collapse">

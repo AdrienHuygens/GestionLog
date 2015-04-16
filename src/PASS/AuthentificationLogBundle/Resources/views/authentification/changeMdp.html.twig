@@ -1,12 +1,15 @@
 {% extends "::base.html.twig" %}
-
+{% block titrePage %}
+    Changer le mot de passe
+    {%endblock%}
 {# empty Twig template #}
 {% block contenu %}
 <form action="{{ path('PASS_ChangeMDP', {'personneId':id}) }}" {{ form_enctype(form) }} method="POST">
 {{ form_widget(form) }}
 <div>
-<input type="submit" value="{{ 'change_password.submit'|trans }}" />
+<input type="submit" value="{{ 'changer le mot de passe'|trans }}" />
 </div>
 </form>
+
 
   {% endblock %}

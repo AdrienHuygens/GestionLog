@@ -26,12 +26,15 @@ class editPersonneNonSupType extends AbstractType
         
         $builder
             ->add('username','text',array("label" =>"Nom d'utilisateur:","disabled"=>'false'))
-            //->add('mdp','password',array("label"=> "Mot de pass pour l'utilisateur:"))
+                
+            
              //-> add('mot de pass','')
             //->add('dernierConnexion')
            // ->add('ldap')
             //->add('actif',null,array("label"=>"Compte utilisateur actif?", "action"=>'checked'))
             ->add('mail');
+         if ($this->gest->isGranted('ROLE_MEMORY') ) 
+            $builder->add('actif',null,array("label"=>"Compte utilisateur actif?", "action"=>'checked'));
               if ($this->gest->isGranted('ROLE_USER_U') || $this->gest->isGranted('ROLE_ADMIN'))  
            $builder->add('groupes',null,array("label"=> "Groupe (control + click souri pour multi-selection):",  "choices" => $this->em->getGroupeVisible() ));
             if ($this->gest->isGranted('ROLE_DROIT_U') || $this->gest->isGranted('ROLE_ADMIN')) 

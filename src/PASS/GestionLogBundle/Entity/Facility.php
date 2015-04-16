@@ -9,8 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
+
  */
-class facility
+class Facility
 {
     /**
      * @var integer

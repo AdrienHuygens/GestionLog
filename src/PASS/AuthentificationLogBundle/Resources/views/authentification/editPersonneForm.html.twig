@@ -11,7 +11,11 @@
 
         {{ form_row(form.username) }}
         {% if suprimable or  is_granted("ROLE_MEMORY")  %}
+            {% if app.user.username == utilisateur  %}
+                mot de passe: <a href="{{ path('PASS_MonMDP') }}" > changer le mot de passe </a>  <br><br>
+                {%else%}
             mot de passe: <a href="{{ path('PASS_ChangeMDP',  {'personneId':id}) }}" > changer le mot de passe </a>  <br><br>
+            {%endif%}
         {% endif %}
         {{ form_row(form.mail) }}
         {% if is_granted("ROLE_DROIT_U") or is_granted("ROLE_ADMIN") %}

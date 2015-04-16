@@ -174,15 +174,15 @@ class AuthentificationController extends Controller {
     
     /**
      * 
-     * @Secure(roles="ROLE_DEFAULT, ROLE_ADMIN")
+     * @Secure(roles="ROLE_DEFAULT, ROLE_ADMIN, ROLE_MEMORY")
      */
     public function okAction() {
         $em = $this->getDoctrine()->getManager();
 
-        
+        if (!$this->get('security.context')->isGranted('ROLE_MEMORY')){
           $this->getUser()->setDernierConnexion(new \DateTime());
           $em->persist($this->getUser());
-          $em->flush(); 
+        $em->flush(); }
          // dump($this->getUser()->getRoles());
         return $this->render("PASSAuthentificationLogBundle:authentification:ok.html.twig", Array(
                     'titrePage' => 'Connexion effectué',
@@ -191,7 +191,7 @@ class AuthentificationController extends Controller {
     
     /**
      * 
-     * @Secure(roles="ROLE_USER_C,ROLE_USER_R, ROLE_ADMIN")
+     * @Secure(roles="ROLE_USER_C,ROLE_USER_R, ROLE_ADMIN, ROLE_MEMORY")
      */
     public function utilisateurListingAction($listingId) {
        
@@ -237,7 +237,7 @@ class AuthentificationController extends Controller {
     }
     /**
      * 
-     * @Secure(roles="ROLE_USER_U, ROLE_ADMIN")
+     * @Secure(roles="ROLE_USER_U, ROLE_ADMIN,  ROLE_MEMORY")
      */
     public function utilisateurModificationAction(Request $request, Personne $listingId) {
   
@@ -274,7 +274,8 @@ class AuthentificationController extends Controller {
     
     public function changeMDPAction(Request $request, Personne $personneId) {
         
-         if ((!$this->get('security.context')->isGranted('ROLE_USER_U') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) && $personneId->getUsername() !== $this->getUser()->getUsername()) {
+         if ((!$this->get('security.context')->isGranted('ROLE_USER_U') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) && $personneId->getUsername() !== $this->getUser()->getUsername() &&!$this->get('security.context')->isGranted('ROLE_MEMORY') 
+                          || ($this->get('security.context')->isGranted('ROLE_MEMORY') && $personneId->getSuprimable() )) {
              
                     throw new AccessDeniedException('Vous avez pas acces à cette partie.');
                   }
@@ -307,6 +308,49 @@ class AuthentificationController extends Controller {
         ));
     }
     
+    
+    
+    
+    public function changeMonMDPAction(Request $request) {
+        
+                  $personneId = $this->getDoctrine()->getRepository("PASS\AuthentificationLogBundle\Entity\Personne")->find($this->getUser()->getId());
+        
+         if ((!$this->get('security.context')->isGranted('ROLE_USER_U') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) && $personneId->getUsername() !== $this->getUser()->getUsername() &&!$this->get('security.context')->isGranted('ROLE_MEMORY') 
+                          || ($this->get('security.context')->isGranted('ROLE_MEMORY') && $personneId->getSuprimable() )) {
+             
+                    throw new AccessDeniedException('Vous avez pas acces à cette partie.');
+                  }
+                          $form = $this->createForm(new changeMDPType(), $personneId);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+
+            $factory = $this->get('security.encoder_factory');
+            $encoder = $factory->getEncoder($personneId);
+
+            $personneId->setMdp($encoder->encodePassword($personneId->getMdp(), $personneId->getSalt()));
+
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($personneId);
+            $em->flush();
+
+            return $this->render('PASSAuthentificationLogBundle:authentification:ok.html.twig', Array(
+                        "good" => "Modification mot de passe.",
+                        'titrePage' => 'Opération éffectué',
+            ));
+        }
+
+
+        return $this->render('PASSAuthentificationLogBundle:authentification:changeMdp.html.twig', array(
+                    'form' => $form->createView(),
+                    'id' => $personneId->getId()
+        ));
+    }
+    
+    
+    
     public function MonCompteAction(Request $request) {
   
          
@@ -326,8 +370,9 @@ class AuthentificationController extends Controller {
         }
         
          $groupetmp = clone  $personne->getGroupes();
-         $roletmp = clone  $personne->getRoles();
          
+         $roletmp = clone  $personne->getRoles();
+        
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
@@ -360,7 +405,7 @@ class AuthentificationController extends Controller {
             }
             else return $this->redirect($this->generateUrl('PASS_GestionUtilisateur', array('listingId' => $personne->getId())));
         }
-        if(!$personne->getSuprimable()){
+        if(!$personne->getSuprimable() && !$this->get('security.context')->isGranted('ROLE_MEMORY')){
             return $this->render('PASSAuthentificationLogBundle:authentification:form.html.twig', Array(
                     "form" => $form->createView(),
                     'titrePage' => 'Modifier un utilisateur local',
@@ -375,8 +420,9 @@ class AuthentificationController extends Controller {
                     "form" => $form->createView(),
                     'titrePage' => 'Modifier un utilisateur local',
                     'id' => $personne->getId(),
-                    'suprimable' => $personne->getSuprimable()
-        ));
+                    'suprimable' => $personne->getSuprimable(),
+                 'utilisateur' => $personne->getUsername()
+                 ));
         
     }
     /**

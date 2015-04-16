@@ -25,9 +25,14 @@ use PASS\GeneralLogBundle\Form\ConfigurationMailType;
 use PASS\GeneralLogBundle\Entity\ConfigurationMail;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use PASS\GestionLogBundle\Entity\Systemevents;
+use PASS\GeneralLogBundle\Entity\Loggers;
 use mysqli;
 
 class ConfigurationController extends Controller {
+    
+   
+    
   
     private function testSql($Config){
         if ($Config->getDatabaseDriver() ==="pdo_pgsql"){
@@ -68,6 +73,7 @@ class ConfigurationController extends Controller {
      * @Secure(roles="ROLE_CONFIGURATION_U,ROLE_CONFIGURATION_R, ROLE_ADMIN")
      */
     public function indexAction(Request $request) {
+        
         $chemin = "";
         $Config = new \PASS\GeneralLogBundle\Entity\ConfigurationSql();
         $Type =new ConfigurationSqlType($this->get('security.context'));
@@ -79,6 +85,7 @@ class ConfigurationController extends Controller {
             if ($form->get('Tester')->isClicked()) {
                     
                 if ($this->testSql($Config)){
+                    
                      $Type->setColor("colorGreen");
                      
                 }
@@ -89,13 +96,18 @@ class ConfigurationController extends Controller {
                 
             }
            if ($form->get('Enregistrer')->isClicked()) {
+              
              if (!$this->get('security.context')->isGranted('ROLE_CONFIGURATION_U') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-             
+              new Loggers($this->getDoctrine()->getManager(), "Tentative de Modification de BDD sans avoir les droits"
+                       . " par ".$this->get('security.context')->getToken()->getUser()->getusername()." Avec l'ip: ".$_SERVER['REMOTE_ADDR']);
                     throw new AccessDeniedException('Modification Non dispognibe, vous n\'avez pas les droits ');
                   }
           if ($this->testSql($Config)){
               
-            $Config->Enregistrer();
+               new Loggers($this->getDoctrine()->getManager(), "Une modification à été réalisé sur la configuration de la base de donné"
+                       . " par ".$this->get('security.context')->getToken()->getUser()->getusername()." Avec l'ip: ".$_SERVER['REMOTE_ADDR']);
+            
+               $Config->Enregistrer();
             $erro[] = array('vue' =>"PASSGeneralLogBundle:notification:connexionbddSucces.html.twig");
             }
             else{
@@ -130,7 +142,8 @@ class ConfigurationController extends Controller {
            
             
                   if (!$this->get('security.context')->isGranted('ROLE_CONFIGURATION_U') && !$this->get('security.context')->isGranted('ROLE_CONFIGURATION_R')&& !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-             
+                       new Loggers($this->getDoctrine()->getManager(), "Tentative de Modification de LDAP sans avoir les droits"
+                       . " par ".$this->get('security.context')->getToken()->getUser()->getusername()." Avec l'ip: ".$_SERVER['REMOTE_ADDR']);
                     throw new AccessDeniedException('Modification Non dispognibe, vous n\'avez pas les droits ');
                   } 
                   
@@ -157,9 +170,14 @@ class ConfigurationController extends Controller {
             }
              if ($form->get('Enregistrer')->isClicked()) {
                   if (!$this->get('security.context')->isGranted('ROLE_CONFIGURATION_U') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-             
+                       new Loggers($this->getDoctrine()->getManager(), "Tentative de Modification de LDAP sans avoir les droits"
+                       . " par ".$this->get('security.context')->getToken()->getUser()->getusername()." Avec l'ip: ".$_SERVER['REMOTE_ADDR']);
+            
                     throw new AccessDeniedException('Modification Non dispognibe, vous n\'avez pas les droits ');
                   }
+                   new Loggers($this->getDoctrine()->getManager(), "Une modification à été réalisé sur la configuration de LDAP"
+                       . " par ".$this->get('security.context')->getToken()->getUser()->getusername()." Avec l'ip: ".$_SERVER['REMOTE_ADDR']);
+            
                 $Configs->Enregistrer();
             }
             
