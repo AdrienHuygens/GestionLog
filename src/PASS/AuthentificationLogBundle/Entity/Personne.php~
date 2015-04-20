@@ -7,11 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use \PASS\AuthentificationLogBundle\Entity\Groupe;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use \Symfony\Component\Validator\Constraints\DateTime;
+use PASS\AuthentificationLogBundle\Entity\Role;
 
 /**
  * Personne
@@ -62,10 +62,10 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      * @ORM\Column(name="salt", type="string", length=255)
      */
     private $salt;
-    
+
     /**
      * @var string
-     *@Assert\Email(
+     * @Assert\Email(
      *     message = "Le mail '{{ value }}' n'est pas un mail valide.",
      *     checkMX = false, checkHost = true)
      * @ORM\Column(name="mail", type="string", length=255, nullable=true)
@@ -96,8 +96,8 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      * @Assert\Type(type="bool", message="La valeur {{ value }} n'est pas un type {{ type }} valide.")
      */
     private $actif;
-    
-     /**
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="suprimable", type="boolean", nullable=True)
@@ -105,7 +105,6 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      */
     private $suprimable;
 
-    
     /**
      *
      * @ORM\ManyToMany(targetEntity="Groupe", inversedBy="personnes")
@@ -114,18 +113,18 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      * 
      */
     private $groupes;
+
     /**
-     *@ORM\Column(name="roles",  type="string", length=255, nullable=True)
-     *
-     *  
+     * @ORM\ManyToMany(targetEntity="Role", inversedBy="personnes")
      */
     private $roles;
-    
-     public static $em;
-        public $fingerprinting;
+    public static $em;
 
     public function __construct($suprimable = true) {
+
         $this->groupes = new ArrayCollection();
+        $this->roles = new ArrayCollection();
+
         $this->salt = md5(uniqid(null, true));
         $this->suprimable = $suprimable;
         $roles = array();
@@ -133,13 +132,39 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     }
 
     public function addGroupe(Groupe $groupe) {
-        $this->groupes[] = $groupe;
-        return $this;
+        $ok = true;
+        foreach ($this->groupes as $tmp) {
+            if ($tmp === $groupe)
+                $ok = false;
+        }
+
+        if ($ok)
+            $this->groupes[] = $groupe;
+    }
+
+    public function addRole(Role $role) {
+
+        $this->roles[] = $role;
     }
 
     public function removeGroupe(Groupe $groupe) {
 
         $this->groupes->removeElement($groupe);
+    }
+
+    public function removeRole($role) {
+        $tab = new ArrayCollection();
+        if ($role->getRole() === "ROLE_ADMIN" || $role->getRole() === "ROLE_DEFAULT") {
+            $tab[] = $role;
+        }
+        foreach ($this->roles as $roles) {
+
+            if ($role !== $roles || $role === "ROLE_DEFAULT")
+                $tab[] = $role;
+        }
+        $this->role = $tab;
+
+        //$this->roles->removeElement($role);
     }
 
     /**
@@ -150,6 +175,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     public function getId() {
         return $this->id;
     }
+
     public function setId($id) {
         $this->id = $id;
     }
@@ -216,11 +242,12 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     public function getSalt() {
         return $this->salt;
     }
+
     function getSuprimable() {
         return $this->suprimable;
     }
 
-        /**
+    /**
      * Set dernierConnexion
      *
      * @param \DateTime $dernierConnexion
@@ -238,18 +265,18 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
      * @return \DateTime 
      */
     public function getDernierConnexion() {
-        
+
         return $this->dernierConnexion;
     }
-     public function getDernierConnexionString() {
-        if ($this->dernierConnexion ===null){
+
+    public function getDernierConnexionString() {
+        if ($this->dernierConnexion === null) {
             return "00-00-0000 00:00:00";
-        }
-        else{
+        } else {
             return $this->dernierConnexion->format("d-m-Y H:i:s");
         }
-        
     }
+
     /**
      * Set ldap
      *
@@ -302,6 +329,9 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     public function serialize() {
         return serialize(array(
             $this->id,
+            $this->username,
+            $this->ldap,
+            $this->mdp
         ));
     }
 
@@ -311,6 +341,9 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     public function unserialize($serialized) {
         list (
                 $this->id,
+                $this->username,
+                $this->ldap,
+                $this->mdp
                 ) = unserialize($serialized);
     }
 
@@ -334,9 +367,7 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     }
 
     public function isEqualTo(UserInterface $user) {
-        //return $this->getUsername() === $user->getUsername();
-        return false;
-        
+        return $this->getUsername() === $user->getUsername();
     }
 
     public function __toString() {
@@ -344,88 +375,125 @@ class Personne implements AdvancedUserInterface, \Serializable, EquatableInterfa
     }
 
     public function eraseCredentials() {
- 
+        
     }
 
     public function getPassword() {
-        
+
         return $this->getMdp();
     }
+
     function setRoles($roles) {
+
         $this->roles[] = $roles;
     }
 
-        public function getRoles() {
-        $tab = array();
-        foreach($this->groupes as  $groupess)
-        {
-            $tab[] = $groupess->getRole();
-            
-        }
+    public function getRoles() {
+       
+        return $this->roles;
         
-        return $tab;
-        //return ;
     }
-    public function affichage(){
+
+    public function getAllRoles() {
+        $tab = array();
+        foreach ($this->groupes as $groupess) {
+            foreach ($groupess->getRoles() as $role) {
+                $i = 0;
+                foreach ($tab as $tmp) {
+                    if ($tmp === $role)
+                        $i = 1;
+                }
+
+                if ($i === 0)
+                    $tab[] = $role;
+            }
+        }
+        foreach ($this->roles as $roles) {
+            $i = 0;
+
+            foreach ($tab as $tmp) {
+
+                if ($tmp === $roles->getRole())
+                    $i = 1;
+            }
+            if ($i === 0)
+                $tab[] = $roles->getRole();
+        }
+
+        return $tab;
+    }
+
+    public function affichage() {
         return $this->username;
     }
-    
-    
-     public function type(){
-        if ($this->ldap) return "LDAP";
-        else return "local";
-        
-            }
-            
-            public function getGroupeGen(){
-               $strings ="";
-              
-                foreach ($this->getGroupes() as $groupe ){
-                    
-                    $strings = $strings."- ".$groupe."</br>"; 
-                
-                    
-                }
-                
-                return $strings;
-                
-            }
-     public function activiter(){
-        if ($this->actif) return "Utilisateur activé <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true<\"></span>";
-        else return "Utilisateur Désactivié <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span>";
-        
-            }
-    
-    
-    public function resumer(){
-         
-         $tab = array('Id' => $this->getId(),
-                      'username' => $this->getUsername(),
-                      'mail' => $this->mail,
-                      'groupe' => $this->getGroupeGen(),
-                      'dernier connexion' => $this->getDernierConnexionString(),
-                        'ldap' => $this->type(),
-                        'Information' => $this->activiter());
-         
-      return $tab;
-             
-             
-         
-         
-         
-     }
 
-     
-     
-      public function makeFingerprinting()
-{
-$this->fingerprinting = sha1($_SERVER['HTTP_USER_AGENT']."".$_SERVER['SERVER_ADDR']."".$_SERVER['SERVER_PROTOCOL']."zmaslemiogorkiem".$_SERVER['HTTP_ACCEPT_ENCODING'].'abbbisjqjsjd893732');
-}
- public function checkFingerprinting($fingerprinting)
-{
-$this->makeFingerprinting();
-return (bool)($this->fingerprinting == $fingerprinting);
-}
+    public function type() {
+        if ($this->ldap)
+            return "LDAP";
+        else
+            return "local";
+    }
+
+    public function getGroupeGen() {
+        $strings = "";
+
+        foreach ($this->getGroupes() as $groupe) {
+
+            $strings = $strings . "- " . $groupe . "</br>";
+        }
+
+        return $strings;
+    }
+
+    public function activiter() {
+        if ($this->actif)
+            return "Utilisateur activé <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true<\"></span>";
+        else
+            return "Utilisateur Désactivié <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span>";
+    }
+    public function genRole(){
+    $strings = "";
+
+        foreach ($this->getRoles() as $role) {
+
+            $strings = $strings . "- " . $role->getNom() . "</br>";
+        }
+        if ($strings ==="") $strings ="Aucun droit sur l'utilisateur";
+        return $strings;
+        
+    }
+    public function genRoleGroupe(){
+    $strings = "";
+
+        foreach ($this->groupes as $groupess) {
+            foreach ($groupess->getRoles() as $role) {
+                $i = 0;
+               
+
+                
+                    $strings .= '- '.$role.'<br>';
+            }
+        }
+
+        return $strings;
+        
+    }
+
+    public function resumer() {
+
+        $tab = array('Id' => $this->getId(),
+            'username' => $this->getUsername(),
+            'mail' => $this->mail,
+            'groupe' => $this->getGroupeGen(),
+            'dernier connexion' => $this->getDernierConnexionString(),
+            'ldap' => $this->type(),
+            'Information' => $this->activiter(),
+            'Roles sur utilisateur' => $this->genRole(),
+             'Roles reçus'=> $this->genRoleGroupe()
+                );
+
+        return $tab;
+    }
 
     /**
      * Set mail
@@ -433,8 +501,7 @@ return (bool)($this->fingerprinting == $fingerprinting);
      * @param string $mail
      * @return Personne
      */
-    public function setMail($mail)
-    {
+    public function setMail($mail) {
         $this->mail = $mail;
 
         return $this;
@@ -445,8 +512,24 @@ return (bool)($this->fingerprinting == $fingerprinting);
      *
      * @return string 
      */
-    public function getMail()
-    {
+    public function getMail() {
         return $this->mail;
     }
+
+    /**
+     * Set suprimable
+     *
+     * @param boolean $suprimable
+     * @return Personne
+     */
+    public function setSuprimable($suprimable) {
+        $this->suprimable = $suprimable;
+
+        return $this;
+    }
+
+    public function __clone() {
+        
+    }
+
 }

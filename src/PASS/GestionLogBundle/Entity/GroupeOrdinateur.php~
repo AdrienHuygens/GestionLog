@@ -2,7 +2,11 @@
 
 namespace PASS\GestionLogBundle\Entity;
 
+
 use Doctrine\ORM\Mapping as ORM;
+use \Doctrine\Common\Collections\ArrayCollection;
+use PASS\AuthentificationLogBundle\Entity\Groupe;
+use PASS\GestionLogBundle\Entity\priority;
 
 /**
  * GroupeOrdinateur
@@ -50,11 +54,36 @@ class GroupeOrdinateur {
      */
     private $ordinateurs;
 
+   /**
+     * @var boolean
+     *
+     * @ORM\Column(name="mail", type="boolean", nullable=true)
+     */
+    private $mail ;
+    
+     /**
+     * 
+     *
+     * @ORM\ManyToOne(targetEntity="PASS\GestionLogBundle\Entity\priority")
+     */
+    private $priority ;
+    
     /**
+     *
+     * @ORM\ManyToMany(targetEntity="PASS\AuthentificationLogBundle\Entity\Groupe")
+     */        
+    private $groupe;
+    
+    
+    
+    
+    
+     /**
      * Get id
      *
      * @return integer 
      */
+    
     public function getId() {
         return $this->id;
     }
@@ -130,7 +159,7 @@ class GroupeOrdinateur {
      */
     public function setOrdinateurs($ordinateurs) {
         $this->ordinateurs[] = $ordinateurs;
-
+       
         return $this;
     }
 
@@ -142,9 +171,19 @@ class GroupeOrdinateur {
     public function getOrdinateurs() {
         return $this->ordinateurs;
     }
+    
+    function getPriority() {
+        return $this->priority;
+    }
 
+    function setPriority($priority) {
+        $this->priority = $priority;
+    }
+
+    
     public function __construct() {
         $this->ordinateurs = array();
+        $this->groupe = new ArrayCollection();
         $this->actif = true;
     }
 
@@ -170,24 +209,66 @@ class GroupeOrdinateur {
      * @param \PASS\GestionLogBundle\Entity\Systemevents $ordinateur
      */
     public function removeOrdinateur($ordinateur) {
-        $this->ordinateurs->removeElement($ordinateur);
+       $tab = array();
+       $add = true;
+       foreach($this->ordinateurs as $ordi){
+           
+           if($ordinateur !== $ordi)$tab []= $ordi ;
+       }
+       $this->ordinateurs = $tab;
+              
+    }
+    
+
+    function getMail() {
+        return $this->mail;
     }
 
+    function getGroupe() {
+        return $this->groupe->toArray();
+    }
+
+    function setMail($mail) {
+        $this->mail = $mail;
+    }
+
+    function setGroupe($groupe) {
+        $this->groupe = $groupe;
+    }
+    function addGroupe(Groupe $groupe) {
+        $this->groupe[] = $groupe;
+    }
+    function removeGroupe(Groupe $groupe) {
+        $this->groupe->removeElement($groupe);
+    }
+        
+    
+    
     public function getSql() {
         
     }
 
-    private function activiter() {
-        if ($this->actif)
-            return "Groupe activé <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true<\"></span>";
-        else
-            return "Groupe Désactivié <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span>";
-    }
 
-    public function getGroupeGen() {
+        public function bool($var,$msgS="activé", $msgE="non activé") {
+        if ($var)
+            return " <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true<\"></span> ".$msgS;
+        else
+            return "<span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span> ".$msgE;
+    }
+    public function getGroupeOrdiGen() {
         $strings = "";
 
         foreach ($this->ordinateurs as $ordi) {
+
+            $strings = $strings . "- " . $ordi . "</br>";
+        }
+
+        return $strings;
+    }
+     public function getGroupeGen() {
+        $strings = "";
+
+        foreach ($this->groupe as $ordi) {
 
             $strings = $strings . "- " . $ordi . "</br>";
         }
@@ -203,9 +284,23 @@ class GroupeOrdinateur {
         return array('Id' => $this->id,
             'Nom' => $this->nom,
             'Description' => $this->description,
-            'ordinateur' => $this->getGroupeGen(),
-            'Information' => $this->activiter(),
+            'ordinateur' => $this->getGroupeOrdiGen(),
+            
+            'envoi d\'email' => $this->bool($this->mail),
+            "Groupe d'envoi"=>$this->getGroupeGen(),
         );
     }
-
+    public function getEmailUser(array $email){
+        
+        foreach ($this->groupe as $groupe){
+           foreach($groupe->getPersonnes() as $personne){
+               if(!in_array($personne->getMail(),$email) && $personne->getMail() !== null){
+                   $email[] = $personne->getMail();
+               }
+              
+           }
+    
+        }
+        return $email;
+    }
 }

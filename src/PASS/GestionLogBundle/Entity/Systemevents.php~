@@ -48,17 +48,17 @@ class Systemevents
     /**
      * @var integer
      *
-     * ORM\Column(name="facility", type="smallint", nullable=true)
-     * @ORM\ManyToOne(targetEntity="facility")
-     * @ORM\JoinColumn(name="facility", referencedColumnName="id")
+     * ORM\Column(name="Facility", type="smallint", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Facility", cascade={"remove","remove"})
+     * @ORM\JoinColumn(name="Facility", referencedColumnName="id")
      */
-    private $facility;
+    private $Facility;
 
     /**
      * @var integer
      *
      * ORM\Column(name="priority", type="integer", nullable=true)
-     * @ORM\ManyToOne(targetEntity="priority")
+     * @ORM\ManyToOne(targetEntity="priority", cascade={"remove","remove"})
      * @ORM\JoinColumn(name="priority", referencedColumnName="id")
      */
     private $priority;
@@ -246,7 +246,7 @@ class Systemevents
      */
     public function getReceivedat()
     {
-        return $this->receivedat;
+        return $this->receivedat->format("d-m-Y H:i:s");
     }
 
     /**
@@ -269,31 +269,33 @@ class Systemevents
      */
     public function getDevicereportedtime()
     {
-        //return $this->devicereportedtime->format("d-m-Y H:i:s");
-        return "0";
+        if ($this->devicereportedtime !== null)
+        return $this->devicereportedtime->format("d-m-Y H:i:s");
+        
+        else return 0;
     }
 
     /**
-     * Set facility
+     * Set Facility
      *
-     * @param integer $facility
+     * @param integer $Facility
      * @return Systemevents
      */
-    public function setFacility($facility)
+    public function setFacility($Facility)
     {
-        $this->facility = $facility;
+        $this->Facility = $Facility;
 
         return $this;
     }
 
     /**
-     * Get facility
+     * Get Facility
      *
      * @return integer 
      */
     public function getFacility()
     {
-        return $this->facility;
+        return $this->Facility;
     }
 
     /**
@@ -742,8 +744,8 @@ class Systemevents
     }
     public function __toString()
     {
-         var_dump("coucou");
-        return '0';
+         
+        return $this->message;
     }
     /**
      * Add priority

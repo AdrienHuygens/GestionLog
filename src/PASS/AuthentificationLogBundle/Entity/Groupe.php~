@@ -16,7 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * 
  * @UniqueEntity(fields={"nom", "ldap"}, message="Le groupe existe déjà!!!")
  */
-class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
+class Groupe  {
 
     /**
      * @var integer
@@ -41,9 +41,12 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
     /**
      * @var string
      *
-     * @ORM\Column(name="role", type="string", length=50)
-     */
-    private $role;
+     * *
+    *  @ORM\ManyToMany(targetEntity="Role", inversedBy="groupes")
+     *
+    */
+     
+    private $roles;
 
     /**
      * @var string
@@ -74,6 +77,16 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
      * 
      */
     private $actif;
+
+    /**
+     * @var boolean
+     *  
+     * @ORM\Column(name="supprimable", type="boolean",nullable = true)
+     * 
+     * @Assert\Type(type="bool", message="La valeur {{ value }} n'est pas un type {{ type }} valide.")
+     * 
+     */
+    private $supprimable;
 
     /**
      *  @ORM\ManyToMany(targetEntity="Personne", mappedBy="groupes")
@@ -122,6 +135,10 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
         $this->description = $description;
 
         return $this;
+    }
+
+    function getSupprimable() {
+        return $this->supprimable;
     }
 
     /**
@@ -180,6 +197,8 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
      */
     public function __construct() {
         $this->personnes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->supprimable = true;
     }
 
     /**
@@ -189,18 +208,40 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
      * @return Groupe
      */
     public function addPersonne(\PASS\AuthentificationLogBundle\Entity\Personne $personnes) {
+        
         $this->personnes[] = $personnes;
 
         return $this;
     }
+     public function addRole(\PASS\AuthentificationLogBundle\Entity\Role $role) {
+        $this->roles[] = $role;
 
-    /**
+        return $this;
+    }
+
+    function setSupprimable($supprimable) {
+        $this->supprimable = $supprimable;
+    }
+
+    /*
      * Remove personnes
      *
      * @param \PASS\AuthentificationLogBundle\Entity\Personne $personnes
      */
+
     public function removePersonne(\PASS\AuthentificationLogBundle\Entity\Personne $personnes) {
+         
         $this->personnes->removeElement($personnes);
+    }
+    public function removeRole( $role) {
+        $tab = new ArrayCollection();
+        
+        foreach ($this->roles as $roles) {
+            
+            if ($role !== $roles)
+                $tab[] = $role;
+        }
+        $this->role = $tab;
     }
 
     /**
@@ -209,7 +250,19 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
      * @return \Doctrine\Common\Collections\Collection 
      */
     public function getPersonnes() {
-        return $this->personnes;
+        return $this->personnes->toArray();
+    }
+    
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+    public function getRole() {
+         $tab =array();
+         foreach ($this->roles->toArray() as $role){
+             $tab[] = $role->getRole();
+         }
+        return $tab;
     }
 
     public function __toString() {
@@ -223,8 +276,8 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
      * @return Role
      */
     public function setRole($role) {
-        $this->role = $role;
-        return $this;
+        $this->roles = $role;
+       
     }
 
     /**
@@ -232,38 +285,55 @@ class Groupe implements \Symfony\Component\Security\Core\Role\RoleInterface {
      *
      * @return string
      */
-    public function getRole() {
-        return $this->role;
-    }
-    
-     public function affichage(){
+   
+
+    public function affichage() {
         return $this->nom;
     }
-    public function type(){
-        if ($this->ldap) return "LDAP";
-        else return "local";
+
+    public function type() {
+        if ($this->ldap)
+            return "LDAP";
+        else
+            return "local";
+    }
+
+    public function activiter() {
+        if ($this->actif)
+            return "Groupe activé <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true<\"></span>";
+        else
+            return "Groupe Désactivié <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span>";
+    }
+    public function genRole(){
+    $strings = "";
+
+        foreach ($this->getRoles() as $role) {
+
+            $strings = $strings . "- " . $role->getNom() . "</br>";
+        }
+
+        return $strings;
         
-            }
-     public function activiter(){
-        if ($this->actif) return "Groupe activé <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true<\"></span>";
-        else return "Groupe Désactivié <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true<\"></span>";
-        
-            }
-            
-     public function resumer(){
-         
-         $tab = array('Id' => $this->getId(),
-                      'Nom' => $this->getNom(),
-                      'Description' => '<pre>'.$this->getDescription().'</pre>',
-                        'Type de groupe' => $this->type(),
-                        'Information' => $this->activiter());
-         
-      return $tab;
-             
-             
-         
-         
-         
-     }
+    }
+    
+    public function genPersonne(){
+        $string ="";
+        foreach($this->getPersonnes() as $personne){
+            $string.='- '.$personne->getUsername().'<br>';
+        }
+        return $string;
+    }
+    public function resumer() {
+
+        $tab = array('Id' => $this->getId(),
+            'Nom' => $this->getNom(),
+            'Description' => '<pre>' . $this->getDescription() . '</pre>',
+            'Type de groupe' => $this->type(),
+            'Information' => $this->activiter(),
+            'Role' => $this->genRole(),
+                'Personne'=> $this->genPersonne());
+
+        return $tab;
+    }
 
 }
