@@ -27,7 +27,11 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use PASS\GestionLogBundle\Entity\Systemevents;
 use PASS\GeneralLogBundle\Entity\Loggers;
+use PASS\GeneralLogBundle\Entity\ConfigurationServeur;
+use PASS\GeneralLogBundle\Form\ConfigurationServeurType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use mysqli;
+use Exception;
 
 class ConfigurationController extends Controller {
     
@@ -131,11 +135,13 @@ class ConfigurationController extends Controller {
      * @Secure(roles="ROLE_CONFIGURATION_U, ROLE_CONFIGURATION_R, ROLE_ADMIN")
      */
     public function ldapAction(Request $request) {
+       try{
         $chemin = "";
         $color= "";
         $Configs = new \PASS\GeneralLogBundle\Entity\ConfigurationLDAP();
         $Type =new ConfigurationLDAPType($this->get('security.context'));
         $form = $this->createForm($Type, $Configs);
+        $erro = array();
 
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -179,14 +185,19 @@ class ConfigurationController extends Controller {
                        . " par ".$this->get('security.context')->getToken()->getUser()->getusername()." Avec l'ip: ".$_SERVER['REMOTE_ADDR']);
             
                 $Configs->Enregistrer();
+                 $erro[] = array('vue' =>"PASSGeneralLogBundle:notification:connexionLdapSucces.html.twig");
             }
             
         } 
-        
+       }
+ catch (Exception $e){
+     $erro[] = array('vue' =>"PASSGeneralLogBundle:notification:connexionLdapError.html.twig");
+ }
         return $this->render('PASSGeneralLogBundle:form:form.html.twig', Array(
                     "form" => $form->createView(),
                     'titrePage' => 'Changer la configuration de la base de donné',
                     'chemin' => $chemin,
+                    'notification' => $erro
                     
         ));
     }
@@ -214,7 +225,7 @@ class ConfigurationController extends Controller {
         
            
         } 
-        
+          
         return $this->render('PASSGeneralLogBundle:form:form.html.twig', Array(
                     "form" => $form->createView(),
                     'titrePage' => 'Changer la configuration de la base de donné',
@@ -268,6 +279,49 @@ class ConfigurationController extends Controller {
                     "html"=> $Configs->getBody(),
                     "log"=>$log
                    
+                    
+                    
+        ));
+    }
+    
+    /**
+     * 
+     * @Secure(roles="ROLE_CONFIGURATION_U,ROLE_CONFIGURATION_R, ROLE_ADMIN")
+     */
+    public function ServeurAction(Request $request)
+    { 
+        
+       
+     $notification = null;
+     
+        $Configs = new \PASS\GeneralLogBundle\Entity\ConfigurationServeur();
+       
+       $form = $this->createForm(new ConfigurationServeurType($this->get('security.context')), $Configs);
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+         
+           
+          
+                 if (!$this->get('security.context')->isGranted('ROLE_CONFIGURATION_U') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+             
+                    throw new AccessDeniedException('Modification Non dispognibe, vous n\'avez pas les droits ');
+                  }
+                  
+                  if ($form->get('Vider')->isClicked()) {
+                        //return $this->redirectToRoute('PASS_statRemove2', array(), 301);
+                        return new RedirectResponse($this->generateUrl('PASS_statRemove2'));
+                  }
+                  
+             $Configs->Enregistrer();
+            $notification[] =array('vue' =>"PASSGeneralLogBundle:notification:ServeurConfig.html.twig");
+           // $Configs->Enregistrer();
+        } 
+        return $this->render('PASSGeneralLogBundle:form:form.html.twig', Array(
+                    "form" => $form->createView(),
+                    'titrePage' => 'Modification serveur',
+                          
+                    "notification"=> $notification
                     
                     
         ));

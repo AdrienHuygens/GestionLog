@@ -8,6 +8,10 @@ contact adrien.huygens@gmail.com
     Created on : 11-févr.-2015, 10:35:25
     Author     : adrien
 */
+.btn{
+    margin-top: 10px;
+    margin-right: 5px;
+}
 .colorRed{
     background-color: #FF0000;
 }

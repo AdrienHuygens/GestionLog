@@ -12,6 +12,7 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use PASS\GestionLogBundle\Entity\Statistique;
 use PASS\GestionLogBundle\Entity\StatServeur;
+use Exception;
 
 class statistiqueController extends Controller
 {
@@ -102,45 +103,62 @@ class statistiqueController extends Controller
     public function RemoveStatAction()
     {
     try{
-        $date = new \DateTime('15-04-2015');
-        $rep = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\Systemevents");
+        $erro = null;
+        $date = new \DateTime('NOW');
+        $dat = new \PASS\GeneralLogBundle\Entity\ConfigurationServeur();
+        $dat = $dat->getSrvDateLog();
+        
+        if($dat != 'avie'){
+        $date->modify('-'.$dat);
+        
+       $rep = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\Systemevents");
        
         $event = $rep->getDateLog($date);
        
         $tab = array();
         $filtre = new Filtre();
+        $em = $this->getDoctrine()->getManager();
         
         foreach($event as $log){
            
-            $tab[$log['fromhost']][] = array('couleur'=>$log['couleur'],'1'=>$log['1'],'id'=>$log['prioId'], 'nom'=>$log['nom']);
+            $tab[$log['fromhost']][$log['dates']][] = array('couleur'=>$log['couleur'],'1'=>$log['1'],'id'=>$log['prioId'], 'nom'=>$log['nom']);
             
         }
         
-          $em = $this->getDoctrine()->getManager();
-          foreach($tab as $key =>$value){
+          
+          foreach($tab as $key =>$values){
+              
+              foreach($values as $keys =>$value){
+                
               $stat = new StatServeur($key);
               $stat->generation($value,True);
               $statistique = new Statistique();
               $statistique->setServeur($key);
-              
-              $statistique->setDate($date);
+                $da = clone $date;
+                $da->modify($keys.' days');
+               
+              $statistique->setDate($da);
               $statistique->setPriority($stat->getTableaux());
-               dump($stat->getTableaux());
+              //dump($stat->getTableaux());
            $em->persist($statistique);
-           
+              }
           }      
+          
           $em->flush();
           $delete = $rep->deleteLog($date);
            $erro[] = array('vue' =>"PASSGeneralLogBundle:notification:BDDClear.html.twig");
            
-       
+        }
+        else {
+              $erro[] = array('vue' =>"PASSGeneralLogBundle:notification:BDDAVie.html.twig");
+        }
     }
     catch(Exception $e)
     {
         $erro[] = array('vue' =>"PASSGeneralLogBundle:notification:BDDClearError.html.twig");
          }
     return $this->render('PASSGeneralLogBundle:form:ok.html.twig', Array(
-                            "notification"=>'1',
+                            "notification"=>$erro,
                             'titrePage' => 'Opération éffectué'));
     }
    

@@ -4,3 +4,4 @@ parameters:
     ldap_dn: 'ou=users,dc=admin,dc=pass,dc=be'
     ldap_filtre: objectclass=PASS
     ldap_connexion: true
+    Srv_Date_log: '1 days'

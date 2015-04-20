@@ -6,7 +6,10 @@
             
  {% block contenu %}
     
-     
+     {%if mdp is defined %}
+         {{mdp }}
+         {%endif%}
+
      {{ form(form) }}
      
      {%if chemin is defined and chemin != null %}

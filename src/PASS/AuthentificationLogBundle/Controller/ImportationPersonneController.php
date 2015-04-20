@@ -12,6 +12,7 @@ use PASS\GeneralLogBundle\Entity\ConfigurationLDAP;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\Debug\Exception\ContextErrorException;
+use ErrorException;
 
 
 class ImportationPersonneController extends Controller {
@@ -29,7 +30,7 @@ class ImportationPersonneController extends Controller {
 
             
             
-            $db = ldap_connect($this->serveur->getLdapServer(), $this->serveur->getLdapPort())or die("Could not connect to $ldaphost") ;
+            $db = ldap_connect($this->serveur->getLdapServer(), $this->serveur->getLdapPort());
             
             
             if($db){
@@ -39,7 +40,7 @@ class ImportationPersonneController extends Controller {
                             "error" => "Pas de connexion à LDAP.",
                             'titrePage' => 'ERREUR'
                 ));
-        } catch (ErrorException $ex) {
+        } catch (\ErrorException $ex) {
            return $this->render('PASSAuthentificationLogBundle:authentification:ok.html.twig', Array(
                             "error" => "Pas de connexion à LDAP.",
                             'titrePage' => 'ERREUR'
@@ -174,12 +175,13 @@ class ImportationPersonneController extends Controller {
                         // $userP->addGroupe();
                         $em->persist($userP);
                     }
-                    $em->flush();
+                  
                 }
+                  $em->flush();
             }
 
             ldap_close($ds);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->render('PASSGeneralLogBundle:erreur:ErreurLDAP.html.twig', Array("good" => $e));
         }
 

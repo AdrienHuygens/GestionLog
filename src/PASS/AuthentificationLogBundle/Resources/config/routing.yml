@@ -29,12 +29,12 @@ PASS_ModificationUtilisateur:
         listingId: \d+
 PASS_droitGroupeUtilisateur:
     path: /auth/gestion/droit/utilisateur/{personne}
-    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:roleUser, personne: 0 }
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentifications:roleUser, personne: 0 }
     requirements:
         personne: \d+
 PASS_droitGroupe:
     path: /auth/gestion/droit/groupe/{groupe}
-    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:roleGroupe, groupe: 0 }
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentifications:roleGroupe, groupe: 0 }
     requirements:
         groupe: \d+
 PASS_MonCompte:
@@ -42,7 +42,7 @@ PASS_MonCompte:
     defaults: { _controller: PASSAuthentificationLogBundle:Authentification:MonCompte }
 PASS_MonMDP:
     path: /auth/monMDP
-    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:changeMonMDP }
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentifications:changeMonMDP }
     requirements:
         listingId: \d+
         
@@ -68,7 +68,7 @@ PASS_SupprimerGroupe:
         
 PASS_ChangeMDP:
     path: /auth/gestion/utilisateur/changeMDP/{personneId}
-    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:changeMDP,personneId: 0 }
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentifications:changeMDP,personneId: 0 }
     requirements:
         groupeId: \d+ 
         
@@ -78,12 +78,12 @@ PASS_ChangeMDP:
     
 PASS_Gestion_ok:
     path: /auth/ok
-    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:ok }
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentifications:ok }
     
 
 login:
     pattern: /login
-    defaults: { _controller: PASSAuthentificationLogBundle:Authentification:login }
+    defaults: { _controller: PASSAuthentificationLogBundle:Authentifications:login }
 login_check:
     pattern: /login_check
 logout:
@@ -96,6 +96,3 @@ PASS_importLDAP:
 PASS_modificationLDAP:
     path: /auth/ldap/modification/{username}
     defaults: { _controller: PASSAuthentificationLogBundle:ImportationPersonne:ModificationPersonneLdap, username: 0 }
-PASS_GestionRole:
-    path: /auth/Role
-    defaults: { _controller: PASSAuthentificationLogBundle:GestionRole:gestionRole }

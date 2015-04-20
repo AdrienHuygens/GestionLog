@@ -17,3 +17,7 @@ PASS_ACCUEIL:
 PASS_ACCUEIL2:
     path: /auth/
     defaults: { _controller: PASSGeneralLogBundle:Accueil:index }
+    
+PASS_ConfigurationServeur:
+    path: /auth/configuration/serveur
+    defaults: { _controller: PASSGeneralLogBundle:Configuration:Serveur }

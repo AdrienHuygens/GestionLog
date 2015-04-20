@@ -73,9 +73,9 @@ class EnvoyerMailController extends Controller {
         }
           $em = $this->container->get('doctrine')->getEntityManager();
          $em->remove($m);
-         $em->flush();
+         
         }
-     
+        $em->flush();
        
         
        

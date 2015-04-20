@@ -77,6 +77,7 @@ class Builder extends ContainerAware
            $menu['Configuration']->setChildrenAttribute('class', 'dropdown-menu')->addChild('Base de donnée', array('route' => 'PASS_Configuration'))->setAttribute('divider_append', true);
              $menu['Configuration']->addChild('LDAP', array('route' => 'PASS_ConfigurationLdap'));
              $menu['Configuration']->addChild('Mail', array('route' => 'PASS_ConfigurationMail'));
+             $menu['Configuration']->addChild('Serveur', array('route' => 'PASS_ConfigurationServeur'));
     }
         if($secu->isGranted('ROLE_DEFAULT')){
         $menu->addChild('User',array('uri'=>'#','label'=>'Mon compte ▼'))->setAttribute('class', 'dropdown ');

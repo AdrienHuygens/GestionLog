@@ -36,7 +36,9 @@ PASS_GroupeOrdinateurListing:
 Pass_Mail:
     path: /mail
     defaults: { _controller:  PASSGestionLogBundle:EnvoyerMail:index }
-    
+PASS_statRemove2:
+    path: /auth/removeStat
+    defaults: { _controller:  PASSGestionLogBundle:statistique:RemoveStat }
 PASS_statRemove:
     path: /removeStat
     defaults: { _controller:  PASSGestionLogBundle:statistique:RemoveStat }

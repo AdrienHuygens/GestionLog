@@ -7,7 +7,8 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use PASS\AuthentificationLogBundle\Entity\Personne;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
+use Doctrine\ORM\NoResultException;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 /**
  * PersonneRepository
  *
@@ -116,7 +117,7 @@ class PersonneRepository extends EntityRepository implements UserProviderInterfa
             // La méthode Query::getSingleResult() lance une exception
             // s'il n'y a pas d'entrée correspondante aux critères
          $p->setMaxResults(1);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return null;
             throw new UsernameNotFoundException(sprintf('L\'utilisateur "%s" n\'a pas été trouvé ou n\'est pas actif.', $username), 0, $e);
         }

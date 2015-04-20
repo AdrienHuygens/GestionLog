@@ -107,7 +107,7 @@ class LDAPAuthenticator implements SimpleFormAuthenticatorInterface {
                      }
                        
                        
-                catch (Exception $e){
+                catch (\Exception $e){
                     throw new AuthenticationException('Erreur avec la connexion LDAP');
                 }
                 

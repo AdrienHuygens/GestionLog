@@ -43,20 +43,25 @@ class SystemeventsRepository extends EntityRepository  {
          return $test->getQuery()->execute();
         
     }
+     function getDate(){
+         $query = $this->createQueryBuilder('systemevent')
+                    ->select("DATE_DIFF(systemevent.devicereportedtime,'2015-04-01)");
+        return $query->getQuery()->execute();
+    }
     
     public function getDateLog($date) {
         
          $query = $this->createQueryBuilder('systemevent')
                         
                         ->select(
-                                 'systemevent.fromhost, count(systemevent.priority),priority.nom,priority.id as prioId, priority.couleur'
+                                 "systemevent.fromhost, count(systemevent.priority),priority.nom,priority.id as prioId, priority.couleur, DATE_DIFF(systemevent.devicereportedtime, :date) as dates"
                                 //. 'priority.nom,priority.description,priority.couleur,priority.couleurText,Facility.description, Facility.nom as nomf')
                         )
                         ->join('systemevent.priority', 'priority')
                        
                         ->where('systemevent.devicereportedtime <= :date')
                         ->setParameter(':date', $date)
-                        ->groupBy('systemevent.fromhost, priority.id')
+                        ->groupBy("systemevent.fromhost, priority.id, dates")
                        
                         
                        

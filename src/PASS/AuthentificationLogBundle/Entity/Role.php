@@ -94,7 +94,7 @@ class Role implements \Serializable, \Symfony\Component\Security\Core\Role\RoleI
     }
 
     function setPersonnes($personnes) {
-        die();
+        
         $this->personnes = $personnes;
     }
 

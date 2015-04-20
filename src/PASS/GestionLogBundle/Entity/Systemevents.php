@@ -744,8 +744,8 @@ class Systemevents
     }
     public function __toString()
     {
-         var_dump("coucou");
-        return '0';
+         
+        return $this->message;
     }
     /**
      * Add priority
