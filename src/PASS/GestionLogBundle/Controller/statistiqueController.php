@@ -64,7 +64,7 @@ class statistiqueController extends Controller
                ->add('hosts','choice',array('choices'=>$host,'multiple' => true,'required' => false ))
               
                ->add('groupes','choice',array('choices'=>$groupe,'multiple' => true,'required' => false ))
-               ->add('dates',new DateType())
+               ->add('dates',new DateType(),array('label'=>"Date"))
                ->add('Enregistrer','submit')
                ->add('up','button')
                ->add('Reset','button')

@@ -108,8 +108,8 @@ class ConfigurationController extends Controller {
                   }
           if ($this->testSql($Config)){
               
-               new Loggers($this->getDoctrine()->getManager(), "Une modification à été réalisé sur la configuration de la base de donné"
-                       . " par ".$this->get('security.context')->getToken()->getUser()->getusername()." Avec l'ip: ".$_SERVER['REMOTE_ADDR']);
+               new Loggers($this->getDoctrine()->getManager(), "Une modification a été réalisée sur la configuration de la base de données"
+                       . " par ".$this->get('security.context')->getToken()->getUser()->getusername()." avec l'ip: ".$_SERVER['REMOTE_ADDR']);
             
                $Config->Enregistrer();
             $erro[] = array('vue' =>"PASSGeneralLogBundle:notification:connexionbddSucces.html.twig");
@@ -124,7 +124,7 @@ class ConfigurationController extends Controller {
     
         return $this->render('PASSGeneralLogBundle:form:form.html.twig', Array(
                     "form" => $form->createView(),
-                    'titrePage' => 'Changer la configuration de la base de donné',
+                    'titrePage' => 'Changer la configuration de la base de données',
                     'chemin' => $chemin,
                     'notification'=>$erro
         ));
@@ -195,7 +195,7 @@ class ConfigurationController extends Controller {
  }
         return $this->render('PASSGeneralLogBundle:form:form.html.twig', Array(
                     "form" => $form->createView(),
-                    'titrePage' => 'Changer la configuration de la base de donné',
+                    'titrePage' => 'Changer la configuration LDAP',
                     'chemin' => $chemin,
                     'notification' => $erro
                     

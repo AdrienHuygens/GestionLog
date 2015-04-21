@@ -16,18 +16,18 @@
             {{ form_start(form) }}
 
             <div class="col-lg-3 col-md-3" >
-                Ordinateur:{{ form_widget(form.hosts) }}
+                Ordinateurs:{{ form_widget(form.hosts) }}
             </div>
            
             <div class="col-lg-3 col-md-3" >
-                Groupe d'ordinateur:{{ form_widget(form.groupes) }}
+                Groupes d'ordinateurs:{{ form_widget(form.groupes) }}
             </div>
             
             <div class="col-lg-3 col-md-3" >
-                Groupe d'ordinateur:{{ form_widget(form.priority) }}
+                Priorité:{{ form_widget(form.priority) }}
             </div>
             <div class="col-lg-3 col-md-3 topPadding" >
-                Nombre par page:{{ form_widget(form.nbPage) }}
+                Nombre de logs par page:{{ form_widget(form.nbPage) }}
             </div>
 
                 <div class="col-lg-4 col-md-6 "> Date:{{ form_widget(form.dates.signe , { 'attr': {'onChange':'masquer()'} })  }}

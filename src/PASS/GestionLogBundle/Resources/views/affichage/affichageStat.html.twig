@@ -23,7 +23,7 @@
                 Groupe d'ordinateur:{{ form_widget(form.groupes) }}
             </div>
 
-                <div class="col-lg-4 col-md-6 topPadding"> Comparatif:{{ form_widget(form.dates.signe , { 'attr': {'onChange':'masquer()'} })  }}
+                <div class="col-lg-4 col-md-6 topPadding"> Date:{{ form_widget(form.dates.signe , { 'attr': {'onChange':'masquer()'} })  }}
 
                 <div id="d1"class="d"> Date:{{ form_widget(form.dates.date1) }}</div>
                 <div id="d2" class="d"> Date 2: {{ form_widget(form.dates.date2) }}</div>
@@ -108,14 +108,14 @@
                         </div>  
 
 
-                        Quelque chiffre:  
+                        Quelques chiffres:  
 
                         <div class="panel-body">
                             <div class="col-lg-4 ">
                                 <table class="table table-bordered">
                                     <tr>
-                                        <th> Type d'erreur</th>
-                                        <th> Nombre d'erreur </th>
+                                        <th> Types d'erreurs</th>
+                                        <th> Nombres d'erreurs </th>
                                     </tr>
                                     {% for value in listing.Tableaux  %} 
 

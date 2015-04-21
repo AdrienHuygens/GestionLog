@@ -48,7 +48,7 @@ class Statistiquelog  {
           $repo3 = $this->doctrine->getRepository("PASS\GestionLogBundle\Entity\Statistique");
          $nom = $this->filtre->hostSql($repo2);
          if($this->filtre->getGroupes() == null){
-         $stat = new StatServeur("Tout les Serveur");
+         $stat = new StatServeur("Tous les Serveurs");
              $listing2 = $repo3->getStat($this->filtre );
             $listing = $repo->getStat($this->filtre);
              $listing = $this->listing($listing, $listing2);

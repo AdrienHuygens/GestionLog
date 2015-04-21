@@ -27,7 +27,7 @@ class Loggers{
   $fac= $em->getRepository("PASS\GestionLogBundle\Entity\Facility")->find($facilityId);
        $prio= $em->getRepository("PASS\GestionLogBundle\Entity\priority")->find($priorityId);
         $sysEvent = new Systemevents();
-        $sysEvent->setFromhost("GDL-APPLICATITION")
+        $sysEvent->setFromhost("GDL-APPLICATION")
                 ->setDevicereportedtime(new \DateTime('NOW'))
                 ->setReceivedat(new \DateTime('NOW'))
                 ->setFacility($fac)

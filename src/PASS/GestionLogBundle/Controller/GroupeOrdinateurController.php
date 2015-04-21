@@ -57,7 +57,7 @@ class GroupeOrdinateurController extends Controller
         }
         return $this->render('PASSGeneralLogBundle:form:form.html.twig', Array(
                     "form" => $form->createView(),
-                    'titrePage' => 'Rajouter un utilisateur local',
+                    'titrePage' => 'Rajouter un groupe d\'ordinateur',
                     'chemin' => $chemin
         ));
     }

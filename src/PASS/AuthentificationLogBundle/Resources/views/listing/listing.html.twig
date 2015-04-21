@@ -9,9 +9,7 @@
              {% if activite == "utilisateur" and is_granted("ROLE_USER_C") or is_granted("ROLE_ADMIN")%} 
                 <a href="{{ path(chemin) }}/add"> Ajouter un {{ activite }}  </a>  <br />
                 {%endif %}
-              {% if activite == "groupe" and is_granted("ROLE_GROUPE_C") or is_granted("ROLE_ADMIN")%} 
-                <a href="{{ path(chemin) }}/add"> Ajouter un {{ activite }}  </a>  <br />
-                {%endif %}
+              
             {% if activite == "utilisateur"and is_granted("ROLE_LDAP_I") or is_granted("ROLE_ADMIN") %}  <a href="{{ path("PASS_importLDAP") }}"> Importer des utilisateur ldap  </a>  {% endif %}           
         </div>
 
