@@ -219,9 +219,10 @@ class ConfigurationController extends Controller {
         
         if ($form->isValid()) {
             $factory = $this->get('security.encoder_factory');
-           $user = new User('AdminM', "test");
+           $user = new User('AdminM', "test2");
            $encoder = $factory->getEncoder($user);
-           $mdp = $encoder->encodePassword('test', $user->getSalt());
+        
+           $mdp = $encoder->encodePassword($form->getData()['mot_de_pass'], $user->getSalt());
         
            
         } 

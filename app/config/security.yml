@@ -12,7 +12,7 @@ security:
         in_memory:
             memory:
                 users:
-                    AdminM: { password: stHGdg4MhYOm/OVTWjpMJievIvJqafsQQ3WpWlUNDT6WfHupVWjBQaxdppMQkdCmYSXl6QQQXVYLGL/MDZi5Zw== , roles: 'ROLE_MEMORY'  }
+                    AdminM: { password: ne+l42yhPy14xi3Qs3ZHhY/IgZ+B1492n+ztCZ95GFADgaoyaHmMWkGqG3F+oN7/z2k1hOtWV5TWqYiu3TxGMw== , roles: 'ROLE_MEMORY'  }
             
     role_hierarchy:
         ROLE_MEMORY:      ROLE_USER
