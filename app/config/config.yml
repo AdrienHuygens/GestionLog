@@ -42,7 +42,10 @@ twig:
 # Assetic Configuration
 assetic:
     assets:
-       
+        jquerys:
+            input:
+               ../vendor/jquery/jquery/jquery-1.9.1.js
+            output: js/jquery.js
         csstablesorter2:
             input: ../vendor/jquery/plugins/tablesorter/css/theme.bootstrap.css
             output: css/csstablesorter2.css    
