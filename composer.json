@@ -48,9 +48,13 @@
         "jquery/jquery": "1.9.*",
         "leafo/lessphp": "dev-master",
         "braincrafted/bootstrap-bundle": "dev-master",
+        "twitter/bootstrap": "~3.0",
+        "jquery/jquery": "1.9.*",
         "knplabs/knp-menu":"dev-master",
         "knplabs/knp-menu-bundle": "dev-master",
-        "jquery/plugins/tablesorter":"~2.9.1"
+      
+         "doctrine/doctrine-fixtures-bundle": "dev-master",
+         "jquery/plugins/tablesorter":"~2.9.1"
          
          
 },
