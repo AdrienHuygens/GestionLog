@@ -21,7 +21,7 @@
                     <h3 class="panel-title">{{ activite |capitalize }} locaux <div class="aligner" > 
 
                             {% if activite == "groupeOrdi" and is_granted("ROLE_GROUPE_ORDI_C") or is_granted("ROLE_ADMIN")%}
-                                <a href="{{ path('PASS_CreationUtilisateur') }}"><span class="glyphicon glyphicon-plus" title="Voir l'utilisateur"  aria-hidden="true"></span> </a>
+                                <a href="{{ path('PASS_GroupeOrdinateurListing') }}"><span class="glyphicon glyphicon-plus" title="Voir l'utilisateur"  aria-hidden="true"></span> </a>
 
 
                             {% endif %}            
