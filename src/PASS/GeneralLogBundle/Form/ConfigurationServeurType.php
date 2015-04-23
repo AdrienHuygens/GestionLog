@@ -39,7 +39,7 @@ class ConfigurationServeurType extends AbstractType
                    ;
          if ($this->val->isGranted('ROLE_CONFIGURATION_U') || $this->val->isGranted('ROLE_ADMIN') )
              $builder-> add("Enregistrer",'submit')
-                        -> add("Vider",'submit',array('label'=>"Videz la bdd"))
+                        -> add("Vider",'submit',array('label'=>"Vider la bdd"))
                         
         ;
         

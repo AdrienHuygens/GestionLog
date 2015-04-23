@@ -109,7 +109,7 @@ class GroupeOrdinateurController extends Controller
             $repoJeune = $this->getDoctrine()->getRepository("PASSGestionLogBundle:GroupeOrdinateur");
             $tab = $repoJeune->getNameGroupe();
 
-            return $this->render("PASSGeneralLogBundle:form:listing.html.twig", array("titrePage" => "Listing des groupes D'ordinateur", "activite" => 'groupeOrdi',
+            return $this->render("PASSGeneralLogBundle:form:listing.html.twig", array("titrePage" => "Listing des groupes d'ordinateurs", "activite" => 'groupeOrdi',
                         "tab" => $tab, 'chemin' => "PASS_GroupeOrdinateurListing"
             ));
         }

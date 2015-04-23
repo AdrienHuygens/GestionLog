@@ -23,13 +23,13 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface{
         
         $tab  = array(
             array('Default','Role par default attribuer à tous' ,'ROLE_DEFAULT',null),
-            array ('Admin: Tout les droits', 'Role Administrateur', 'ROLE_ADMIN',"ROLE_ADMIN"),
-            array ('Gestion utilisateur: Creation d\'un utilisateur', 'Création d\'un utilisateur', 'ROLE_USER_C','ROLE_USER'),
+            array ('Admin: Tous les droits', 'Role Administrateur', 'ROLE_ADMIN',"ROLE_ADMIN"),
+            array ('Gestion utilisateur: Création d\'un utilisateur', 'Création d\'un utilisateur', 'ROLE_USER_C','ROLE_USER'),
             array ('Gestion utilisateur: Voir les utilisateurs', 'lecture d\'un utilisateur', 'ROLE_USER_R','ROLE_USER'),
             array ('Gestion utilisateur: Modifier des utilisateurs', 'modification d\'un utilisateur', 'ROLE_USER_U','ROLE_USER'),
             array ('Gestion utilisateur: Supprimer des utilisateurs', 'Supression d\'un utilisateur', 'ROLE_USER_D','ROLE_USER'),
             
-            array ('Gestion Groupe: Creation d\'un groupe', 'Création d\'un utilisateur', 'ROLE_GROUPE_C','ROLE_GROUPE'),
+            array ('Gestion Groupe: Création d\'un groupe', 'Création d\'un utilisateur', 'ROLE_GROUPE_C','ROLE_GROUPE'),
             array ('Gestion Groupe: Voir les groupes', 'lecture d\'un utilisateur', 'ROLE_GROUPE_R','ROLE_GROUPE'),
             array ('Gestion Groupe: Modifier des groupes', 'modificatop, d\'un utilisateur', 'ROLE_GROUPE_U','ROLE_GROUPE'),
             array ('Gestion Groupe: supprimer un groupe', 'Supression d\'un groupe', 'ROLE_GROUPE_D','ROLE_GROUPE'),

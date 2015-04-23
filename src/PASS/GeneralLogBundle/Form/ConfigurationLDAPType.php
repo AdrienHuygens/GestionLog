@@ -36,14 +36,14 @@ class ConfigurationLDAPType extends AbstractType
         $builder
             
             ->add('ldap_server', 'text')
-            ->add('ldap_port', 'integer',array('label'=>"test",'required' => false))
-            ->add('ldap_dn', 'text')
+            ->add('ldap_port', 'integer',array('label'=>'Ldap port','required' => false))
+            ->add('ldap_dn', 'text',array('label'=>"Ldap Domaine name"))
             ->add('ldap_filtre', 'text')
-            ->add('ldap_connexion', 'checkbox',array('label'=>"Connexion par ldap",'required' => false))
+            ->add('ldap_connexion', 'checkbox',array('label'=>"connexion par ldap",'required' => false))
                 ;
          if ($this->val->isGranted('ROLE_CONFIGURATION_U') || $this->val->isGranted('ROLE_ADMIN') )
              $builder-> add("Enregistrer",'submit')
-                      -> add("Tester",'submit', array('label'=>'Tester la conexion','attr' => array('class' => $this->color)))
+                      -> add("Tester",'submit', array('label'=>'tester la connexion','attr' => array('class' => $this->color)))
              
             
         ;

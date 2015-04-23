@@ -10,7 +10,7 @@
                 <a href="{{ path(chemin) }}/add"> Ajouter un {{ activite }}  </a>  <br />
                 {%endif %}
               
-            {% if activite == "utilisateur"and is_granted("ROLE_LDAP_I") or is_granted("ROLE_ADMIN") %}  <a href="{{ path("PASS_importLDAP") }}"> Importer des utilisateur ldap  </a>  {% endif %}           
+            {% if activite == "utilisateur"and is_granted("ROLE_LDAP_I") or is_granted("ROLE_ADMIN") %}  <a href="{{ path("PASS_importLDAP") }}"> Importer des utilisateurs ldap  </a>  {% endif %}           
         </div>
 
     {% endblock %}
@@ -30,7 +30,7 @@
         <div class="col-lg-6">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{ activite |capitalize }} locaux <div class="aligner" > 
+                    <h3 class="panel-title">{{ activite |capitalize }}s locaux <div class="aligner" > 
 
                             {% if activite == "utilisateur" and is_granted("ROLE_USER_C") or is_granted("ROLE_ADMIN") or is_granted("ROLE_MEMORY")%}
                                 <a href="{{ path('PASS_CreationUtilisateur') }}"><span class="glyphicon glyphicon-plus" title="Voir l'utilisateur"  aria-hidden="true"></span> </a>
@@ -84,7 +84,7 @@
             <div class="col-lg-6">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title">{{ activite |capitalize }} LDAP <div class="aligner" > 
+                        <h3 class="panel-title">{{ activite |capitalize }}s LDAP <div class="aligner" > 
 
                                 {% if activite == "utilisateur" %}
                                     <a href="{{ path('PASS_importLDAP') }}"><span class="glyphicon glyphicon-download" title="Voir l'utilisateur"  aria-hidden="true"></span> </a>

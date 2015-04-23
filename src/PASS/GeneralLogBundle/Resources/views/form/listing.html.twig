@@ -7,7 +7,7 @@
 {% block menuleft  %}  
     {% if  is_granted("ROLE_GROUPE_ORDI_C") or is_granted("ROLE_ADMIN")%} 
     <div id="menuGauche" class='center2'>
-                     <a href="{{ path(chemin) }}/add"> Ajouter un {{ activite }}  </a>  
+                     <a href="{{ path(chemin) }}/add"> Ajouter un groupe d'ordinateur local  </a>  
                     </div>
     {%endif%}
     {% endblock %}
@@ -18,7 +18,7 @@
        <div class="col-lg-6">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{ activite |capitalize }} locaux <div class="aligner" > 
+                    <h3 class="panel-title">Groupes d'ordinateurs locaux <div class="aligner" > 
 
                             {% if activite == "groupeOrdi" and is_granted("ROLE_GROUPE_ORDI_C") or is_granted("ROLE_ADMIN")%}
                                 <a href="{{ path('PASS_GroupeOrdinateurListing') }}"><span class="glyphicon glyphicon-plus" title="Voir l'utilisateur"  aria-hidden="true"></span> </a>

@@ -175,7 +175,7 @@ class AuthentificationController extends Controller {
             $repoJeune = $this->getDoctrine()->getRepository("PASS\AuthentificationLogBundle\Entity\Personne");
             $tab = $repoJeune->getAllUserNoLdap();
             $tab2 = $repoJeune->getAllUserLdap();
-            return $this->render("PASSAuthentificationLogBundle:listing:listing.html.twig", array("titrePage" => "Listing utilisateur", "activite" => 'utilisateur',
+            return $this->render("PASSAuthentificationLogBundle:listing:listing.html.twig", array("titrePage" => "Listing utilisateurs", "activite" => 'utilisateur',
                         "tab" => $tab, 'chemin' => "PASS_GestionUtilisateur", "ldap" => $tab2,
             ));
         }
@@ -302,7 +302,7 @@ class AuthentificationController extends Controller {
         if(!$personne->getSuprimable() && !$this->get('security.context')->isGranted('ROLE_MEMORY')){
             return $this->render('PASSAuthentificationLogBundle:authentification:form.html.twig', Array(
                     "form" => $form->createView(),
-                    'titrePage' => 'Modifier un utilisateur local',
+                    'titrePage' => 'Modification de votre compte',
                     'id' => $personne->getId(),
                     'suprimable' => $personne->getSuprimable()
         ));

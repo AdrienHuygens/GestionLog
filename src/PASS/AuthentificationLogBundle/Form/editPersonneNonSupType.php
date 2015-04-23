@@ -36,9 +36,9 @@ class editPersonneNonSupType extends AbstractType
          if ($this->gest->isGranted('ROLE_MEMORY') ) 
             $builder->add('actif',null,array("label"=>"Compte utilisateur actif?", "action"=>'checked'));
               if ($this->gest->isGranted('ROLE_USER_U') || $this->gest->isGranted('ROLE_ADMIN'))  
-           $builder->add('groupes',null,array("label"=> "Groupe (control + click souri pour multi-selection):",  "choices" => $this->em->getGroupeVisible() ));
+           $builder->add('groupes',null,array("label"=> "Groupe (control + click souris pour multi-sélection):",  "choices" => $this->em->getGroupeVisible() ));
             if ($this->gest->isGranted('ROLE_DROIT_U') || $this->gest->isGranted('ROLE_ADMIN')) 
-              $builder->add('roles',null,array("label"=> "Role (control + click souri pour multi-selection):", "choices" =>$this->emrole->getType()) );
+              $builder->add('roles',null,array("label"=> "Rôle (control + click souris pour multi-sélection):", "choices" =>$this->emrole->getType()) );
               //->add('ldap')
             if ($this->gest->isGranted('ROLE_USER_U') || $this->gest->isGranted('ROLE_ADMIN')) 
             $builder->add('actif');

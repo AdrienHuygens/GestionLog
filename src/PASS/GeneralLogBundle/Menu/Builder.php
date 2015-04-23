@@ -54,15 +54,15 @@ class Builder extends ContainerAware
            $menu['Admin']->setChildrenAttribute('role', 'menu');
             $menu['Admin']->setChildrenAttribute('class', 'dropdown-menu');
           if ($secu->isGranted('ROLE_USER_C') || $secu->isGranted('ROLE_USER_R')|| $secu->isGranted('ROLE_ADMIN')||$secu->isGranted('ROLE_MEMORY'))
-          $menu['Admin']->addChild('Gestion Utilisateur', array('route' => 'PASS_GestionUtilisateur'))->setAttribute('divider_append', true);
+          $menu['Admin']->addChild('Gestion Utilisateurs', array('route' => 'PASS_GestionUtilisateur'))->setAttribute('divider_append', true);
           if ($secu->isGranted('ROLE_GROUPE_C') || $secu->isGranted('ROLE_GROUPE_R')|| $secu->isGranted('ROLE_ADMIN')){
-          $menu['Admin']->addChild('Gestion Groupe', array('route' => 'PASS_GestionGroupe'));
+          $menu['Admin']->addChild('Gestion Groupes', array('route' => 'PASS_GestionGroupe'));
           }
           if ($secu->isGranted('ROLE_GROUPE_ORDI_C') || $secu->isGranted('ROLE_GROUPE_ORDI_R')|| $secu->isGranted('ROLE_ADMIN'))
-          $menu['Admin']->addChild('Gestion Groupe d\'ordinateur', array('route' => 'PASS_GroupeOrdinateurListing'));
+          $menu['Admin']->addChild('Gestion Groupes d\'ordinateurs', array('route' => 'PASS_GroupeOrdinateurListing'));
          //$menu['Admin']->addChild('Gestion Role', array('uri' => '#'));
           if($secu->isGranted('ROLE_STAT_R') || $secu->isGranted('ROLE_ADMIN'))
-          $menu['Admin']->addChild('Statistique', array('route' => 'PASS_AffichageStat'));   
+          $menu['Admin']->addChild('Statistiques', array('route' => 'PASS_AffichageStat'));   
         }
         
        if ($secu->isGranted('ROLE_CONFIGURATION_R') || $secu->isGranted('ROLE_CONFIGURATION_U')|| $secu->isGranted('ROLE_ADMIN'))

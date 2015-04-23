@@ -84,12 +84,13 @@ class SystemeventsRepository extends EntityRepository  {
          
         
     
-    public function getHost(){
+    public function getHost($start = 0){
         
           return $this->createQueryBuilder('systemevent')
-                        ->select('systemevent.fromhost')
-                        ->addGroupBy('systemevent.fromhost')
-                       
+                        ->select(' systemevent.fromhost')
+                        //->addGroupBy('systemevent.fromhost')
+                       ->where("systemevent.id > :id")
+                       ->setParameter(":id", $start)
                         ->getQuery()->execute();
                         ;
     }
@@ -133,19 +134,20 @@ class SystemeventsRepository extends EntityRepository  {
                         
                         return $em ->getQuery()->execute();
     }
-    public function getMinSingle(){
+     public function getMax(){
         return $this->createQueryBuilder('systemevent')
-                        ->select('min(systemevent.id)')
+                        ->select('max(systemevent.id)')
                         
-                        ->getQuery()->getSingleScalarResult();
+                        ->getQuery()->execute();
                         ;
     }
+    
     
    
       public function countTotal(Filtre $filtre,$repo )
     {
         $q = $this->_em->createQueryBuilder('systemevent')
-            ->select('max(systemevent.id)')
+            ->select('count(systemevent.id)')
              ->from("PASSGestionLogBundle:Systemevents", "systemevent")
              ;
                       
@@ -157,7 +159,7 @@ class SystemeventsRepository extends EntityRepository  {
         $test = $filtre->filtrer($q,$repo);
  
           $total = $test->getQuery()->getSingleScalarResult();
-          return $total -$this->getMinSingle();
+          return $total;
     }
    
 }

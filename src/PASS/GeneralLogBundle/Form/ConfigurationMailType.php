@@ -34,7 +34,7 @@ class ConfigurationMailType extends AbstractType
             ->add('titre', 'text')
             ->add('body', 'textarea',array('label'=>"Corp du massage",'required' => false, 'attr' => array('style' => 'height:300px;')))
             ->add('css', 'textarea',array('label'=> "Codage strict:", 'required'=> false,'attr' => array('style' => 'height:200px;')))
-             ->add('strict', 'checkbox',array( 'required'=> false,  'attr' => array('checked'   => 'checked')))
+           //  ->add('strict', 'checkbox',array( 'required'=> false,  'attr' => array('checked'   => 'checked')))
            ;
             if ($this->val->isGranted('ROLE_CONFIGURATION_U') || $this->val->isGranted('ROLE_ADMIN') )
              $builder -> add("Enregistrer",'submit');

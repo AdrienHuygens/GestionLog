@@ -37,8 +37,10 @@ class gestionLogController extends Controller
        
         
          $repo = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\Systemevents");
+         $var = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\config")->find(0);
+        
          $host = array();
-         $temp = $repo->getHost();
+         $temp = $repo->getHost($var->getQuantiter());
          $repo2 = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\GroupeOrdinateur");
          $groupe= array();
          $temp2 = $repo2->getgroupe();
@@ -46,12 +48,14 @@ class gestionLogController extends Controller
          $priority= array();
          $temp3 = $repo3->getPriority();
          
+         
          /*$temp3 = new \PASS\GestionLogBundle\Entity\statistiquelog(new Filtre(), $this->getDoctrine());
          $temp3->stat();*/
          
          foreach($temp as $hote){
              $host[$hote['fromhost']]= $hote['fromhost'];
          }
+         
          foreach($temp2 as $grp){
              $groupe[$grp['id']]= $grp['nom'];
          }
@@ -83,6 +87,35 @@ class gestionLogController extends Controller
          }
            //$filtre->addHost('test-debnet');
            //$filtre->addHost('test-ubublog');
+           //====================
+         
+            $repo4 = $this->getDoctrine()->getRepository("PASS\GestionLogBundle\Entity\serveur");
+            $tmp = $repo4->findAll();
+            $em =$this->getDoctrine()->getManager();
+            $serveur = array();
+            
+            foreach($tmp as $s){
+               
+               $serveur[] = $s->getNom();
+               $host[$s->getNom()] = $s->getNom();
+            }
+            
+          foreach($host as  $variable){
+             // dump($serveur );
+              //dump(in_array($variable, $serveur));
+              if (! in_array($variable, $serveur)){
+                  
+                  $serv = new\PASS\GestionLogBundle\Entity\serveur();
+                  $serv->setNom($variable);
+                  $em->persist($serv);
+              }
+              
+          }
+          
+          $var->setQuantiter($repo->getMax()[0][1]);
+           $em->persist($var);
+          $em->flush();
+          //==============================
           
            $form =$this->createFormBuilder($filtre)
                 
@@ -169,5 +202,7 @@ class gestionLogController extends Controller
       return $this->redirect($this->generateUrl($l));
             
     }
+    
+      
 }
 

@@ -87,7 +87,7 @@ class statistiqueController extends Controller
             
             
             return $this->render("PASSGestionLogBundle:affichage:affichageStat.html.twig",
-                    array("titrePage" => "Logs serveur",                       
+                    array("titrePage" => "Logs serveurs",                       
                          "form" => $form->createView(),
                         'lien' => 'PASS_AffichageStat',
                         'stats' => $resStat,

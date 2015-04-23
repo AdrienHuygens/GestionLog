@@ -43,3 +43,6 @@ PASS_statRemove:
     path: /removeStat
     defaults: { _controller:  PASSGestionLogBundle:statistique:RemoveStat }
     
+Pass_Serveur:
+    path: /serveur/{nom}
+    defaults: { _controller:  PASSGestionLogBundle:gestionLog:serveur }
