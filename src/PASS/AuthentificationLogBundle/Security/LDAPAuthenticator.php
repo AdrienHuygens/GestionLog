@@ -27,12 +27,17 @@ class LDAPAuthenticator implements SimpleFormAuthenticatorInterface {
             throw new AuthenticationException("Ce nom d'utilisateur n'est pas connu");
         }
 
-        if ($user && $user instanceof Personne && $user->isEnabled()) {
+        if ($user && $user instanceof Personne ) {
+            if( $user->isEnabled()){
             $valid = $this->passwordCheck($token,$user);
             if($user->getLdap()){
                 $pass = $token->getCredentials();
             }else{
                 $pass = $user->getPassword();
+            }
+            }
+            else{
+                throw new AuthenticationException("Compte non activé");
             }
         } 
         else if($user && $user instanceof \Symfony\Component\Security\Core\User\UserInterface){
