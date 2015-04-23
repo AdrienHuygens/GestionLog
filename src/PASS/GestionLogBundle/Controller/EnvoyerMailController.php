@@ -79,9 +79,9 @@ class EnvoyerMailController extends Controller {
        
         
        
-       // return $this->render("PASSGestionLogBundle:mail:mail.html.twig", array("corp" => "Logs serveur{{ name }}",
-         //           "log" => $listing
-        //));
+        return $this->render("PASSGestionLogBundle:mail:mail.html.twig", array("corp" => "Logs serveur{{ name }}",
+                   "log" => $listing
+        ));
     }
 
 }

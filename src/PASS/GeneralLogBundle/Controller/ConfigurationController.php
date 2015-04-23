@@ -248,7 +248,7 @@ class ConfigurationController extends Controller {
         $Configs = new \PASS\GeneralLogBundle\Entity\ConfigurationMail();
         $Configs->verificationTwig();
        $form = $this->createForm(new ConfigurationMailType($this->get('security.context')), $Configs);
-
+       /*
         $form->handleRequest($request);
         if ($form->isValid()) {
          if ($form->get('Prévisualiser')->isClicked()) {
@@ -273,7 +273,7 @@ class ConfigurationController extends Controller {
              $Configs->Enregistrer();
             }
            // $Configs->Enregistrer();
-        } 
+        } */
         return $this->render('PASSGeneralLogBundle:form:formMail.html.twig', Array(
                     "form" => $form->createView(),
                     'titrePage' => 'Changer le message de l\'email',

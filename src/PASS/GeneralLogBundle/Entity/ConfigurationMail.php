@@ -32,6 +32,7 @@ class ConfigurationMail {
         fclose($monfichier);
 
         $this->body = file_get_contents($this->url . 'Corp.html.twig');
+        
         $this->css = file_get_contents($this->url . 'cssMail.html.twig');
     }
 

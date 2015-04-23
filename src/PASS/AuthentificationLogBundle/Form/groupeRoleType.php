@@ -24,8 +24,8 @@ class groupeRoleType extends AbstractType
         $builder
             
             ->add('username','text',array("label" =>"Nom d'utilisateur:","disabled"=>'false'))
-            ->add('groupes',null,array("label"=> "Groupe (control + click souri pour multi-selection):",  "choices" => $this->em->getGroupeVisible() ))
-            ->add('roles',null,array("label"=> "Role (control + click souri pour multi-selection):", "choices" =>$this->emrole->getType()) )
+            ->add('groupes',null,array("label"=> "Groupe (control + click souris pour multi-sélection):",  "choices" => $this->em->getGroupeVisible() ))
+            ->add('roles',null,array("label"=> "Role (control + click souris pour multi-sélection):", "choices" =>$this->emrole->getType()) )
               //->add('ldap')
             ->add('actif')
              ->add('Enregistrer','submit')
