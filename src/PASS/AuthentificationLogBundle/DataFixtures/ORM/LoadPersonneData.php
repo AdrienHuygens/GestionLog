@@ -32,7 +32,7 @@ $this->container = $container;
 
         $tab = array(
             /* id,username, mdp, actif, ldap , groupe, supprimable  */
-            array(0, 'adrien', 'abcde',true,false,false),
+            array(0, 'Admin', 'abcde',true,false,false),
             
         );
              $newTabs = array( 'Default',"Groupe Par default",false,True,false);
