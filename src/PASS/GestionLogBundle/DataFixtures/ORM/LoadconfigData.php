@@ -19,7 +19,7 @@ class LoadconfigData implements FixtureInterface {
 
       $conf = new \PASS\GestionLogBundle\Entity\config();
       $conf->setNom("ligne");
-           $conf->getQuantiter(0);
+           $conf->setQuantiter(0);
              
       $conf->setId(0);
         
