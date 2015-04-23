@@ -13,7 +13,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 
-class LoadPriorityData implements FixtureInterface {
+class LoadconfigData implements FixtureInterface {
 
     public function load(ObjectManager $manager) {
 
