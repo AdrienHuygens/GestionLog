@@ -133,20 +133,31 @@ class SystemeventsRepository extends EntityRepository  {
                         
                         return $em ->getQuery()->execute();
     }
+    public function getMinSingle(){
+        return $this->createQueryBuilder('systemevent')
+                        ->select('min(systemevent.id)')
+                        
+                        ->getQuery()->getSingleScalarResult();
+                        ;
+    }
     
    
       public function countTotal(Filtre $filtre,$repo )
     {
         $q = $this->_em->createQueryBuilder('systemevent')
-            ->select('Count(systemevent)')
+            ->select('max(systemevent.id)')
              ->from("PASSGestionLogBundle:Systemevents", "systemevent")
-             ->join('systemevent.priority', 'priority')
-                        ->join('systemevent.Facility', 'Facility')
+             ;
+                      
         ;
- 
+        if( sizeof($filtre->getPriority()) !==0 ){
+         $q->join('systemevent.priority', 'priority');
+          
+        }
         $test = $filtre->filtrer($q,$repo);
  
-          return $test->getQuery()->getSingleScalarResult();
+          $total = $test->getQuery()->getSingleScalarResult();
+          return $total -$this->getMinSingle();
     }
    
 }
