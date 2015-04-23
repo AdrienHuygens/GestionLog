@@ -34,8 +34,8 @@ class PersonneType extends AbstractType
            // ->add('ldap')
             //->add('actif',null,array("label"=>"Compte utilisateur actif?", "action"=>'checked'))
                 ->add('mail')
-            ->add('groupes',null,array("label"=> "Groupe (control + click souri pour multi-selection):", "choices" => $this->em->getGroupeVisible()) )
-             ->add('roles',null,array("label"=> "Role (control + click souri pour multi-selection):", "choices" =>$this->emrole->getType()) )
+            ->add('groupes',null,array("label"=> "Groupe (contrôle  + click souris pour multi-sélection):", "choices" => $this->em->getGroupeVisible()) )
+             ->add('roles',null,array("label"=> "Role (contrôle  + click souris pour multi-sélection):", "choices" =>$this->emrole->getType()) )
              ->add('Enregistrer','submit')
             
         ;

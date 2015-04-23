@@ -24,7 +24,7 @@ class GroupeType extends AbstractType
         $builder
             ->add('nom','text', array('label' => 'Nom du groupe:'))
             ->add('description', null, array('label' => 'Description du groupe:'))
-             ->add('roles',null,array("label"=> "Role (control + click souri pour multi-selection):", "choices" =>$this->emrole->getType()) )
+             ->add('roles',null,array("label"=> "Role (contrôle  + click souris pour multi-sélection):", "choices" =>$this->emrole->getType()) )
              
             //->add('ldap')
             //->add('actif')
