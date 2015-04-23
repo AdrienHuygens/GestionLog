@@ -33,7 +33,7 @@ PASS_GroupeOrdinateurListing:
         listingId: \d+
         
 
-Pass_Mail:
+PASS_Mail:
     path: /mail
     defaults: { _controller:  PASSGestionLogBundle:EnvoyerMail:index }
 PASS_statRemove2:

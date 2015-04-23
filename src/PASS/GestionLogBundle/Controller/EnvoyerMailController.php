@@ -29,7 +29,7 @@ class EnvoyerMailController extends Controller {
           } */
         
         $rep = $this->getDoctrine()->getManager()->getRepository("PASSGestionLogBundle:GroupeOrdinateur");
-        $rep3 = $this->getDoctrine()->getManager()->getRepository("PASSGestionLogBundle:Mail");
+        $rep3 = $this->getDoctrine()->getManager()->getRepository("PASSGestionLogBundle:mail");
         $mail = $rep3->findAll();
        
         $rep2 = $this->getDoctrine()->getManager()->getRepository("PASSGestionLogBundle:Systemevents");
