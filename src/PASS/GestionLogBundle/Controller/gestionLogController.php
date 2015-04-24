@@ -113,6 +113,7 @@ class gestionLogController extends Controller
           }
           
           $var->setQuantiter($repo->getMax()[0][1]);
+          $dump($var);
           if ($var === null) $var =0;
            $em->persist($var);
           $em->flush();
