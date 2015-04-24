@@ -247,6 +247,10 @@ class AuthentificationsController extends Controller {
           $this->getUser()->setDernierConnexion(new \DateTime());
           $em->persist($this->getUser());
         $em->flush(); }
+        
+      
+                new \PASS\GeneralLogBundle\Entity\Loggers($this->getDoctrine()->getManager(), "L'utilisateur :". $this->getUser()->getUsername()
+                       ." avec l'ip: ".$_SERVER['REMOTE_ADDR']." viens de se connecter",5,4);
          // dump($this->getUser()->getRoles());
         return $this->render("PASSAuthentificationLogBundle:authentification:ok.html.twig", Array(
                     'titrePage' => 'Connexion effectué',
