@@ -91,6 +91,7 @@ class SystemeventsRepository extends EntityRepository  {
                         //->addGroupBy('systemevent.fromhost')
                        ->where("systemevent.id > :id")
                        ->setParameter(":id", $start)
+                        ->setMaxResults(100000)
                         ->getQuery()->execute();
                         ;
     }
