@@ -1,19 +1,18 @@
 
-<pre class="col-lg-12 col-md-12" style="padding: 0;">
+
     les différentes variables utilisables en twig, il faut les mettre entre double "{" 
-    <ul style="line-height: 6px;"> <li> log.id => id de la ligne en base de donnée </li>
-        <li> log.receivedat => Date de réception sur le serveur syslog </li>
-          <li> log.devicereportedtime => Date de l'émission du log sur le serveur </li>           
-            <li> log.facility.nom => Nom du type de service (local 0, ...) </li>
-            <li> log.facility.description => La description de celui-ci </li>        
-             <li> log.priority.nom => Nom du type de priorité, (erreur critique) </li>
-              <li> log.priority.description => La description de la priorité </li>
-               <li> log.priority.couleur => La couleur associée à la priorité </li>
-                <li> log.priority.couleurText => La couleur pour le texte de la priorité </li>
-                 <li> log.fromhost => Le serveur qui envoie le log </li>
-                  <li> log.message =>  le message d'erreur </li>
-                   <li> log.syslogtag => le tag du service qui émet le log. </li>
+    <ul > <li title='id de la ligne en base de donnée '> log.id </li>
+        <li title="Date de réception sur le serveur syslog " > log.receivedat </li>
+          <li title=" Date de l'émission du log sur le serveur"> log.devicereportedtime</li>           
+            <li title="Nom du type de service (local 0, ...) "> log.facility.nom </li>
+            <li title="La description de celui-ci"> log.facility.description </li>        
+             <li title="Nom du type de priorité, (erreur critique)"> log.priority.nom </li>
+              <li title=" La description de la priorité"> log.priority.description </li>
+               <li title="La couleur associée à la priorité "> log.priority.couleur </li>
+                <li title="La couleur pour le texte de la priorité "> log.priority.couleurText </li>
+                 <li title="Le serveur qui envoie le log"> log.fromhost   </li>
+                  <li title=" le message d'erreur"> log.message   </li>
+                   <li title="le tag du service qui émet le log."> log.syslogtag   </li>
                   
               
         </ul>
-   </pre>
