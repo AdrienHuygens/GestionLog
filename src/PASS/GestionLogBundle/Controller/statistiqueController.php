@@ -89,6 +89,7 @@ class statistiqueController extends Controller
           $var->setQuantiter($repo->getMax()[0][1]);
            $em->persist($var);
           $em->flush();
+           asort($host); 
           //==============================
           
            $form =$this->createFormBuilder($filtre)
