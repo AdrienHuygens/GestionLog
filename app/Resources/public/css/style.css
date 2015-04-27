@@ -168,7 +168,7 @@ padding: 20px;
 }
 
 #menuGauche{
-display: block;
+//display: block;
 background-image:url(/images/corp.svg);
 
 background-size: 99% 100%;
