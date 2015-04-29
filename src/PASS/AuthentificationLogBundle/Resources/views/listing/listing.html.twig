@@ -31,12 +31,12 @@
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <h3 class="panel-title">{{ activite |capitalize }}s locaux <div class="aligner" > 
-
-                            {% if activite == "utilisateur" and is_granted("ROLE_USER_C") or is_granted("ROLE_ADMIN") or is_granted("ROLE_MEMORY")%}
-                                <a href="{{ path('PASS_CreationUtilisateur') }}"><span class="glyphicon glyphicon-plus" title="Voir l'utilisateur"  aria-hidden="true"></span> </a>
+                          
+                            {% if activite == "utilisateur" and (is_granted("ROLE_USER_C") or is_granted("ROLE_ADMIN") )or is_granted("ROLE_MEMORY")%}
+                                <a href="{{ path('PASS_CreationUtilisateur') }}"><span class="glyphicon glyphicon-plus" title="Cree un utilisateur"  aria-hidden="true"></span> </a>
 
                             {% elseif activite == "groupe" and is_granted("ROLE_GROUPE_C") or is_granted("ROLE_ADMIN") %}
-                                <a href="{{ path('PASS_CreationGroupe') }}"><span class="glyphicon glyphicon-plus" title="Voir l'utilisateur"  aria-hidden="true"></span> </a>
+                                <a href="{{ path('PASS_CreationGroupe') }}"><span class="glyphicon glyphicon-plus" title="Cree un groupe"  aria-hidden="true"></span> </a>
 
 
                             {% endif %}            
