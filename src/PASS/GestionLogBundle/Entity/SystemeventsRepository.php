@@ -147,12 +147,18 @@ class SystemeventsRepository extends EntityRepository  {
    
       public function countTotal(Filtre $filtre,$repo )
     {
-        $q = $this->_em->createQueryBuilder('systemevent')
+        if(sizeof($filtre->getPriority()) !==0 && sizeof($filtre->getGroupes()) !==0 && sizeof($filtre->getHosts()) !==0){
+          $q = $this->_em->createQueryBuilder('systemevent')
             ->select('count(systemevent.id)')
              ->from("PASSGestionLogBundle:Systemevents", "systemevent")
              ;
                       
         ;
+        }
+        else{
+        
+            return $this->getMax()[0][1] - $this->getMin()[0][1];
+        }
         if( sizeof($filtre->getPriority()) !==0 ){
          $q->join('systemevent.priority', 'priority');
           
